@@ -31,12 +31,12 @@ const Table = <T extends { id: string }>({
   if (isLoading) {
     return (
       <div
-        className={`border border-gray-200 rounded-lg overflow-hidden ${containerClassName}`}
+        className={`border border-gray-200 rounded-lg overflow-hidden h-full ${containerClassName}`}
       >
-        <div className="animate-pulse">
-          <div className="max-h-96 overflow-y-auto">
+        <div className="animate-pulse h-full">
+          <div className="overflow-y-auto h-full">
             <table className="w-full">
-              <thead className="bg-white sticky top-0 z-10">
+              <thead className="bg-white sticky top-0">
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 bg-white">
                     <div className="w-4 h-4 bg-gray-300 rounded"></div>
@@ -78,7 +78,7 @@ const Table = <T extends { id: string }>({
     >
       <div className="max-h-96 overflow-y-auto overflow-x-auto">
         <table className={`w-full min-w-full table-fixed ${className}`}>
-          <thead className="bg-white sticky top-0 z-10">
+          <thead className="bg-white sticky top-0">
             <tr className="border-b border-gray-200">
               <th className="px-6 py-3 text-left w-12">
                 <input
@@ -108,7 +108,7 @@ const Table = <T extends { id: string }>({
                 key={item.id || index}
                 className="hover:bg-gray-50 transition-colors"
               >
-                <td className="px-6 py-4 w-12">
+                <td className="px-6 py-4">
                   <input
                     type="checkbox"
                     checked={selectedItems.includes(item.id)}

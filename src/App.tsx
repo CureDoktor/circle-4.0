@@ -18,6 +18,8 @@ import ActivityLogs from './components/ActivityLogs/ActivityLogs';
 import PlaceholderPage from './components/PlaceholderPage';
 import AIHelperChat from './components/AIHelperChat';
 import ErrorBoundary from './components/ErrorBoundary';
+import Onboarding from './components/Onboarding';
+import Gamification from './components/Gamification';
 import { ViewMode, AudienceData } from './types';
 import { audienceData, sidebarItems, loadAudienceData } from './data/mockData';
 import './App.css';
@@ -31,6 +33,9 @@ function App() {
   const [currentAudienceData, setCurrentAudienceData] =
     useState<AudienceData>(audienceData);
   const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
+  const [isContentTransitioning, setIsContentTransitioning] = useState(false);
+  const [isSidebarContentTransitioning, setIsSidebarContentTransitioning] =
+    useState(false);
 
   // Load data from localStorage on app start
   useEffect(() => {
@@ -40,17 +45,34 @@ function App() {
 
   const handleSidebarItemClick = (itemId: string, subItemId?: string) => {
     if (subItemId) {
-      setCurrentSection(subItemId);
-      setActiveSubItem(subItemId);
+      // Click on sidebar sub-item - fade main content only
+      setIsContentTransitioning(true);
+
+      setTimeout(() => {
+        setCurrentSection(subItemId);
+        setActiveSubItem(subItemId);
+
+        setTimeout(() => {
+          setIsContentTransitioning(false);
+        }, 50);
+      }, 150);
     } else {
-      // Handle main item clicks (for sidebar expansion)
-      if (itemId === 'paywalls') {
-        // Show Paywalls sidebar content
-        setCurrentSection('paywalls-sidebar');
-        setActiveSubItem('coupons'); // Default to coupons
-      } else {
-        setCurrentSection(itemId);
-      }
+      // Click on main sidebar icon - fade sidebar content only
+      setIsSidebarContentTransitioning(true);
+
+      setTimeout(() => {
+        if (itemId === 'paywalls') {
+          // Show Paywalls sidebar content
+          setCurrentSection('paywalls-sidebar');
+          setActiveSubItem('coupons'); // Default to coupons
+        } else {
+          setCurrentSection(itemId);
+        }
+
+        setTimeout(() => {
+          setIsSidebarContentTransitioning(false);
+        }, 50);
+      }, 150);
     }
   };
 
@@ -146,71 +168,13 @@ function App() {
       case 'invite-links':
         return <InviteLinks onToggleSidebar={toggleSidebar} />;
       case 'onboarding':
-        return (
-          <Content
-            title="Onboarding"
-            createButtonText="Create flow"
-            filters={[
-              '+ Name',
-              '+ Steps',
-              '+ Users',
-              '+ Status',
-              '+ Type',
-              '+ Add filter',
-            ]}
-            columns={['Name', 'Steps', 'Users', 'Status', 'Type']}
-            icon={
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
-                  fill="#6B7280"
-                />
-              </svg>
-            }
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Onboarding onToggleSidebar={toggleSidebar} />;
       case 'tags':
         return <Tags onToggleSidebar={toggleSidebar} />;
       case 'profile-fields':
         return <ProfileFields onToggleSidebar={toggleSidebar} />;
       case 'gamification':
-        return (
-          <Content
-            title="Gamification"
-            createButtonText="Create rule"
-            filters={[
-              '+ Name',
-              '+ Type',
-              '+ Points',
-              '+ Created',
-              '+ Status',
-              '+ Add filter',
-            ]}
-            columns={['Name', 'Type', 'Points', 'Created', 'Status']}
-            icon={
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                  fill="#6B7280"
-                />
-              </svg>
-            }
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Gamification onToggleSidebar={toggleSidebar} />;
       case 'activity-logs':
         return <ActivityLogs onToggleSidebar={toggleSidebar} />;
       case 'all-workflows':
@@ -305,23 +269,36 @@ function App() {
         <div className="flex flex-1 p-4 bg-gray-50">
           {viewMode === 'Admin' && (
             <div
-              className={`mr-4 transition-all duration-300 ${
-                isSidebarCollapsed ? 'w-16' : ''
+              className={`mr-4 transition-all duration-300 ease-out ${
+                isSidebarCollapsed ? 'w-16' : 'w-80'
               }`}
             >
               <Sidebar
                 items={sidebarItems}
                 onItemClick={handleSidebarItemClick}
                 isCollapsed={isSidebarCollapsed}
+                isSidebarContentTransitioning={isSidebarContentTransitioning}
               />
             </div>
           )}
-          <main className="flex-1">{renderContent()}</main>
+          <main
+            className={`flex-1 overflow-hidden transition-all duration-300 ease-out ${
+              viewMode === 'Admin' && isSidebarCollapsed ? 'ml-0' : ''
+            } ${isAIHelperOpen ? 'mr-4' : 'mr-0'}`}
+          >
+            <div
+              className={`h-full transition-opacity duration-200 ease-out ${
+                isContentTransitioning ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              {renderContent()}
+            </div>
+          </main>
           <div
-            className={`ml-4 transition-all duration-500 ease-in-out ${
+            className={`transition-all duration-300 ease-out ${
               isAIHelperOpen
-                ? 'opacity-100 transform translate-x-0'
-                : 'opacity-0 transform translate-x-full w-0 overflow-hidden'
+                ? 'w-96 opacity-100 transform translate-x-0 ml-4'
+                : 'w-0 opacity-0 transform translate-x-full ml-0 overflow-hidden'
             }`}
           >
             <AIHelperChat onClose={() => setIsAIHelperOpen(false)} />

@@ -296,7 +296,7 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ onToggleSidebar }) => {
       </div>
 
       {/* Table */}
-      <div className="mx-6">
+      <div className="mx-6 overflow-x-auto">
         <Table<ActivityLog>
           columns={columns}
           data={paginatedLogs}

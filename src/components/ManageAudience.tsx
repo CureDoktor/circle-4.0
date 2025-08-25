@@ -408,57 +408,67 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
   ];
 
   return (
-    <div className="bg-white h-full rounded-lg shadow-lg">
-      <div className="p-6">
-        <Header
-          onToggleSidebar={onToggleSidebar}
-          onAddMember={handleAddMember}
-        />
+    <div className="bg-white h-full rounded-lg shadow-lg flex flex-col">
+      <div className="p-6 flex flex-col h-full">
+        <div className="flex-shrink-0">
+          <Header
+            onToggleSidebar={onToggleSidebar}
+            onAddMember={handleAddMember}
+          />
 
-        <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
+          <Tabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+          />
 
-        <Filters filters={filters} />
+          <Filters filters={filters} />
 
-        <Actions
-          currentUsersCount={currentUsers.length}
-          selectedUsersCount={selectedUsers.length}
-          hasUnsavedChanges={hasUnsavedChanges}
-          showSaveSuccess={showSaveSuccess}
-          showBulkActions={showBulkActions}
-          showMoreActions={showMoreActions}
-          onSaveSegment={handleSaveSegment}
-          onToggleBulkActions={() => setShowBulkActions(!showBulkActions)}
-          onToggleMoreActions={() => setShowMoreActions(!showMoreActions)}
-          onBulkEmailMarketing={handleBulkEmailMarketing}
-          onBulkRoleChange={handleBulkRoleChange}
-          onBulkDelete={handleBulkDelete}
-          onClearSelection={() => {
-            setSelectedUsers([]);
-            setShowBulkActions(false);
-          }}
-          onEditSelectedUser={handleEditSelectedUser}
-        />
+          <Actions
+            currentUsersCount={currentUsers.length}
+            selectedUsersCount={selectedUsers.length}
+            hasUnsavedChanges={hasUnsavedChanges}
+            showSaveSuccess={showSaveSuccess}
+            showBulkActions={showBulkActions}
+            showMoreActions={showMoreActions}
+            onSaveSegment={handleSaveSegment}
+            onToggleBulkActions={() => setShowBulkActions(!showBulkActions)}
+            onToggleMoreActions={() => setShowMoreActions(!showMoreActions)}
+            onBulkEmailMarketing={handleBulkEmailMarketing}
+            onBulkRoleChange={handleBulkRoleChange}
+            onBulkDelete={handleBulkDelete}
+            onClearSelection={() => {
+              setSelectedUsers([]);
+              setShowBulkActions(false);
+            }}
+            onEditSelectedUser={handleEditSelectedUser}
+          />
+        </div>
 
-        <Table<User>
-          columns={columns}
-          data={paginatedUsers}
-          selectedItems={selectedUsers}
-          onSelectAll={handleSelectAll}
-          onSelectItem={handleSelectUser}
-          isLoading={isLoading}
-        />
+        <div className="flex-1 min-h-0">
+          <Table<User>
+            columns={columns}
+            data={paginatedUsers}
+            selectedItems={selectedUsers}
+            onSelectAll={handleSelectAll}
+            onSelectItem={handleSelectUser}
+            isLoading={isLoading}
+          />
+        </div>
 
-        <Pagination
-          startIndex={startIndex}
-          endIndex={endIndex}
-          totalItems={currentUsers.length}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          onNextPage={() =>
-            setCurrentPage(prev => Math.min(prev + 1, totalPages))
-          }
-        />
+        <div className="flex-shrink-0">
+          <Pagination
+            startIndex={startIndex}
+            endIndex={endIndex}
+            totalItems={currentUsers.length}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            onNextPage={() =>
+              setCurrentPage(prev => Math.min(prev + 1, totalPages))
+            }
+          />
+        </div>
       </div>
 
       <EditModal

@@ -16,7 +16,7 @@ const AIHelperChat: React.FC<AIHelperChatProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="w-full max-w-md h-full bg-white shadow-xl rounded-l-xl flex flex-col">
+    <div className="w-96 h-full bg-white shadow-xl rounded-l-xl flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <div className="flex items-center space-x-3">

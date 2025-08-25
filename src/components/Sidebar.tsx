@@ -1,36 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SidebarItem } from '../types';
 
 interface SidebarProps {
   items: SidebarItem[];
   onItemClick: (itemId: string, subItemId?: string) => void;
   isCollapsed?: boolean;
+  isSidebarContentTransitioning?: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
   onItemClick,
   isCollapsed = false,
+  isSidebarContentTransitioning = false,
 }) => {
   const [expandedItem, setExpandedItem] = useState<string | null>('audience');
   const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [wasCollapsed, setWasCollapsed] = useState(false);
+
+  // Track collapse state changes
+  useEffect(() => {
+    if (isCollapsed) {
+      setWasCollapsed(true);
+    } else {
+      setWasCollapsed(false);
+    }
+  }, [isCollapsed]);
 
   const handleItemClick = (itemId: string) => {
-    if (expandedItem === itemId) {
-      setExpandedItem(null);
-    } else {
-      setExpandedItem(itemId);
-      // Set default active sub-item based on the selected item
-      if (itemId === 'content') {
-        setActiveSubItem('pages');
-      } else if (itemId === 'audience') {
-        setActiveSubItem('manage-audience');
-      } else if (itemId === 'workflows') {
-        setActiveSubItem('all-workflows');
-      } else if (itemId === 'paywalls') {
-        setActiveSubItem('coupons');
-      }
+    // Only change the active item, don't toggle sidebar expansion
+    setExpandedItem(itemId);
+    // Set default active sub-item based on the selected item
+    if (itemId === 'content') {
+      setActiveSubItem('pages');
+    } else if (itemId === 'audience') {
+      setActiveSubItem('manage-audience');
+    } else if (itemId === 'workflows') {
+      setActiveSubItem('all-workflows');
+    } else if (itemId === 'paywalls') {
+      setActiveSubItem('coupons');
     }
   };
 
@@ -49,7 +58,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         handleItemClick(itemId);
         break;
       case 'Escape':
-        setExpandedItem(null);
         setIsMobileOpen(false);
         break;
     }
@@ -110,11 +118,18 @@ const Sidebar: React.FC<SidebarProps> = ({
               >
                 {item.icon}
               </button>
+
+              {/* Tooltip */}
+              <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+                {item.title}
+                {/* Arrow pointing to the button */}
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+              </div>
             </div>
           ))}
 
           {/* Settings Icon at Bottom */}
-          <div className="mt-auto">
+          <div className="mt-auto relative group">
             <button
               className="w-10 h-10 rounded-lg flex items-center justify-center text-lg hover:bg-gray-100 text-gray-500 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               title="Settings"
@@ -145,19 +160,38 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </defs>
               </svg>
             </button>
+
+            {/* Settings Tooltip */}
+            <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+              Settings
+              {/* Arrow pointing to the button */}
+              <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+            </div>
           </div>
         </div>
 
         {/* Expanded Menu */}
-        {expandedItem && !isCollapsed && (
-          <div className="w-64 bg-white border-r border-gray-200 py-4 animate-in slide-in-from-left duration-200 shadow-lg rounded-r-xl">
-            {/* Dynamic Title */}
-            <div className="px-4 mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">
-                {items.find(item => item.id === expandedItem)?.title || 'Menu'}
-              </h2>
-            </div>
+        <div
+          className={`bg-white border-r border-gray-200 py-4 shadow-lg rounded-r-xl overflow-hidden transition-all duration-300 ease-out ${
+            expandedItem && !isCollapsed
+              ? 'w-64 opacity-100 translate-x-0'
+              : 'w-0 opacity-0 -translate-x-full'
+          }`}
+        >
+          {/* Dynamic Title */}
+          <div className="px-4 mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              {items.find(item => item.id === expandedItem)?.title || 'Menu'}
+            </h2>
+          </div>
 
+          <div
+            className={`transition-opacity duration-200 ease-out ${
+              isSidebarContentTransitioning && !wasCollapsed
+                ? 'opacity-50'
+                : 'opacity-100'
+            }`}
+          >
             {items
               .filter(item => item.id === expandedItem)
               .map(item => (
@@ -187,7 +221,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               ))}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Mobile Toggle Button */}
