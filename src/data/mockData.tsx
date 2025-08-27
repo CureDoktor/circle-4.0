@@ -1,3 +1,4 @@
+import React from 'react';
 import { User, AudienceData, SidebarItem } from '../types';
 
 export interface AccessGroup {
@@ -23,15 +24,18 @@ export interface Segment {
 
 export interface BulkLog {
   id: string;
-  type: string;
-  status: 'Completed' | 'Failed' | 'In Progress';
-  progress: string;
-  results: {
-    inputFile: string;
-    outputFile: string;
+  action: string;
+  resource: string;
+  createdBy: {
+    name: string;
+    initials: string;
+    avatar?: string;
+    color: string;
   };
-  message: string;
-  performed: string;
+  status: 'Succeeded' | 'Failed' | 'In Progress';
+  progress: string;
+  outputCsv?: string;
+  createdAt: string;
 }
 
 export interface InviteLink {
@@ -1421,603 +1425,75 @@ export const mockSegments: Segment[] = [
 export const mockBulkLogs: BulkLog[] = [
   {
     id: '1',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
+    action: 'Add topic',
+    resource: '123456789',
+    createdBy: {
+      name: 'Ruben Espinosa',
+      initials: 'RE',
+      avatar: '🐾',
+      color: 'bg-brown-500',
     },
-    message: 'Sent 1 invitation.',
-    performed: '3 hours ago',
+    status: 'Succeeded',
+    progress: '100%',
+    outputCsv: 'output.csv',
+    createdAt: 'July 15, 2025',
   },
   {
     id: '2',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
+    action: 'Add topic',
+    resource: 'Add',
+    createdBy: {
+      name: 'Pedro Hernandes',
+      initials: 'PH',
+      color: 'bg-green-500',
     },
-    message: '1 existing members have bee...',
-    performed: '1 day ago',
+    status: 'Succeeded',
+    progress: '99%',
+    outputCsv: 'output.csv',
+    createdAt: 'June 18, 2024',
   },
   {
     id: '3',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
+    action: 'Change space',
+    resource: 'pro space',
+    createdBy: {
+      name: 'Ruben Espinosa',
+      initials: 'RE',
+      avatar: '🐾',
+      color: 'bg-brown-500',
     },
-    message: 'Added 1 member automatically.',
-    performed: '2 days ago',
+    status: 'Succeeded',
+    progress: '99%',
+    outputCsv: 'output.csv',
+    createdAt: 'June 14, 2024',
   },
   {
     id: '4',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
+    action: 'Add topic',
+    resource: '123456789',
+    createdBy: {
+      name: 'Ruben Espinosa',
+      initials: 'RE',
+      avatar: '🐾',
+      color: 'bg-brown-500',
     },
-    message: 'Sent 1 invitation.',
-    performed: '3 days ago',
+    status: 'Succeeded',
+    progress: '100%',
+    outputCsv: 'output.csv',
+    createdAt: 'June 8, 2024',
   },
   {
     id: '5',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
+    action: 'Add topic',
+    resource: 'Product',
+    createdBy: {
+      name: 'Naseef my name is too big so that we can check how this name is going to be shown in post details',
+      initials: 'NM',
+      color: 'bg-blue-300',
     },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '1 week ago',
-  },
-  {
-    id: '6',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '2 weeks ago',
-  },
-  {
-    id: '7',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '3 weeks ago',
-  },
-  {
-    id: '8',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '1 month ago',
-  },
-  {
-    id: '9',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '1 month ago',
-  },
-  {
-    id: '10',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '1 month ago',
-  },
-  {
-    id: '11',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '2 months ago',
-  },
-  {
-    id: '12',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '2 months ago',
-  },
-  {
-    id: '13',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '2 months ago',
-  },
-  {
-    id: '14',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '3 months ago',
-  },
-  {
-    id: '15',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '3 months ago',
-  },
-  {
-    id: '16',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '3 months ago',
-  },
-  {
-    id: '17',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '4 months ago',
-  },
-  {
-    id: '18',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '4 months ago',
-  },
-  {
-    id: '19',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '4 months ago',
-  },
-  {
-    id: '20',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '5 months ago',
-  },
-  {
-    id: '21',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '5 months ago',
-  },
-  {
-    id: '22',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '5 months ago',
-  },
-  {
-    id: '23',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '6 months ago',
-  },
-  {
-    id: '24',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '6 months ago',
-  },
-  {
-    id: '25',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '6 months ago',
-  },
-  {
-    id: '26',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '7 months ago',
-  },
-  {
-    id: '27',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '7 months ago',
-  },
-  {
-    id: '28',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '7 months ago',
-  },
-  {
-    id: '29',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '8 months ago',
-  },
-  {
-    id: '30',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '8 months ago',
-  },
-  {
-    id: '31',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '8 months ago',
-  },
-  {
-    id: '32',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '9 months ago',
-  },
-  {
-    id: '33',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '9 months ago',
-  },
-  {
-    id: '34',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '9 months ago',
-  },
-  {
-    id: '35',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '10 months ago',
-  },
-  {
-    id: '36',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '10 months ago',
-  },
-  {
-    id: '37',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '10 months ago',
-  },
-  {
-    id: '38',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '11 months ago',
-  },
-  {
-    id: '39',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '11 months ago',
-  },
-  {
-    id: '40',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '11 months ago',
-  },
-  {
-    id: '41',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '1 year ago',
-  },
-  {
-    id: '42',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '1 year ago',
-  },
-  {
-    id: '43',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '1 year ago',
-  },
-  {
-    id: '44',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '1 year ago',
-  },
-  {
-    id: '45',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation. 1 existi...',
-    performed: '1 year ago',
-  },
-  {
-    id: '46',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '1 year ago',
-  },
-  {
-    id: '47',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '1 year ago',
-  },
-  {
-    id: '48',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: '1 existing members have bee...',
-    performed: '1 year ago',
-  },
-  {
-    id: '49',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Added 1 member automatically.',
-    performed: '1 year ago',
-  },
-  {
-    id: '50',
-    type: 'Bulk Member Import',
-    status: 'Completed',
-    progress: '1/1',
-    results: {
-      inputFile: 'Input file.csv',
-      outputFile: 'Output file.csv',
-    },
-    message: 'Sent 1 invitation.',
-    performed: '1 year ago',
+    status: 'Succeeded',
+    progress: '100%',
+    createdAt: 'June 6, 2024',
   },
 ];
 
@@ -4259,7 +3735,22 @@ export const sidebarItems: SidebarItem[] = [
   {
     id: 'audience',
     title: 'Audience',
-    icon: '👥',
+    icon: (
+      <svg
+        width="20"
+        height="17"
+        viewBox="0 0 20 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M7.70668 2.04175C6.51007 2.04175 5.54001 3.0118 5.54001 4.20841C5.54001 5.40503 6.51007 6.37508 7.70668 6.37508C8.90334 6.37508 9.87338 5.40503 9.87338 4.20841C9.87338 3.0118 8.90334 2.04175 7.70668 2.04175ZM4.04001 4.20841C4.04001 2.18337 5.68164 0.541748 7.70668 0.541748C9.73176 0.541748 11.3734 2.18336 11.3734 4.20841C11.3734 6.23347 9.73176 7.87508 7.70668 7.87508C5.68164 7.87508 4.04001 6.23346 4.04001 4.20841ZM11.7484 1.29175C11.7484 0.877534 12.0842 0.541748 12.4984 0.541748C14.5234 0.541748 16.165 2.18337 16.165 4.20841C16.165 6.23346 14.5234 7.87508 12.4984 7.87508C12.0842 7.87508 11.7484 7.53929 11.7484 7.12508C11.7484 6.71087 12.0842 6.37508 12.4984 6.37508C13.695 6.37508 14.665 5.40503 14.665 4.20841C14.665 3.0118 13.695 2.04175 12.4984 2.04175C12.0842 2.04175 11.7484 1.70596 11.7484 1.29175ZM7.70668 10.3751C4.86065 10.3751 2.50721 12.1827 1.80104 14.4327C1.75079 14.5928 1.7868 14.7305 1.8988 14.8539C2.02276 14.9905 2.23981 15.099 2.49835 15.0991C2.49832 15.0991 2.49837 15.0991 2.49835 15.0991H12.915C13.1735 15.0991 13.3906 14.9906 13.5145 14.854C13.6265 14.7305 13.6626 14.5928 13.6123 14.4327C12.9061 12.1827 10.5527 10.3751 7.70668 10.3751ZM0.369872 13.9835C1.2842 11.0703 4.24586 8.87508 7.70668 8.87508C11.1675 8.87508 14.1291 11.0703 15.0435 13.9835C15.2689 14.7016 15.0587 15.3844 14.6254 15.8619C14.2042 16.3262 13.577 16.5991 12.915 16.5991H2.49835C1.83644 16.599 1.20918 16.3261 0.78792 15.8619C0.354675 15.3844 0.14448 14.7016 0.369872 13.9835ZM14.4998 10.007C14.6381 9.61656 15.0667 9.41215 15.4571 9.55045C17.5593 10.2951 19.1906 11.9941 19.8302 14.008C20.0582 14.7258 19.8496 15.4092 19.4167 15.8874C18.9959 16.3522 18.3686 16.6251 17.7067 16.6251H17.29C16.8758 16.6251 16.54 16.2893 16.54 15.8751C16.54 15.4609 16.8758 15.1251 17.29 15.1251H17.7067C17.9652 15.1251 18.1816 15.0166 18.3047 14.8807C18.4157 14.7581 18.4512 14.6216 18.4006 14.462C17.9058 12.9042 16.6239 11.5551 14.9563 10.9644C14.5659 10.8261 14.3615 10.3974 14.4998 10.007Z"
+          fill="#717680"
+        />
+      </svg>
+    ),
     subItems: [
       { id: 'manage-audience', title: 'Manage audience', active: true },
       { id: 'access-groups', title: 'Access groups' },
@@ -4276,7 +3767,22 @@ export const sidebarItems: SidebarItem[] = [
   {
     id: 'analytics',
     title: 'Analytics',
-    icon: '📊',
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M8.54167 3.875C8.49565 3.875 8.45833 3.91231 8.45833 3.95833V16.125H11.5417V3.95833C11.5417 3.9123 11.5044 3.875 11.4583 3.875H8.54167ZM13.0417 6.54167V3.95833C13.0417 3.0839 12.3328 2.375 11.4583 2.375H8.54167C7.66722 2.375 6.95833 3.08389 6.95833 3.95833V10.7083H3.95833C3.0839 10.7083 2.375 11.4172 2.375 12.2917V16.0417C2.375 16.9161 3.0839 17.625 3.95833 17.625H16.4583C17.1026 17.625 17.625 17.1026 17.625 16.4583V8.125C17.625 7.25056 16.9161 6.54167 16.0417 6.54167H13.0417ZM13.0417 8.04167V16.125H16.125V8.125C16.125 8.07897 16.0877 8.04167 16.0417 8.04167H13.0417ZM6.95833 12.2083H3.95833C3.9123 12.2083 3.875 12.2456 3.875 12.2917V16.0417C3.875 16.0877 3.9123 16.125 3.95833 16.125H6.95833V12.2083Z"
+          fill="#717680"
+        />
+      </svg>
+    ),
     subItems: [
       { id: 'dashboard', title: 'Dashboard' },
       { id: 'reports', title: 'Reports' },
@@ -4286,13 +3792,29 @@ export const sidebarItems: SidebarItem[] = [
   {
     id: 'content',
     title: 'Content',
-    icon: '📝',
+    icon: (
+      <svg
+        width="14"
+        height="18"
+        viewBox="0 0 14 18"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M0.208496 2.95841C0.208496 1.62373 1.29047 0.541748 2.62516 0.541748H11.3752C12.7099 0.541748 13.7918 1.62373 13.7918 2.95841V15.0417C13.7918 16.3765 12.7099 17.4584 11.3752 17.4584H2.62516C1.29048 17.4584 0.208496 16.3765 0.208496 15.0417V2.95841ZM2.62516 2.04175C2.1189 2.04175 1.7085 2.45215 1.7085 2.95841V15.0417C1.7085 15.548 2.11889 15.9584 2.62516 15.9584H11.3752C11.8814 15.9584 12.2918 15.548 12.2918 15.0417V2.95841C12.2918 2.45215 11.8814 2.04175 11.3752 2.04175H2.62516ZM3.54183 4.62508C3.54183 4.21087 3.87762 3.87508 4.29183 3.87508H9.7085C10.1227 3.87508 10.4585 4.21087 10.4585 4.62508C10.4585 5.0393 10.1227 5.37508 9.7085 5.37508H4.29183C3.87762 5.37508 3.54183 5.0393 3.54183 4.62508ZM3.54183 7.95842C3.54183 7.5442 3.87762 7.20842 4.29183 7.20842H9.7085C10.1227 7.20842 10.4585 7.5442 10.4585 7.95842C10.4585 8.37263 10.1227 8.70842 9.7085 8.70842H4.29183C3.87762 8.70842 3.54183 8.37263 3.54183 7.95842ZM3.54183 11.2917C3.54183 10.8775 3.87762 10.5417 4.29183 10.5417H6.37516C6.78938 10.5417 7.12516 10.8775 7.12516 11.2917C7.12516 11.706 6.78938 12.0417 6.37516 12.0417H4.29183C3.87762 12.0417 3.54183 11.706 3.54183 11.2917Z"
+          fill="#717680"
+        />
+      </svg>
+    ),
     subItems: [
       { id: 'posts', title: 'Posts' },
       { id: 'pages', title: 'Pages' },
       { id: 'spaces', title: 'Spaces' },
       { id: 'topics', title: 'Topics' },
       { id: 'moderation', title: 'Moderation' },
+      { id: 'media-manager', title: 'Media manager' },
       { id: 'live', title: 'Live' },
       { id: 'bulk-logs', title: 'Bulk logs' },
     ],
@@ -4300,7 +3822,22 @@ export const sidebarItems: SidebarItem[] = [
   {
     id: 'workflows',
     title: 'Workflows',
-    icon: '⚡',
+    icon: (
+      <svg
+        width="20"
+        height="22"
+        viewBox="0 0 20 22"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M11.1597 1.39438C12.3361 0.109732 14.3662 1.37563 13.8291 2.97791L11.9332 8.63293C11.9332 8.63294 11.9332 8.63294 11.9332 8.63295C11.9112 8.69882 11.9617 8.75402 12.0133 8.75402H16.0383C17.4222 8.75402 18.1285 10.3956 17.2145 11.411L8.94632 20.5957C7.78703 21.8836 5.75291 20.654 6.25899 19.0494M6.259 19.0494L8.06726 13.3158C8.06727 13.3158 8.06728 13.3158 8.06728 13.3158C8.08789 13.2503 8.03778 13.1964 7.98665 13.1964H3.96166C2.57129 13.1964 1.86772 11.5416 2.79456 10.5294L2.79458 10.5293L11.1597 1.39439L11.1597 1.39438M12.2659 2.40741C12.2839 2.38775 12.2962 2.38076 12.3005 2.3786L12.2659 2.40741ZM12.2659 2.40742L3.90085 11.5423C3.90084 11.5423 3.90083 11.5424 3.90083 11.5424C3.88125 11.5638 3.8772 11.5789 3.87574 11.5892C3.87375 11.6032 3.87537 11.6228 3.88451 11.6438C3.89366 11.6648 3.9064 11.6782 3.91632 11.6851C3.92301 11.6897 3.93463 11.6964 3.96166 11.6964H7.98665C9.06548 11.6964 9.81902 12.7482 9.49784 13.7669L9.49782 13.7669L7.68953 19.5006L7.68953 19.5006C7.68139 19.5264 7.68119 19.5416 7.6815 19.5479C7.68182 19.5545 7.6831 19.5593 7.68507 19.5639C7.68969 19.5746 7.70301 19.5937 7.72966 19.6091C7.75634 19.6245 7.77778 19.6257 7.78626 19.6247C7.7897 19.6242 7.79296 19.6234 7.79744 19.6211C7.80172 19.6188 7.81382 19.6118 7.83146 19.5922L7.83147 19.5921L16.0996 10.4074L16.6571 10.9092L16.0996 10.4074C16.1189 10.386 16.1229 10.3709 16.1243 10.3605C16.1262 10.3465 16.1245 10.327 16.1153 10.3062C16.1062 10.2854 16.0935 10.2721 16.0835 10.2652C16.0767 10.2606 16.0651 10.254 16.0383 10.254H12.0133C10.9224 10.254 10.1678 9.18013 10.511 8.15617L10.511 8.15616L12.4069 2.50113C12.4156 2.47518 12.416 2.45991 12.4158 2.4536C12.4156 2.44703 12.4144 2.44227 12.4125 2.43767C12.4081 2.42692 12.395 2.40754 12.3682 2.39159C12.3415 2.37562 12.3199 2.37426 12.3115 2.37517C12.3081 2.37554 12.3049 2.37633 12.3005 2.3786"
+          fill="#717680"
+        />
+      </svg>
+    ),
     subItems: [
       { id: 'all-workflows', title: 'All workflows' },
       { id: 'history', title: 'History' },
@@ -4309,7 +3846,26 @@ export const sidebarItems: SidebarItem[] = [
   {
     id: 'paywalls',
     title: 'Paywalls',
-    icon: '💰',
+    icon: (
+      <svg
+        width="36"
+        height="36"
+        viewBox="0 0 36 36"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 8C0 3.58172 3.58172 0 8 0H28C32.4183 0 36 3.58172 36 8V28C36 32.4183 32.4183 36 28 36H8C3.58172 36 0 32.4183 0 28V8Z"
+          fill="white"
+        />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M17.9998 11.0417C14.1569 11.0417 11.0415 14.1571 11.0415 18.0001C11.0415 21.843 14.1569 24.9584 17.9998 24.9584C21.8428 24.9584 24.9582 21.843 24.9582 18.0001C24.9582 14.1571 21.8428 11.0417 17.9998 11.0417ZM9.5415 18.0001C9.5415 13.3287 13.3284 9.54175 17.9998 9.54175C22.6712 9.54175 26.4582 13.3287 26.4582 18.0001C26.4582 22.6715 22.6712 26.4584 17.9998 26.4584C13.3284 26.4584 9.5415 22.6715 9.5415 18.0001ZM17.9998 12.5394C18.4141 12.5394 18.7498 12.8752 18.7498 13.2894V13.9075C19.4499 14.0661 20.0674 14.445 20.4623 14.9912C20.7051 15.3268 20.6297 15.7957 20.2941 16.0384C19.9584 16.2811 19.4896 16.2058 19.2468 15.8701C19.0378 15.5811 18.5884 15.3242 17.9998 15.3242H17.7619C16.9602 15.3242 16.6086 15.8176 16.6086 16.0968V16.1622C16.6086 16.3849 16.7733 16.7017 17.2345 16.8861L17.2345 16.8861L19.3223 17.7213C20.2061 18.0748 20.891 18.8577 20.891 19.838C20.891 21.0645 19.8814 21.8989 18.7498 22.1184V22.7107C18.7498 23.125 18.4141 23.4607 17.9998 23.4607C17.5856 23.4607 17.2498 23.125 17.2498 22.7107V22.0926C16.5497 21.934 15.9323 21.5551 15.5373 21.009C15.2946 20.6733 15.37 20.2045 15.7056 19.9618C16.0412 19.719 16.5101 19.7944 16.7528 20.13C16.9619 20.4191 17.4112 20.676 17.9998 20.676H18.156C19.0029 20.676 19.391 20.1533 19.391 19.838C19.391 19.6152 19.2264 19.2985 18.7652 19.114L18.7652 19.114L16.6774 18.2789C16.6774 18.2789 16.6774 18.2789 16.6774 18.2789C15.7936 17.9253 15.1086 17.1424 15.1086 16.1622V16.0968C15.1086 14.8784 16.1293 14.0619 17.2498 13.8684V13.2894C17.2498 12.8752 17.5856 12.5394 17.9998 12.5394Z"
+          fill="#717680"
+        />
+      </svg>
+    ),
     subItems: [
       { id: 'paywalls', title: 'Paywalls' },
       { id: 'subscription-groups', title: 'Subscription groups' },
@@ -4322,19 +3878,24 @@ export const sidebarItems: SidebarItem[] = [
     ],
   },
   {
-    id: 'email',
-    title: 'Email',
-    icon: '📧',
-    subItems: [
-      { id: 'campaigns', title: 'Campaigns' },
-      { id: 'templates', title: 'Templates' },
-      { id: 'automations', title: 'Automations' },
-    ],
-  },
-  {
     id: 'settings',
     title: 'Settings',
-    icon: '⚙️',
+    icon: (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M8.20997 2.708C8.60897 2.10952 9.28062 1.75 10 1.75C10.7194 1.75 11.391 2.10952 11.79 2.708L12.2523 3.40135C12.4534 3.70302 12.8202 3.84869 13.1735 3.76717L13.7438 3.63558C13.7438 3.63559 13.7438 3.63558 13.7438 3.63558C14.4779 3.46617 15.2476 3.6869 15.7803 4.21968C16.3131 4.75243 16.5339 5.52207 16.3645 6.25623L16.2328 6.82648C16.1513 7.17968 16.297 7.54655 16.5986 7.7477C16.5986 7.74769 16.5986 7.74771 16.5986 7.7477L17.292 8.20995C17.8904 8.60895 18.25 9.28064 18.25 10C18.25 10.7194 17.8905 11.391 17.2921 11.79L16.5987 12.2523C16.5986 12.2523 16.5987 12.2522 16.5987 12.2523C16.297 12.4534 16.1513 12.8203 16.2328 13.1734C16.2328 13.1734 16.2328 13.1735 16.2328 13.1734L16.3644 13.7437C16.5338 14.4778 16.3131 15.2476 15.7803 15.7803C15.2476 16.3131 14.478 16.5339 13.7438 16.3645L13.1735 16.2328C13.1735 16.2328 13.1736 16.2328 13.1735 16.2328C12.8203 16.1513 12.4534 16.297 12.2523 16.5986C12.2523 16.5986 12.2523 16.5986 12.2523 16.5986L11.79 17.292C11.391 17.8904 10.7194 18.25 10 18.25C9.28064 18.25 8.60899 17.8905 8.20998 17.2921L7.74774 16.5986C7.74772 16.5986 7.74775 16.5987 7.74774 16.5986C7.54661 16.297 7.17976 16.1513 6.82658 16.2328C6.82654 16.2328 6.82661 16.2328 6.82658 16.2328L6.25637 16.3644C5.5222 16.5338 4.75243 16.3131 4.21968 15.7803C3.6869 15.2476 3.46616 14.4779 3.63558 13.7438C3.63558 13.7438 3.63558 13.7438 3.63558 13.7438L3.76717 13.1735C3.84869 12.8203 3.70302 12.4534 3.40135 12.2523L2.70801 11.79C2.10953 11.391 1.75 10.7194 1.75 10C1.75 9.28062 2.10952 8.60897 2.708 8.20997C2.708 8.20997 2.70801 8.20997 2.708 8.20997L3.40134 7.74772C3.70301 7.54661 3.84869 7.17975 3.76717 6.82648L3.63558 6.25627C3.46616 5.5221 3.68689 4.75245 4.21967 4.21967C4.75245 3.68689 5.52211 3.46616 6.25626 3.63558C6.25626 3.63558 6.25627 3.63558 6.25626 3.63558L6.82648 3.76716C7.17974 3.84869 7.5466 3.70302 7.74771 3.40136L8.20997 2.708C8.20997 2.708 8.20997 2.70801 8.20997 2.708ZM10 3.25C9.78221 3.25 9.57887 3.35882 9.45803 3.54007L8.99579 4.23341C8.44858 5.05421 7.45042 5.45057 6.4892 5.22875C6.4892 5.22875 6.48921 5.22875 6.4892 5.22875L5.91899 5.09717C5.68876 5.04404 5.4474 5.11326 5.28033 5.28033C5.11326 5.4474 5.04404 5.68875 5.09717 5.91898L5.22875 6.48919C5.22875 6.48918 5.22875 6.48919 5.22875 6.48919C5.45057 7.45041 5.05421 8.44858 4.23341 8.99579L3.54008 9.45803C3.35883 9.57886 3.25 9.78221 3.25 10C3.25 10.2178 3.35882 10.4211 3.54007 10.542L4.23342 11.0042C5.05421 11.5514 5.45057 12.5496 5.22876 13.5108L5.09717 14.0811C5.04405 14.3112 5.11325 14.5526 5.28032 14.7197C5.44738 14.8867 5.68869 14.956 5.91888 14.9029C5.91884 14.9029 5.91893 14.9029 5.91888 14.9029L6.48909 14.7712C7.45036 14.5494 8.44858 14.9459 8.99576 15.7665L9.45802 16.4599C9.45801 16.4599 9.45803 16.46 9.45802 16.4599C9.57885 16.6411 9.78222 16.75 10 16.75C10.2178 16.75 10.4211 16.6412 10.542 16.46C10.5419 16.46 10.542 16.46 10.542 16.46L11.0042 15.7666C11.5514 14.9459 12.5495 14.5494 13.5108 14.7712L14.081 14.9029C14.081 14.9029 14.0811 14.9029 14.081 14.9029C14.3112 14.9559 14.5526 14.8867 14.7197 14.7197C14.8867 14.5526 14.956 14.3113 14.9029 14.0811C14.9029 14.0811 14.9029 14.0812 14.9029 14.0811L14.7712 13.5109C14.5494 12.5496 14.9459 11.5514 15.7665 11.0042L16.4599 10.542C16.4599 10.542 16.46 10.542 16.4599 10.542C16.6411 10.4211 16.75 10.2178 16.75 10C16.75 9.78222 16.6412 9.57888 16.46 9.45805C16.46 9.45804 16.46 9.45806 16.46 9.45805L15.7666 8.9958C14.9459 8.44862 14.5494 7.45046 14.7712 6.4892L14.9029 5.91902C14.9029 5.91906 14.9029 5.91897 14.9029 5.91902C14.9559 5.68884 14.8867 5.44738 14.7197 5.28032C14.5526 5.11325 14.3113 5.04404 14.0811 5.09717L13.5108 5.22875C13.5108 5.22875 13.5108 5.22875 13.5108 5.22875C12.5496 5.45057 11.5514 5.05421 11.0042 4.23342L10.542 3.54007C10.4211 3.35883 10.2178 3.25 10 3.25ZM6.75 10C6.75 8.20504 8.20504 6.75 10 6.75C11.795 6.75 13.25 8.20504 13.25 10C13.25 11.795 11.795 13.25 10 13.25C8.20504 13.25 6.75 11.795 6.75 10ZM10 8.25C9.03346 8.25 8.25 9.03346 8.25 10C8.25 10.9665 9.03346 11.75 10 11.75C10.9665 11.75 11.75 10.9665 11.75 10C11.75 9.03346 10.9665 8.25 10 8.25Z"
+          fill="#717680"
+        />
+      </svg>
+    ),
     subItems: [
       { id: 'general', title: 'General' },
       { id: 'security', title: 'Security' },

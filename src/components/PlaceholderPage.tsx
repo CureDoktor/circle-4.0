@@ -12,7 +12,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
   onToggleSidebar,
 }) => {
   return (
-    <div className="bg-white h-full rounded-lg shadow-lg">
+    <div className="bg-white h-full rounded-2xl shadow-lg">
       <div className="p-6">
         <div className="flex items-center space-x-3 mb-6">
           <button

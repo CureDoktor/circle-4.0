@@ -174,7 +174,7 @@ const Coupons: React.FC<CouponsProps> = ({ onToggleSidebar }) => {
   ];
 
   return (
-    <div className="bg-white h-full rounded-lg shadow-lg">
+    <div className="page-container h-full">
       {/* Header */}
       <div className="p-6">
         <div className="flex items-center justify-between">

@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-
-interface TabType {
-  id: string;
-  label: string;
-}
+import Tabs, { Tab } from '../Tabs';
 
 interface OnboardingProps {
   onToggleSidebar?: () => void;
@@ -163,7 +159,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onToggleSidebar }) => {
   ]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const tabs: TabType[] = [
+  const tabs: Tab[] = [
     { id: 'customize', label: 'Customize' },
     { id: 'access', label: 'Access' },
     { id: 'workflows', label: 'Workflows' },
@@ -1478,7 +1474,7 @@ Enjoy!`}
   };
 
   return (
-    <div className="bg-white h-full rounded-lg shadow-lg flex flex-col">
+    <div className="page-container h-full flex flex-col">
       <div className="p-6 flex flex-col h-full">
         <div className="flex-shrink-0">
           {/* Header */}
@@ -1510,23 +1506,7 @@ Enjoy!`}
           </div>
 
           {/* Tabs */}
-          <div className="border-b border-gray-200 mb-6 overflow-x-auto">
-            <div className="flex min-w-max">
-              {tabs.map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`py-3 px-4 font-medium border border-gray-100 text-sm transition-colors whitespace-nowrap ${
-                    activeTab === tab.id
-                      ? 'border-1 border-gray-300 border-b-0 rounded-t-lg text-gray-900 bg-white'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
 
         {/* Tab Content - Scrollable */}

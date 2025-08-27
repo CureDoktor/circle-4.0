@@ -4,6 +4,13 @@ import Sidebar from './components/Sidebar';
 import ManageAudience from './components/ManageAudience';
 import Community from './components/Community';
 import Content from './components/Content/Content';
+import {
+  Posts,
+  Spaces,
+  Topics,
+  Moderation,
+  MediaManager,
+} from './components/Content';
 import Workflows from './components/Workflows/Workflows';
 import Coupons from './components/Paywalls/Coupons';
 import Paywalls from './components/Paywalls/Paywalls';
@@ -20,6 +27,7 @@ import AIHelperChat from './components/AIHelperChat';
 import ErrorBoundary from './components/ErrorBoundary';
 import Onboarding from './components/Onboarding';
 import Gamification from './components/Gamification';
+import Live from './components/Live';
 import { ViewMode, AudienceData } from './types';
 import { audienceData, sidebarItems, loadAudienceData } from './data/mockData';
 import './App.css';
@@ -120,45 +128,17 @@ function App() {
           />
         );
       case 'posts':
-        return (
-          <PlaceholderPage
-            title="Posts"
-            description="Posts management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Posts onToggleSidebar={toggleSidebar} />;
       case 'spaces':
-        return (
-          <PlaceholderPage
-            title="Spaces"
-            description="Spaces management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Spaces onToggleSidebar={toggleSidebar} />;
       case 'topics':
-        return (
-          <PlaceholderPage
-            title="Topics"
-            description="Topics management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Topics onToggleSidebar={toggleSidebar} />;
       case 'moderation':
-        return (
-          <PlaceholderPage
-            title="Moderation"
-            description="Moderation interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Moderation onToggleSidebar={toggleSidebar} />;
+      case 'media-manager':
+        return <MediaManager onToggleSidebar={toggleSidebar} />;
       case 'live':
-        return (
-          <PlaceholderPage
-            title="Live"
-            description="Live content interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Live onToggleSidebar={toggleSidebar} />;
       case 'access-groups':
         return <AccessGroups onToggleSidebar={toggleSidebar} />;
       case 'segments':
@@ -266,10 +246,10 @@ function App() {
           onViewModeChange={setViewMode}
           onToggleAIHelper={toggleAIHelper}
         />
-        <div className="flex flex-1 p-4 bg-gray-50">
+        <div className="flex flex-1 p-4 gap-3 bg-gray-50">
           {viewMode === 'Admin' && (
             <div
-              className={`mr-4 transition-all duration-300 ease-out ${
+              className={`transition-all duration-300 ease-out ${
                 isSidebarCollapsed ? 'w-16' : 'w-80'
               }`}
             >

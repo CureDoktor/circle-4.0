@@ -1,31 +1,103 @@
 import React, { useState } from 'react';
-import { mockInviteLinks, InviteLink } from '../../data/mockData';
 import { Table, TableColumn } from '../Table';
-import { Pagination } from '../Table';
+import ContentContainer from '../ContentContainer';
+import Actions from '../Actions';
+import Pagination from '../Pagination';
+import Button from '../Button';
+
+interface InviteLink {
+  id: string;
+  url: string;
+  status: 'Active' | 'Expired' | 'Paused';
+  createdBy: {
+    name: string;
+    initials: string;
+    color: string;
+  };
+  clicks: number;
+  signups: number;
+  expiresAt: string;
+}
 
 interface InviteLinksProps {
   onToggleSidebar: () => void;
 }
 
 const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
-  const [selectedLinks, setSelectedLinks] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const [selectedLinks, setSelectedLinks] = useState<string[]>([]);
 
+  // Mock data for invite links
+  const mockInviteLinks: InviteLink[] = [
+    {
+      id: '1',
+      url: 'https://circle.com/invite/abc123',
+      status: 'Active',
+      createdBy: {
+        name: 'John Doe',
+        initials: 'JD',
+        color: 'bg-blue-500',
+      },
+      clicks: 45,
+      signups: 12,
+      expiresAt: 'Never',
+    },
+    {
+      id: '2',
+      url: 'https://circle.com/invite/def456',
+      status: 'Active',
+      createdBy: {
+        name: 'Jane Smith',
+        initials: 'JS',
+        color: 'bg-green-500',
+      },
+      clicks: 23,
+      signups: 8,
+      expiresAt: '2024-12-31',
+    },
+    {
+      id: '3',
+      url: 'https://circle.com/invite/ghi789',
+      status: 'Expired',
+      createdBy: {
+        name: 'Mike Johnson',
+        initials: 'MJ',
+        color: 'bg-purple-500',
+      },
+      clicks: 67,
+      signups: 15,
+      expiresAt: '2024-01-15',
+    },
+    {
+      id: '4',
+      url: 'https://circle.com/invite/jkl012',
+      status: 'Paused',
+      createdBy: {
+        name: 'Sarah Wilson',
+        initials: 'SW',
+        color: 'bg-orange-500',
+      },
+      clicks: 12,
+      signups: 3,
+      expiresAt: '2024-06-30',
+    },
+  ];
+
+  const itemsPerPage = 10;
   const totalPages = Math.ceil(mockInviteLinks.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedLinks = mockInviteLinks.slice(startIndex, endIndex);
+  const paginatedData = mockInviteLinks.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
-    if (selectedLinks.length === paginatedLinks.length) {
+    if (selectedLinks.length === paginatedData.length) {
       setSelectedLinks([]);
     } else {
-      setSelectedLinks(paginatedLinks.map(link => link.id));
+      setSelectedLinks(paginatedData.map(link => link.id));
     }
   };
 
-  const handleSelectLink = (linkId: string) => {
+  const handleSelectItem = (linkId: string) => {
     setSelectedLinks(prev =>
       prev.includes(linkId)
         ? prev.filter(id => id !== linkId)
@@ -33,13 +105,34 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
     );
   };
 
-  // Define table columns
-  const columns: TableColumn<InviteLink>[] = [
+  const handleDeleteSelected = () => {
+    console.log('Delete selected links');
+    setSelectedLinks([]);
+  };
+
+  const handleBulkActions = () => {
+    console.log('Bulk actions clicked');
+  };
+
+  const handleCopyUrl = (url: string) => {
+    navigator.clipboard.writeText(url);
+    console.log('URL copied to clipboard');
+  };
+
+  const tableColumns: TableColumn<InviteLink>[] = [
     {
-      key: 'name',
-      label: 'NAME',
+      key: 'url',
+      label: 'URL',
       render: (link: InviteLink) => (
-        <div className="text-sm font-medium text-gray-900">{link.name}</div>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-900 font-medium">{link.url}</span>
+          <button
+            onClick={() => handleCopyUrl(link.url)}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            📋
+          </button>
+        </div>
       ),
     },
     {
@@ -47,10 +140,12 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
       label: 'STATUS',
       render: (link: InviteLink) => (
         <span
-          className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
+          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
             link.status === 'Active'
               ? 'bg-green-100 text-green-800'
-              : 'bg-gray-100 text-gray-800'
+              : link.status === 'Expired'
+              ? 'bg-red-100 text-red-800'
+              : 'bg-yellow-100 text-yellow-800'
           }`}
         >
           {link.status}
@@ -58,119 +153,73 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
       ),
     },
     {
-      key: 'membersJoined',
-      label: 'MEMBERS JOINED',
+      key: 'createdBy',
+      label: 'CREATED BY',
       render: (link: InviteLink) => (
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-900">{link.membersJoined}</span>
-          <svg
-            className="w-4 h-4 text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
+        <div className="flex items-center space-x-3">
+          <div
+            className={`w-8 h-8 rounded-full ${link.createdBy.color} flex items-center justify-center`}
           >
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-              clipRule="evenodd"
-            />
-          </svg>
+            <span className="text-xs text-white font-medium">
+              {link.createdBy.initials}
+            </span>
+          </div>
+          <span className="text-sm text-gray-900">{link.createdBy.name}</span>
         </div>
       ),
     },
     {
-      key: 'spaces',
-      label: 'SPACES',
+      key: 'clicks',
+      label: 'CLICKS',
       render: (link: InviteLink) => (
-        <span className="text-sm text-gray-900">{link.spaces}</span>
+        <span className="text-sm text-gray-600">{link.clicks}</span>
       ),
     },
     {
-      key: 'spaceGroups',
-      label: 'SPACE GROUPS',
+      key: 'signups',
+      label: 'SIGNUPS',
       render: (link: InviteLink) => (
-        <span className="text-sm text-gray-900">{link.spaceGroups}</span>
+        <span className="text-sm text-gray-600">{link.signups}</span>
       ),
     },
     {
-      key: 'tags',
-      label: 'TAGS',
+      key: 'expiresAt',
+      label: 'EXPIRES AT',
       render: (link: InviteLink) => (
-        <span className="text-sm text-gray-900">{link.tags}</span>
-      ),
-    },
-    {
-      key: 'actions',
-      label: '',
-      render: (_link: InviteLink) => (
-        <button className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900 transition-colors">
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-            />
-          </svg>
-          <span>Copy link</span>
-        </button>
+        <span className="text-sm text-gray-600">{link.expiresAt}</span>
       ),
     },
   ];
 
   return (
-    <div className="bg-white h-full rounded-lg shadow-lg">
-      {/* Header */}
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
-          <div className="flex items-center space-x-3">
-            {/* Collapse Sidebar Button */}
-            <button
-              onClick={onToggleSidebar}
-              className="p-2 hover:bg-gray-100 rounded-lg border-2 border-gray-100 transition-colors"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M3.90909 3.2C3.51747 3.2 3.2 3.51747 3.2 3.90909V12.0909C3.2 12.4825 3.51746 12.8 3.90909 12.8H5.8L5.8 3.2L3.90909 3.2ZM2 3.90909C2 2.85473 2.85473 2 3.90909 2H12.0909C13.1453 2 14 2.85473 14 3.90909V12.0909C14 13.1453 13.1453 14 12.0909 14H3.90909C2.85473 14 2 13.1453 2 12.0909V3.90909ZM12.0909 3.2L7 3.2L7 12.8H12.0909C12.4825 12.8 12.8 12.4825 12.8 12.0909V3.90909C12.8 3.51746 12.4825 3.2 12.0909 3.2Z"
-                  fill="#191B1F"
-                />
-              </svg>
-            </button>
-            <h1 className="text-2xl font-bold text-gray-900">Invite Links</h1>
-          </div>
-          <button className="bg-black text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 hover:bg-blue-700 transition-colors w-full sm:w-auto text-sm font-medium">
-            <span>New invite link</span>
-          </button>
-        </div>
+    <ContentContainer
+      onToggleSidebar={onToggleSidebar}
+      title="Invite links"
+      actions={<Button variant="primary">New invite link</Button>}
+    >
+      {/* Content count */}
+      <div className="flex-shrink-0">
+        <span className="text-sm text-gray-600">
+          {mockInviteLinks.length} invite links
+        </span>
       </div>
 
-      {/* Summary */}
-      <div className="px-6 mb-6">
-        <div className="text-sm font-medium text-gray-900">
-          {mockInviteLinks.length} invite links
-        </div>
-      </div>
+      {/* Actions */}
+      <Actions
+        selectedCount={selectedLinks.length}
+        totalCount={paginatedData.length}
+        onDeleteSelected={handleDeleteSelected}
+        onBulkActions={handleBulkActions}
+      />
 
       {/* Table */}
-      <div className="mx-6">
-        <Table<InviteLink>
-          columns={columns}
-          data={paginatedLinks}
+      <div className="flex-1 min-h-0">
+        <Table
+          columns={tableColumns}
+          data={paginatedData}
           selectedItems={selectedLinks}
           onSelectAll={handleSelectAll}
-          onSelectItem={handleSelectLink}
+          onSelectItem={handleSelectItem}
         />
       </div>
 
@@ -186,7 +235,7 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
           setCurrentPage(prev => Math.min(prev + 1, totalPages))
         }
       />
-    </div>
+    </ContentContainer>
   );
 };
 

@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar */}
       <div
-        className={`bg-white h-full flex sidebar-container fixed lg:relative z-50 rounded-xl ${
+        className={`nav-container h-full flex sidebar-container fixed lg:relative z-50 rounded-2xl ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } transition-transform duration-300 ease-in-out`}
       >
@@ -108,7 +108,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 onKeyDown={e => handleKeyDown(e, item.id)}
                 className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
                   expandedItem === item.id
-                    ? 'bg-blue-100 text-gray-900 font-bold shadow-md scale-110'
+                    ? 'bg-blue-100 text-gray-900 font-bold scale-110'
                     : 'hover:bg-gray-100 text-gray-500 hover:scale-105'
                 }`}
                 title={item.title}
@@ -120,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               </button>
 
               {/* Tooltip */}
-              <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+              <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded  opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
                 {item.title}
                 {/* Arrow pointing to the button */}
                 <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
@@ -129,9 +129,10 @@ const Sidebar: React.FC<SidebarProps> = ({
           ))}
 
           {/* Settings Icon at Bottom */}
-          <div className="mt-auto relative group">
+
+          {/* <div className="mt-auto relative group">
             <button
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-lg hover:bg-gray-100 text-gray-500 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-10 h-10 rounded-2xl flex items-center justify-center text-lg hover:bg-gray-100 text-gray-500 transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               title="Settings"
               aria-label="Settings"
             >
@@ -161,18 +162,17 @@ const Sidebar: React.FC<SidebarProps> = ({
               </svg>
             </button>
 
-            {/* Settings Tooltip */}
-            <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-lg opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+            <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded  opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
               Settings
-              {/* Arrow pointing to the button */}
+            
               <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Expanded Menu */}
         <div
-          className={`bg-white border-r border-gray-200 py-4 shadow-lg rounded-r-xl overflow-hidden transition-all duration-300 ease-out ${
+          className={`bg-white border-r border-gray-200 py-4  rounded-r-2xl overflow-hidden transition-all duration-300 ease-out ${
             expandedItem && !isCollapsed
               ? 'w-64 opacity-100 translate-x-0'
               : 'w-0 opacity-0 -translate-x-full'
@@ -227,7 +227,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsMobileOpen(true)}
-        className="lg:hidden fixed bottom-4 left-4 z-30 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+        className="lg:hidden fixed bottom-4 left-4 z-30 bg-blue-600 text-white p-3 rounded-full  hover:bg-blue-700 transition-colors"
         aria-label="Open sidebar"
       >
         <svg
