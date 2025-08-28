@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { mockProfileFields, ProfileField } from '../../data/mockData';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
 
 interface ProfileFieldsProps {
   onToggleSidebar: () => void;
@@ -61,10 +61,6 @@ const ProfileFields: React.FC<ProfileFieldsProps> = ({ onToggleSidebar }) => {
     setSelectedFields([]);
   };
 
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
-  };
-
   // Define table columns
   const tableColumns: TableColumn<ProfileField>[] = [
     {
@@ -118,7 +114,7 @@ const ProfileFields: React.FC<ProfileFieldsProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Profile fields"
-      actions={<Button variant="primary">New field</Button>}
+      actions={<Button variant="default">New field</Button>}
     >
       {/* Tabs */}
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
@@ -128,7 +124,6 @@ const ProfileFields: React.FC<ProfileFieldsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedFields.length}
         totalCount={paginatedFields.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

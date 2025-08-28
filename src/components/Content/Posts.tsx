@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import React, { useState, useEffect } from 'react';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
-import Filters, { Filter } from '../Filters';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface Post {
   id: string;
@@ -30,6 +32,13 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
+
+  // Reset page when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+    setSelectedPosts([]);
+  }, [activeTab]);
 
   // Mock data for posts
   const mockPosts: Post[] = [
@@ -91,11 +100,35 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter data based on active tab and filters
+  const getFilteredData = () => {
+    let filtered = mockPosts;
+
+    // First filter by tab
+    switch (activeTab) {
+      case 'drafts':
+        filtered = mockPosts.filter(post => post.status === 'Draft');
+        break;
+      case 'scheduled':
+        filtered = mockPosts.filter(post => post.status === 'Scheduled');
+        break;
+      case 'published':
+        filtered = mockPosts.filter(post => post.status === 'Published');
+        break;
+      default:
+        filtered = mockPosts;
+    }
+
+    // Then apply additional filters
+    return applyFilters(filtered, activeFilters);
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockPosts.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockPosts.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedPosts.length === paginatedData.length) {
@@ -113,18 +146,9 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
     );
   };
 
-  const handleFilterClick = (filterType: string) => {
-    console.log(`Filter clicked: ${filterType}`);
-    // Add filter logic here
-  };
-
   const handleDeleteSelected = () => {
     console.log('Delete selected posts');
     setSelectedPosts([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   const tableColumns: TableColumn<Post>[] = [
@@ -201,6 +225,11 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
   const tabs: Tab[] = [
     { id: 'all', label: 'All', count: mockPosts.length },
     {
+      id: 'published',
+      label: 'Published',
+      count: mockPosts.filter(p => p.status === 'Published').length,
+    },
+    {
       id: 'drafts',
       label: 'Drafts',
       count: mockPosts.filter(p => p.status === 'Draft').length,
@@ -212,32 +241,34 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const filters: Filter[] = [
-    { label: '+ Title', onClick: () => handleFilterClick('title') },
-    { label: '+ Author', onClick: () => handleFilterClick('author') },
-    { label: '+ Space access', onClick: () => handleFilterClick('space') },
-    { label: '+ Topics', onClick: () => handleFilterClick('topics') },
-    { label: '+ Published', onClick: () => handleFilterClick('published') },
+  const filterOptions: FilterOption[] = [
+    { id: 'title', label: 'Title', type: 'text' },
+    { id: 'author', label: 'Author', type: 'text' },
+    { id: 'space', label: 'Space', type: 'text' },
+    { id: 'status', label: 'Status', type: 'text' },
   ];
 
   return (
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Posts"
-      actions={<Button variant="primary">New post</Button>}
+      actions={<Button variant="default">New post</Button>}
     >
       {/* Tabs */}
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Filters */}
-      <Filters filters={filters} />
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
 
       {/* Actions */}
       <Actions
         selectedCount={selectedPosts.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -255,7 +286,7 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockPosts.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

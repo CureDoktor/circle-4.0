@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface BulkLog {
   id: string;
@@ -26,6 +29,7 @@ interface BulkLogsProps {
 const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedLogs, setSelectedLogs] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for bulk logs
   const mockBulkLogs: BulkLog[] = [
@@ -87,11 +91,17 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter and pagination logic
+  const getFilteredData = () => {
+    return applyFilters(mockBulkLogs, activeFilters);
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockBulkLogs.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockBulkLogs.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedLogs.length === paginatedData.length) {
@@ -112,9 +122,12 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
     setSelectedLogs([]);
   };
 
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
-  };
+  const filterOptions: FilterOption[] = [
+    { id: 'action', label: 'Action', type: 'text' },
+    { id: 'status', label: 'Status', type: 'text' },
+    { id: 'createdBy', label: 'Created By', type: 'text' },
+    { id: 'createdAt', label: 'Created At', type: 'text' },
+  ];
 
   const handleDownloadCsv = (filename: string) => {
     console.log(`Downloading ${filename}`);
@@ -209,12 +222,18 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
 
   return (
     <ContentContainer onToggleSidebar={onToggleSidebar} title="Bulk logs">
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedLogs.length}
-        totalCount={paginatedData.length}
+        totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -232,7 +251,7 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockBulkLogs.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

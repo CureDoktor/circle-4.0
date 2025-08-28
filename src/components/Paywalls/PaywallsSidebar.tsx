@@ -23,7 +23,7 @@ const PaywallsSidebar: React.FC<PaywallsSidebarProps> = ({
   ];
 
   return (
-    <div className="bg-white h-full rounded-2xl shadow-lg">
+    <div className="bg-white h-full rounded-2xl">
       {/* Header */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between">

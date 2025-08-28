@@ -12,6 +12,7 @@ import {
   MediaManager,
 } from './components/Content';
 import Workflows from './components/Workflows/Workflows';
+import History from './components/Workflows/History';
 import Coupons from './components/Paywalls/Coupons';
 import Paywalls from './components/Paywalls/Paywalls';
 import PaywallsSidebar from './components/Paywalls/PaywallsSidebar';
@@ -28,6 +29,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Onboarding from './components/Onboarding';
 import Gamification from './components/Gamification';
 import Live from './components/Live';
+import Overview from './components/Marketing/Overview';
+import Broadcasts from './components/Marketing/Broadcasts';
+import Forms from './components/Marketing/Forms';
+import Settings from './components/Marketing/Settings';
 import { ViewMode, AudienceData } from './types';
 import { audienceData, sidebarItems, loadAudienceData } from './data/mockData';
 import './App.css';
@@ -65,22 +70,40 @@ function App() {
         }, 50);
       }, 150);
     } else {
-      // Click on main sidebar icon - fade sidebar content only
-      setIsSidebarContentTransitioning(true);
+      // Click on main sidebar icon - find first sub-item and navigate to it
+      const currentItem = sidebarItems.find(item => item.id === itemId);
+      if (
+        currentItem &&
+        currentItem.subItems &&
+        currentItem.subItems.length > 0
+      ) {
+        const firstSubItem = currentItem.subItems[0];
 
-      setTimeout(() => {
-        if (itemId === 'paywalls') {
-          // Show Paywalls sidebar content
-          setCurrentSection('paywalls-sidebar');
-          setActiveSubItem('coupons'); // Default to coupons
-        } else {
-          setCurrentSection(itemId);
-        }
+        setIsContentTransitioning(true);
+        setIsSidebarContentTransitioning(false);
 
         setTimeout(() => {
-          setIsSidebarContentTransitioning(false);
-        }, 50);
-      }, 150);
+          setCurrentSection(firstSubItem.id);
+          setActiveSubItem(firstSubItem.id);
+
+          setTimeout(() => {
+            setIsContentTransitioning(false);
+          }, 50);
+        }, 150);
+      } else {
+        // Fallback for items without sub-items
+        setIsContentTransitioning(true);
+        setIsSidebarContentTransitioning(false);
+
+        setTimeout(() => {
+          setCurrentSection(itemId);
+          setActiveSubItem(itemId);
+
+          setTimeout(() => {
+            setIsContentTransitioning(false);
+          }, 50);
+        }, 150);
+      }
     }
   };
 
@@ -116,12 +139,12 @@ function App() {
             title="Pages"
             createButtonText="Create page"
             filters={[
-              '+ Title',
-              '+ Author',
-              '+ Spaces',
-              '+ Tag',
-              '+ Published',
-              '+ Add filter',
+              'Title',
+              'Author',
+              'Spaces',
+              'Tag',
+              'Published',
+              'Add filter',
             ]}
             columns={['Name', 'Status', 'Author', 'Updated']}
             onToggleSidebar={toggleSidebar}
@@ -157,16 +180,18 @@ function App() {
         return <Gamification onToggleSidebar={toggleSidebar} />;
       case 'activity-logs':
         return <ActivityLogs onToggleSidebar={toggleSidebar} />;
+      case 'overview':
+        return <Overview onToggleSidebar={toggleSidebar} />;
+      case 'broadcasts':
+        return <Broadcasts onToggleSidebar={toggleSidebar} />;
+      case 'forms':
+        return <Forms onToggleSidebar={toggleSidebar} />;
+      case 'settings':
+        return <Settings onToggleSidebar={toggleSidebar} />;
       case 'all-workflows':
         return <Workflows onToggleSidebar={toggleSidebar} />;
       case 'history':
-        return (
-          <PlaceholderPage
-            title="Workflow History"
-            description="Workflow history interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <History onToggleSidebar={toggleSidebar} />;
       case 'coupons':
         return <Coupons onToggleSidebar={toggleSidebar} />;
       case 'paywalls-sidebar':
@@ -219,14 +244,7 @@ function App() {
             onToggleSidebar={toggleSidebar}
           />
         );
-      case 'settings':
-        return (
-          <PlaceholderPage
-            title="Settings"
-            description="Settings management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+
       default:
         return (
           <ManageAudience
@@ -264,7 +282,7 @@ function App() {
           <main
             className={`flex-1 overflow-hidden transition-all duration-300 ease-out ${
               viewMode === 'Admin' && isSidebarCollapsed ? 'ml-0' : ''
-            } ${isAIHelperOpen ? 'mr-4' : 'mr-0'}`}
+            } ${isAIHelperOpen ? '' : 'mr-0'}`}
           >
             <div
               className={`h-full transition-opacity duration-200 ease-out ${
@@ -277,7 +295,7 @@ function App() {
           <div
             className={`transition-all duration-300 ease-out ${
               isAIHelperOpen
-                ? 'w-96 opacity-100 transform translate-x-0 ml-4'
+                ? 'w-96 opacity-100 transform translate-x-0'
                 : 'w-0 opacity-0 transform translate-x-full ml-0 overflow-hidden'
             }`}
           >

@@ -41,6 +41,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     } else if (itemId === 'paywalls') {
       setActiveSubItem('coupons');
     }
+    // Call onItemClick to update main content
+    onItemClick(itemId);
   };
 
   const handleSubItemClick = (itemId: string, subItemId: string) => {

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface Topic {
   id: string;
@@ -25,6 +28,7 @@ interface TopicsProps {
 const Topics: React.FC<TopicsProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for topics
   const mockTopics: Topic[] = [
@@ -78,11 +82,17 @@ const Topics: React.FC<TopicsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter and pagination logic
+  const getFilteredData = () => {
+    return applyFilters(mockTopics, activeFilters);
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockTopics.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockTopics.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedTopics.length === paginatedData.length) {
@@ -100,13 +110,15 @@ const Topics: React.FC<TopicsProps> = ({ onToggleSidebar }) => {
     );
   };
 
+  const filterOptions: FilterOption[] = [
+    { id: 'name', label: 'Name', type: 'text' },
+    { id: 'createdBy', label: 'Created By', type: 'text' },
+    { id: 'adminOnly', label: 'Admin Only', type: 'boolean' },
+  ];
+
   const handleDeleteSelected = () => {
     console.log('Delete selected topics');
     setSelectedTopics([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   const tableColumns: TableColumn<Topic>[] = [
@@ -162,14 +174,20 @@ const Topics: React.FC<TopicsProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Topics"
-      actions={<Button variant="primary">New topic</Button>}
+      actions={<Button variant="default">New topic</Button>}
     >
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedTopics.length}
-        totalCount={paginatedData.length}
+        totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -187,7 +205,7 @@ const Topics: React.FC<TopicsProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockTopics.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, TableColumn } from '../Table';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
@@ -28,6 +28,12 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+
+  // Reset page when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+    setSelectedGroups([]);
+  }, [activeTab]);
 
   // Mock data for access groups
   const mockAccessGroups: AccessGroup[] = [
@@ -85,11 +91,24 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'active':
+        return mockAccessGroups.filter(group => group.status === 'Active');
+      case 'archived':
+        return mockAccessGroups.filter(group => group.status === 'Archived');
+      default:
+        return mockAccessGroups;
+    }
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockAccessGroups.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockAccessGroups.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedGroups.length === paginatedData.length) {
@@ -116,10 +135,6 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   const handleDeleteSelected = () => {
     console.log('Delete selected groups');
     setSelectedGroups([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   const tableColumns: TableColumn<AccessGroup>[] = [
@@ -219,7 +234,6 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedGroups.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -237,7 +251,7 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockAccessGroups.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

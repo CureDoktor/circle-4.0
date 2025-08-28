@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { mockSegments, Segment } from '../../data/mockData';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
 
 interface SegmentsProps {
   onToggleSidebar: () => void;
@@ -41,10 +41,6 @@ const Segments: React.FC<SegmentsProps> = ({ onToggleSidebar }) => {
   const handleDeleteSelected = () => {
     console.log('Delete selected segments');
     setSelectedSegments([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   // Define table columns
@@ -98,14 +94,13 @@ const Segments: React.FC<SegmentsProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Segments"
-      actions={<Button variant="primary">New segment</Button>}
+      actions={<Button variant="default">New segment</Button>}
     >
       {/* Actions */}
       <Actions
         selectedCount={selectedSegments.length}
         totalCount={paginatedSegments.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

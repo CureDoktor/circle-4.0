@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface LiveStream {
   id: string;
@@ -26,6 +29,7 @@ interface LiveProps {
 const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStreams, setSelectedStreams] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for live streams
   const mockLiveStreams: LiveStream[] = [
@@ -83,11 +87,17 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter and pagination logic
+  const getFilteredData = () => {
+    return applyFilters(mockLiveStreams, activeFilters);
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockLiveStreams.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockLiveStreams.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedStreams.length === paginatedData.length) {
@@ -110,9 +120,12 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
     setSelectedStreams([]);
   };
 
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
-  };
+  const filterOptions: FilterOption[] = [
+    { id: 'name', label: 'Name', type: 'text' },
+    { id: 'status', label: 'Status', type: 'text' },
+    { id: 'type', label: 'Type', type: 'text' },
+    { id: 'participants', label: 'Participants', type: 'text' },
+  ];
 
   const tableColumns: TableColumn<LiveStream>[] = [
     {
@@ -214,7 +227,7 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Live"
-      actions={<Button variant="primary">Start live stream</Button>}
+      actions={<Button variant="default">Start live stream</Button>}
     >
       {/* Statistics Cards */}
       <div className="flex-shrink-0">
@@ -248,12 +261,18 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
         </div>
       </div>
 
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedStreams.length}
-        totalCount={paginatedData.length}
+        totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -271,7 +290,7 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockLiveStreams.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { User, AudienceData } from '../types';
 import { saveAudienceData, loadAudienceData } from '../data/mockData';
-import { Table, TableColumn } from './Table';
+import { applyFilters } from '../utils/filterHelpers';
+import { TableEnhanced as Table, TableColumn } from './ui';
 import ContentContainer from './ContentContainer';
 import Tabs, { Tab } from './Tabs';
-import Filters, { Filter } from './Filters';
-import Actions from './Actions';
-import Pagination from './Pagination';
-import Button from './Button';
+import EnhancedFilters from './ui/enhanced-filters';
+import { FilterOption, FilterCondition } from './ui/filter-modal';
+import Actions from './ui/actions';
+import Pagination from './ui/pagination';
+import { Button } from './ui';
 import EditModal from './ManageAudience/EditModal';
 import Avatar from './ManageAudience/Avatar';
 
@@ -34,6 +36,7 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [dataVersion, setDataVersion] = useState(0);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -61,20 +64,29 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
   ]);
 
   const getCurrentUsers = (): User[] => {
+    let users: User[] = [];
     switch (activeTab) {
       case 'all':
-        return audienceData.all;
+        users = audienceData.all;
+        break;
       case 'contacts':
-        return audienceData.contacts;
+        users = audienceData.contacts;
+        break;
       case 'members':
-        return audienceData.members;
+        users = audienceData.members;
+        break;
       case 'invited':
-        return audienceData.invited;
+        users = audienceData.invited;
+        break;
       case 'moderators':
-        return audienceData.moderators;
+        users = audienceData.moderators;
+        break;
       default:
-        return audienceData.all;
+        users = audienceData.all;
     }
+
+    // Apply filters
+    return applyFilters(users, activeFilters);
   };
 
   const currentUsers = getCurrentUsers();
@@ -110,10 +122,6 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
     setSelectedUsers([]);
   };
 
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
-  };
-
   const handleSaveSegment = async () => {
     setIsLoading(true);
     try {
@@ -126,11 +134,6 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleFilterClick = (filterType: string) => {
-    console.log(`Filter clicked: ${filterType}`);
-    // Add filter logic here
   };
 
   const tableColumns: TableColumn<User>[] = [
@@ -202,14 +205,13 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
     },
   ];
 
-  const filters: Filter[] = [
-    { label: '+ Name', onClick: () => handleFilterClick('name') },
-    { label: '+ Email', onClick: () => handleFilterClick('email') },
-    { label: '+ Role', onClick: () => handleFilterClick('role') },
-    {
-      label: '+ Email marketing',
-      onClick: () => handleFilterClick('emailMarketing'),
-    },
+  const filterOptions: FilterOption[] = [
+    { id: 'name', label: 'Name', type: 'text' },
+    { id: 'email', label: 'Email', type: 'text' },
+    { id: 'role', label: 'Role', type: 'text' },
+    { id: 'emailMarketing', label: 'Email Marketing', type: 'boolean' },
+    { id: 'member', label: 'Member', type: 'boolean' },
+    { id: 'location', label: 'Location', type: 'text' },
   ];
 
   return (
@@ -221,7 +223,7 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
           <div className="flex items-center space-x-3">
             {hasUnsavedChanges && (
               <Button
-                variant="primary"
+                variant="default"
                 onClick={handleSaveSegment}
                 disabled={isLoading}
               >
@@ -233,7 +235,7 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
                 ✓ Saved successfully!
               </div>
             )}
-            <Button variant="primary">Add people</Button>
+            <Button variant="default">Add people</Button>
           </div>
         }
       >
@@ -241,14 +243,17 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
         <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
         {/* Filters */}
-        <Filters filters={filters} />
+        <EnhancedFilters
+          filters={filterOptions}
+          activeFilters={activeFilters}
+          onFilterChange={setActiveFilters}
+        />
 
         {/* Actions */}
         <Actions
           selectedCount={selectedUsers.length}
           totalCount={paginatedUsers.length}
           onDeleteSelected={handleDeleteSelected}
-          onBulkActions={handleBulkActions}
         />
 
         {/* Table */}

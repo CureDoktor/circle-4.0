@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { mockPages, Page } from '../../data/Content/mockData';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
 
 interface ContentProps {
   onToggleSidebar: () => void;
@@ -49,10 +49,6 @@ const Content: React.FC<ContentProps> = ({
   const handleDeleteSelected = () => {
     console.log('Delete selected pages');
     setSelectedPages([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   // Define table columns
@@ -124,14 +120,13 @@ const Content: React.FC<ContentProps> = ({
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title={title}
-      actions={<Button variant="primary">{createButtonText}</Button>}
+      actions={<Button variant="default">{createButtonText}</Button>}
     >
       {/* Actions */}
       <Actions
         selectedCount={selectedPages.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

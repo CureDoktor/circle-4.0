@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { mockTags, Tag } from '../../data/mockData';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
 
 interface TagsProps {
   onToggleSidebar: () => void;
@@ -37,10 +37,6 @@ const Tags: React.FC<TagsProps> = ({ onToggleSidebar }) => {
   const handleDeleteSelected = () => {
     console.log('Delete selected tags');
     setSelectedTags([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   // Define table columns
@@ -113,14 +109,13 @@ const Tags: React.FC<TagsProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Tags"
-      actions={<Button variant="primary">New tag</Button>}
+      actions={<Button variant="default">New tag</Button>}
     >
       {/* Actions */}
       <Actions
         selectedCount={selectedTags.length}
         totalCount={paginatedTags.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

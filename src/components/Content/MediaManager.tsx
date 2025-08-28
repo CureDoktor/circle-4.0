@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Filters, { Filter } from '../Filters';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface MediaFile {
   id: string;
@@ -26,6 +28,7 @@ interface MediaManagerProps {
 const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for media files
   const mockMediaFiles: MediaFile[] = [
@@ -79,11 +82,17 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter and pagination logic
+  const getFilteredData = () => {
+    return applyFilters(mockMediaFiles, activeFilters);
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockMediaFiles.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockMediaFiles.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedFiles.length === paginatedData.length) {
@@ -101,18 +110,9 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
     );
   };
 
-  const handleFilterClick = (filterType: string) => {
-    console.log(`Filter clicked: ${filterType}`);
-    // Add filter logic here
-  };
-
   const handleDeleteSelected = () => {
     console.log('Delete selected files');
     setSelectedFiles([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   const getFileIcon = (type: string) => {
@@ -192,10 +192,10 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const filters: Filter[] = [
-    { label: '+ Name', onClick: () => handleFilterClick('name') },
-    { label: '+ Type', onClick: () => handleFilterClick('type') },
-    { label: '+ Owner', onClick: () => handleFilterClick('owner') },
+  const filterOptions: FilterOption[] = [
+    { id: 'name', label: 'Name', type: 'text' },
+    { id: 'type', label: 'Type', type: 'text' },
+    { id: 'owner', label: 'Owner', type: 'text' },
   ];
 
   // Storage usage data
@@ -211,7 +211,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Media Manager"
-      actions={<Button variant="primary">Upload files</Button>}
+      actions={<Button variant="default">Upload files</Button>}
     >
       {/* Storage Usage */}
       <div className="flex-shrink-0">
@@ -244,14 +244,17 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
       </div>
 
       {/* Filters */}
-      <Filters filters={filters} />
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
 
       {/* Actions */}
       <Actions
         selectedCount={selectedFiles.length}
-        totalCount={paginatedData.length}
+        totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -269,7 +272,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockMediaFiles.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

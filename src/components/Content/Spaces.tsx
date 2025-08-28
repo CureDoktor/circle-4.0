@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Filters, { Filter } from '../Filters';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface Space {
   id: string;
@@ -31,6 +33,7 @@ interface SpacesProps {
 const Spaces: React.FC<SpacesProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedSpaces, setSelectedSpaces] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for spaces
   const mockSpaces: Space[] = [
@@ -87,11 +90,17 @@ const Spaces: React.FC<SpacesProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter and pagination logic
+  const getFilteredData = () => {
+    return applyFilters(mockSpaces, activeFilters);
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockSpaces.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockSpaces.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedSpaces.length === paginatedData.length) {
@@ -109,18 +118,9 @@ const Spaces: React.FC<SpacesProps> = ({ onToggleSidebar }) => {
     );
   };
 
-  const handleFilterClick = (filterType: string) => {
-    console.log(`Filter clicked: ${filterType}`);
-    // Add filter logic here
-  };
-
   const handleDeleteSelected = () => {
     console.log('Delete selected spaces');
     setSelectedSpaces([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   const tableColumns: TableColumn<Space>[] = [
@@ -196,31 +196,31 @@ const Spaces: React.FC<SpacesProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const filters: Filter[] = [
-    { label: '+ Name', onClick: () => handleFilterClick('name') },
-    { label: '+ Type', onClick: () => handleFilterClick('type') },
-    { label: '+ Access', onClick: () => handleFilterClick('access') },
-    {
-      label: '+ Space group access',
-      onClick: () => handleFilterClick('spaceGroupAccess'),
-    },
+  const filterOptions: FilterOption[] = [
+    { id: 'name', label: 'Name', type: 'text' },
+    { id: 'type', label: 'Type', type: 'text' },
+    { id: 'access', label: 'Access', type: 'text' },
+    { id: 'spaceGroupAccess', label: 'Space group access', type: 'text' },
   ];
 
   return (
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Spaces"
-      actions={<Button variant="primary">New space</Button>}
+      actions={<Button variant="default">New space</Button>}
     >
       {/* Filters */}
-      <Filters filters={filters} />
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
 
       {/* Actions */}
       <Actions
         selectedCount={selectedSpaces.length}
-        totalCount={paginatedData.length}
+        totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
@@ -238,7 +238,7 @@ const Spaces: React.FC<SpacesProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockSpaces.length}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

@@ -110,10 +110,6 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
     setSelectedLinks([]);
   };
 
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
-  };
-
   const handleCopyUrl = (url: string) => {
     navigator.clipboard.writeText(url);
     console.log('URL copied to clipboard');
@@ -209,7 +205,6 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedLinks.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
+import { applyFilters } from '../../utils/filterHelpers';
 
 interface Content {
   id: string;
@@ -31,6 +34,7 @@ const Moderation: React.FC<ModerationProps> = ({ onToggleSidebar }) => {
   const [activeTab, setActiveTab] = useState('inbox');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedContents, setSelectedContents] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for different tabs
   const inboxContents: Content[] = [
@@ -107,16 +111,25 @@ const Moderation: React.FC<ModerationProps> = ({ onToggleSidebar }) => {
   ];
 
   const getCurrentData = () => {
+    let filtered: any[] = [];
+
+    // First filter by tab
     switch (activeTab) {
       case 'inbox':
-        return inboxContents;
+        filtered = inboxContents;
+        break;
       case 'approved':
-        return approvedContents;
+        filtered = approvedContents;
+        break;
       case 'rejected':
-        return rejectedContents;
+        filtered = rejectedContents;
+        break;
       default:
-        return inboxContents;
+        filtered = inboxContents;
     }
+
+    // Then apply additional filters
+    return applyFilters(filtered, activeFilters);
   };
 
   const currentData = getCurrentData();
@@ -153,9 +166,12 @@ const Moderation: React.FC<ModerationProps> = ({ onToggleSidebar }) => {
     setSelectedContents([]);
   };
 
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
-  };
+  const filterOptions: FilterOption[] = [
+    { id: 'title', label: 'Title', type: 'text' },
+    { id: 'author', label: 'Author', type: 'text' },
+    { id: 'type', label: 'Type', type: 'text' },
+    { id: 'status', label: 'Status', type: 'text' },
+  ];
 
   const tableColumns: TableColumn<Content>[] = [
     {
@@ -249,12 +265,18 @@ const Moderation: React.FC<ModerationProps> = ({ onToggleSidebar }) => {
       {/* Tabs */}
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filterOptions}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedContents.length}
-        totalCount={paginatedData.length}
+        totalCount={currentData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

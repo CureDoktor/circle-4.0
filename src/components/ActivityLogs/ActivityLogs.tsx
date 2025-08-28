@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { mockActivityLogs, ActivityLog } from '../../data/mockData';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
 
 interface ActivityLogsProps {
   onToggleSidebar: () => void;
@@ -37,10 +37,6 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ onToggleSidebar }) => {
   const handleDeleteSelected = () => {
     console.log('Delete selected logs');
     setSelectedLogs([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   // Define table columns
@@ -107,14 +103,13 @@ const ActivityLogs: React.FC<ActivityLogsProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Activity logs"
-      actions={<Button variant="primary">Export logs</Button>}
+      actions={<Button variant="default">Export logs</Button>}
     >
       {/* Actions */}
       <Actions
         selectedCount={selectedLogs.length}
         totalCount={paginatedLogs.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}

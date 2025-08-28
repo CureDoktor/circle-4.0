@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import React, { useState, useEffect } from 'react';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
-import Actions from '../Actions';
-import Pagination from '../Pagination';
-import Button from '../Button';
+import Actions from '../ui/actions';
+import Pagination from '../ui/pagination';
+import { Button } from '../ui';
 
 interface Workflow {
   id: string;
@@ -28,6 +28,12 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   const [activeTab, setActiveTab] = useState('automations');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedWorkflows, setSelectedWorkflows] = useState<string[]>([]);
+
+  // Reset page when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+    setSelectedWorkflows([]);
+  }, [activeTab]);
 
   // Mock data for workflows
   const mockWorkflows: Workflow[] = [
@@ -85,11 +91,30 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'automations':
+        return mockWorkflows.filter(workflow => workflow.type === 'Automation');
+      case 'bulk-actions':
+        return mockWorkflows.filter(
+          workflow => workflow.type === 'Bulk Action'
+        );
+      case 'scheduled':
+        return mockWorkflows.filter(workflow => workflow.type === 'Scheduled');
+      case 'archived':
+        return mockWorkflows.filter(workflow => workflow.type === 'Archived');
+      default:
+        return mockWorkflows;
+    }
+  };
+
+  const filteredData = getFilteredData();
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockWorkflows.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockWorkflows.slice(startIndex, endIndex);
+  const paginatedData = filteredData.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedWorkflows.length === paginatedData.length) {
@@ -116,10 +141,6 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   const handleDeleteSelected = () => {
     console.log('Delete selected workflows');
     setSelectedWorkflows([]);
-  };
-
-  const handleBulkActions = () => {
-    console.log('Bulk actions clicked');
   };
 
   const tableColumns: TableColumn<Workflow>[] = [
@@ -224,7 +245,7 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Workflows"
-      actions={<Button variant="primary">New workflow</Button>}
+      actions={<Button variant="default">New workflow</Button>}
     >
       {/* Tabs */}
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
@@ -234,7 +255,6 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedWorkflows.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
-        onBulkActions={handleBulkActions}
       />
 
       {/* Table */}
