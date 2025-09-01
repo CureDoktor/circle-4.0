@@ -16,8 +16,10 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`page-container h-full flex flex-col ${className}`}>
-      <div className="p-6 flex flex-col h-full">
+    <div
+      className={`page-container h-full flex flex-col overflow-hidden ${className}`}
+    >
+      <div className="p-6 flex flex-col h-full overflow-hidden">
         <div className="flex-shrink-0">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
@@ -50,7 +52,9 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
         </div>
 
         {/* Content with consistent spacing */}
-        <div className="flex-1 min-h-0 flex flex-col space-y-5">{children}</div>
+        <div className="flex-1 min-h-0 flex flex-col space-y-5 overflow-hidden">
+          {children}
+        </div>
       </div>
     </div>
   );

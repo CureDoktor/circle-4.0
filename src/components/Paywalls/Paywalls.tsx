@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+// Paywalls component for managing paywall data
+import React, { useState } from 'react';
 import {
   mockPaywalls,
   getPaywallCounts,
   Paywall,
 } from '../../data/Paywalls/mockData';
-import { Table, TableColumn } from '../Table';
-import { Pagination } from '../Table';
-import SidebarToggle from '../ui/sidebar-toggle';
+import { TableEnhanced, TableColumn } from '../ui';
+import { Actions } from '../ui';
+import { Pagination } from '../ui';
+import ContentContainer from '../ContentContainer';
+import Tabs, { Tab } from '../Tabs';
 
 interface PaywallsProps {
   onToggleSidebar: () => void;
 }
 
-type TabType = 'all' | 'archived';
-
 const Paywalls: React.FC<PaywallsProps> = ({ onToggleSidebar }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('all');
+  const [activeTab, setActiveTab] = useState<string>('all');
   const [selectedPaywalls, setSelectedPaywalls] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showBulkActions, setShowBulkActions] = useState(false);
   const itemsPerPage = 20;
 
   const paywallCounts = getPaywallCounts();
@@ -54,50 +54,18 @@ const Paywalls: React.FC<PaywallsProps> = ({ onToggleSidebar }) => {
     );
   };
 
-  const handleTabChange = (tab: TabType) => {
-    setActiveTab(tab);
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
     setCurrentPage(1);
     setSelectedPaywalls([]);
-    setShowBulkActions(false);
   };
 
-  const handleBulkActivate = () => {
-    // Handle bulk activate
-    setSelectedPaywalls([]);
-    setShowBulkActions(false);
-  };
-
-  const handleBulkDeactivate = () => {
-    // Handle bulk deactivate
-    setSelectedPaywalls([]);
-    setShowBulkActions(false);
-  };
-
-  const handleBulkDelete = () => {
+  const handleDeleteSelected = () => {
     // Handle bulk delete
     setSelectedPaywalls([]);
-    setShowBulkActions(false);
   };
 
-  const handleClearSelection = () => {
-    setSelectedPaywalls([]);
-    setShowBulkActions(false);
-  };
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest('.bulk-actions-dropdown')) {
-        setShowBulkActions(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const tabs = [
+  const tabs: Tab[] = [
     { id: 'all', label: 'All', count: paywallCounts.all },
     { id: 'archived', label: 'Archived', count: paywallCounts.archived },
   ];
@@ -158,138 +126,28 @@ const Paywalls: React.FC<PaywallsProps> = ({ onToggleSidebar }) => {
   ];
 
   return (
-    <div className="page-container h-full">
-      {/* Header */}
-      <div className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <SidebarToggle onToggle={onToggleSidebar} />
-            <div className="flex items-center space-x-2">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-                  fill="#6B7280"
-                />
-                <path d="M12 2v4a2 2 0 002 2h4" fill="#6B7280" />
-              </svg>
-              <h1 className="text-2xl font-bold text-gray-900">Paywalls</h1>
-            </div>
-          </div>
-          <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
-            Create paywall
-          </button>
-        </div>
-      </div>
-
+    <ContentContainer
+      onToggleSidebar={onToggleSidebar}
+      title="Paywalls"
+      actions={
+        <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+          Create paywall
+        </button>
+      }
+    >
       {/* Tabs */}
-      <div className="border-b border-gray-200 mb-6 overflow-x-auto mx-6">
-        <div className="flex min-w-max">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id as TabType)}
-              className={`py-3 px-4 font-medium border border-gray-100 text-sm transition-colors whitespace-nowrap ${
-                activeTab === tab.id
-                  ? 'border-1 border-gray-300 border-b-0 rounded-t-lg text-gray-900 bg-white'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {tab.label} {tab.count.toLocaleString()}
-            </button>
-          ))}
-        </div>
-      </div>
+      <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
-      {/* Summary and Actions */}
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">
-            {currentPaywalls.length} paywalls
-          </span>
-          <div className="flex items-center space-x-3">
-            {selectedPaywalls.length > 0 && (
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">
-                  {selectedPaywalls.length} selected
-                </span>
-                <button
-                  onClick={handleClearSelection}
-                  className="text-sm text-gray-500 hover:text-gray-700"
-                >
-                  Clear
-                </button>
-              </div>
-            )}
-
-            {/* Bulk Actions Dropdown */}
-            <div className="relative bulk-actions-dropdown">
-              <button
-                onClick={() => setShowBulkActions(!showBulkActions)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm transition-all duration-200 flex items-center justify-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={selectedPaywalls.length === 0}
-              >
-                <span>Bulk actions</span>
-                <svg
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    showBulkActions ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {showBulkActions && selectedPaywalls.length > 0 && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10 animate-modalSlideIn">
-                  <div className="py-1">
-                    <button
-                      onClick={handleBulkActivate}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      Activate paywalls
-                    </button>
-                    <button
-                      onClick={handleBulkDeactivate}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      Deactivate paywalls
-                    </button>
-                    <button
-                      onClick={handleBulkDelete}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      Delete paywalls
-                    </button>
-                    <button
-                      onClick={handleClearSelection}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      Clear selection
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Actions */}
+      <Actions
+        selectedCount={selectedPaywalls.length}
+        totalCount={paginatedPaywalls.length}
+        onDeleteSelected={handleDeleteSelected}
+      />
 
       {/* Table */}
-      <div className="mx-6">
-        <Table<Paywall>
+      <div className="flex-1 min-h-0 overflow-auto">
+        <TableEnhanced
           columns={columns}
           data={paginatedPaywalls}
           selectedItems={selectedPaywalls}
@@ -310,7 +168,7 @@ const Paywalls: React.FC<PaywallsProps> = ({ onToggleSidebar }) => {
           setCurrentPage(prev => Math.min(prev + 1, totalPages))
         }
       />
-    </div>
+    </ContentContainer>
   );
 };
 
