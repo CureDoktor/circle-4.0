@@ -41,7 +41,7 @@ const TableEnhanced = <T extends { id: string }>({
     return (
       <div
         className={cn(
-          'border border-gray-200 rounded-lg overflow-hidden h-full',
+          'border border-gray-200 rounded-lg overflow-auto',
           containerClassName
         )}
       >
@@ -88,7 +88,7 @@ const TableEnhanced = <T extends { id: string }>({
         containerClassName
       )}
     >
-      <div className="max-h-96 overflow-y-auto overflow-x-auto">
+      <div className="overflow-y-auto overflow-x-auto">
         <Table className={cn('w-full min-w-full', className)}>
           <TableHeader className="sticky top-0 bg-white z-10">
             <TableRow>

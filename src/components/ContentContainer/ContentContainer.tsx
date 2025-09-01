@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../Button';
 
 interface ContentContainerProps {
   children: React.ReactNode;
@@ -23,11 +22,9 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
             <div className="flex items-center space-x-3">
-              <Button
+              <button
                 onClick={onToggleSidebar}
-                variant="ghost"
-                size="sm"
-                className="p-2 hover:bg-gray-100 rounded-lg border-2 border-gray-100"
+                className="p-2 hover:bg-gray-100 rounded-lg border-2 border-gray-100 transition-colors"
               >
                 <svg
                   width="16"
@@ -43,7 +40,7 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
                     fill="#191B1F"
                   />
                 </svg>
-              </Button>
+              </button>
               <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
             </div>
             {actions && (

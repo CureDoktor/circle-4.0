@@ -152,7 +152,7 @@ const Forms: React.FC<FormsProps> = ({ onToggleSidebar }) => {
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-auto">
         <TableEnhanced
           columns={tableColumns}
           data={paginatedForms}

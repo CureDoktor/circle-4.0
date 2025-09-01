@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import ManageAudience from './components/ManageAudience';
 import Community from './components/Community';
 import Content from './components/Content/Content';
+import ContentSidebar from './components/Content/ContentSidebar';
 import {
   Posts,
   Spaces,
@@ -160,6 +161,14 @@ function App() {
         return <Moderation onToggleSidebar={toggleSidebar} />;
       case 'media-manager':
         return <MediaManager onToggleSidebar={toggleSidebar} />;
+      case 'content-sidebar':
+        return (
+          <ContentSidebar
+            onToggleSidebar={toggleSidebar}
+            onItemClick={handleSidebarItemClick}
+            activeSubItem={activeSubItem}
+          />
+        );
       case 'live':
         return <Live onToggleSidebar={toggleSidebar} />;
       case 'access-groups':
@@ -258,48 +267,50 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="h-screen bg-gray-50 flex flex-col">
-        <Navbar
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          onToggleAIHelper={toggleAIHelper}
-        />
-        <div className="flex flex-1 p-4 gap-3 bg-gray-50">
-          {viewMode === 'Admin' && (
+      <div className="flex flex-1 flex-col h-screen">
+        <div className="h-full bg-gray-50 flex flex-1 flex-col">
+          <Navbar
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            onToggleAIHelper={toggleAIHelper}
+          />
+          <div className="h-full flex flex-1 p-4 gap-3 bg-gray-50">
+            {viewMode === 'Admin' && (
+              <div
+                className={`transition-all duration-300 ease-out ${
+                  isSidebarCollapsed ? 'w-16' : 'w-80'
+                }`}
+              >
+                <Sidebar
+                  items={sidebarItems}
+                  onItemClick={handleSidebarItemClick}
+                  isCollapsed={isSidebarCollapsed}
+                  isSidebarContentTransitioning={isSidebarContentTransitioning}
+                />
+              </div>
+            )}
+            <main
+              className={`flex-1 overflow-hidden transition-all duration-300 ease-out ${
+                viewMode === 'Admin' && isSidebarCollapsed ? 'ml-0' : ''
+              } ${isAIHelperOpen ? '' : 'mr-0'}`}
+            >
+              <div
+                className={`h-full transition-opacity duration-200 ease-out ${
+                  isContentTransitioning ? 'opacity-0' : 'opacity-100'
+                }`}
+              >
+                {renderContent()}
+              </div>
+            </main>
             <div
               className={`transition-all duration-300 ease-out ${
-                isSidebarCollapsed ? 'w-16' : 'w-80'
+                isAIHelperOpen
+                  ? 'w-96 opacity-100 transform translate-x-0'
+                  : 'w-0 opacity-0 transform translate-x-full ml-0 overflow-hidden'
               }`}
             >
-              <Sidebar
-                items={sidebarItems}
-                onItemClick={handleSidebarItemClick}
-                isCollapsed={isSidebarCollapsed}
-                isSidebarContentTransitioning={isSidebarContentTransitioning}
-              />
+              <AIHelperChat onClose={() => setIsAIHelperOpen(false)} />
             </div>
-          )}
-          <main
-            className={`flex-1 overflow-hidden transition-all duration-300 ease-out ${
-              viewMode === 'Admin' && isSidebarCollapsed ? 'ml-0' : ''
-            } ${isAIHelperOpen ? '' : 'mr-0'}`}
-          >
-            <div
-              className={`h-full transition-opacity duration-200 ease-out ${
-                isContentTransitioning ? 'opacity-0' : 'opacity-100'
-              }`}
-            >
-              {renderContent()}
-            </div>
-          </main>
-          <div
-            className={`transition-all duration-300 ease-out ${
-              isAIHelperOpen
-                ? 'w-96 opacity-100 transform translate-x-0'
-                : 'w-0 opacity-0 transform translate-x-full ml-0 overflow-hidden'
-            }`}
-          >
-            <AIHelperChat onClose={() => setIsAIHelperOpen(false)} />
           </div>
         </div>
       </div>

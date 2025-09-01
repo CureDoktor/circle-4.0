@@ -466,8 +466,7 @@ export const mockUsers: User[] = [
     id: '1',
     name: 'Lucas Marcellus',
     email: 'lucas.marcellus@cr...',
-    profileImage:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/1.png',
     emailMarketing: true,
     score: 42,
     role: 'Member',
@@ -478,7 +477,7 @@ export const mockUsers: User[] = [
     id: '2',
     name: 'Sofia Valente',
     email: 'sofia.valente@artisti...',
-    profileImage: 'https://broken-image-url.com/sofia.jpg',
+    profileImage: '/images/avatars/2.png',
     emailMarketing: false,
     score: 17,
     role: 'Member',
@@ -489,8 +488,7 @@ export const mockUsers: User[] = [
     id: '3',
     name: 'Nina Cortez',
     email: 'nina.cortez@innovat...',
-    profileImage:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/3.png',
     emailMarketing: true,
     score: 58,
     role: 'Member',
@@ -501,8 +499,7 @@ export const mockUsers: User[] = [
     id: '4',
     name: 'Jasper Lemoine',
     email: 'jasper.lemoine@desi...',
-    profileImage:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/4.png',
     emailMarketing: false,
     score: 29,
     role: 'Member',
@@ -513,8 +510,7 @@ export const mockUsers: User[] = [
     id: '5',
     name: "Clara D'Angelo",
     email: 'clara.dangelo@visio...',
-    profileImage:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/5.png',
     emailMarketing: false,
     score: 73,
     role: 'Member',
@@ -525,8 +521,7 @@ export const mockUsers: User[] = [
     id: '6',
     name: 'Felix Montoya',
     email: 'felix.montoya@dyna...',
-    profileImage:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/6.png',
     emailMarketing: false,
     score: 88,
     role: 'Member',
@@ -537,8 +532,7 @@ export const mockUsers: User[] = [
     id: '7',
     name: 'Isabella Torres',
     email: 'isabella.torres@ima...',
-    profileImage:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/7.png',
     emailMarketing: false,
     score: 34,
     role: 'Member',
@@ -549,8 +543,7 @@ export const mockUsers: User[] = [
     id: '8',
     name: 'Marcus Chen',
     email: 'marcus.chen@tech...',
-    profileImage:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/8.png',
     emailMarketing: true,
     score: 95,
     role: 'Moderator',
@@ -561,7 +554,7 @@ export const mockUsers: User[] = [
     id: '9',
     name: 'Emma Wilson',
     email: 'emma.wilson@creati...',
-    profileImage: '',
+    profileImage: '/images/avatars/6.png',
     emailMarketing: true,
     score: 67,
     role: 'Admin',
@@ -572,8 +565,7 @@ export const mockUsers: User[] = [
     id: '10',
     name: 'Alex Thompson',
     email: 'alex.thompson@innov...',
-    profileImage:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/1.png',
     emailMarketing: true,
     score: 82,
     role: 'Member',
@@ -584,7 +576,7 @@ export const mockUsers: User[] = [
     id: '11',
     name: 'Sarah Johnson',
     email: 'sarah.johnson@tech...',
-    profileImage: 'https://broken-image-url.com/sarah.jpg',
+    profileImage: '/images/avatars/1.png',
     emailMarketing: false,
     score: 45,
     role: 'Member',
@@ -595,8 +587,7 @@ export const mockUsers: User[] = [
     id: '12',
     name: 'Michael Chen',
     email: 'michael.chen@data...',
-    profileImage:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/2.png',
     emailMarketing: true,
     score: 91,
     role: 'Moderator',
@@ -607,7 +598,7 @@ export const mockUsers: User[] = [
     id: '13',
     name: 'Lisa Rodriguez',
     email: 'lisa.rodriguez@mark...',
-    profileImage: '',
+    profileImage: '/images/avatars/5.png',
     emailMarketing: true,
     score: 73,
     role: 'Member',
@@ -618,8 +609,7 @@ export const mockUsers: User[] = [
     id: '14',
     name: 'David Kim',
     email: 'david.kim@product...',
-    profileImage:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/3.png',
     emailMarketing: false,
     score: 38,
     role: 'Member',
@@ -630,7 +620,7 @@ export const mockUsers: User[] = [
     id: '15',
     name: 'Rachel Green',
     email: 'rachel.green@desig...',
-    profileImage: 'https://broken-image-url.com/rachel.jpg',
+    profileImage: '/images/avatars/2.png',
     emailMarketing: true,
     score: 87,
     role: 'Admin',
@@ -641,8 +631,7 @@ export const mockUsers: User[] = [
     id: '16',
     name: 'James Wilson',
     email: 'james.wilson@engin...',
-    profileImage:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/4.png',
     emailMarketing: false,
     score: 52,
     role: 'Member',
@@ -653,7 +642,7 @@ export const mockUsers: User[] = [
     id: '17',
     name: 'Amanda Lee',
     email: 'amanda.lee@financ...',
-    profileImage: '',
+    profileImage: '/images/avatars/7.png',
     emailMarketing: true,
     score: 95,
     role: 'Moderator',
@@ -664,8 +653,7 @@ export const mockUsers: User[] = [
     id: '18',
     name: 'Robert Brown',
     email: 'robert.brown@legal...',
-    profileImage:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/8.png',
     emailMarketing: false,
     score: 41,
     role: 'Member',
@@ -676,7 +664,7 @@ export const mockUsers: User[] = [
     id: '19',
     name: 'Jennifer Davis',
     email: 'jennifer.davis@hr...',
-    profileImage: 'https://broken-image-url.com/jennifer.jpg',
+    profileImage: '/images/avatars/3.png',
     emailMarketing: true,
     score: 78,
     role: 'Member',
@@ -687,8 +675,7 @@ export const mockUsers: User[] = [
     id: '20',
     name: 'Christopher Miller',
     email: 'christopher.miller@sa...',
-    profileImage:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/1.png',
     emailMarketing: true,
     score: 89,
     role: 'Admin',
@@ -699,7 +686,7 @@ export const mockUsers: User[] = [
     id: '21',
     name: 'Michelle Garcia',
     email: 'michelle.garcia@ope...',
-    profileImage: '',
+    profileImage: '/images/avatars/2.png',
     emailMarketing: false,
     score: 34,
     role: 'Member',
@@ -710,8 +697,7 @@ export const mockUsers: User[] = [
     id: '22',
     name: 'Daniel Martinez',
     email: 'daniel.martinez@rese...',
-    profileImage:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/3.png',
     emailMarketing: true,
     score: 76,
     role: 'Moderator',
@@ -722,7 +708,7 @@ export const mockUsers: User[] = [
     id: '23',
     name: 'Jessica Taylor',
     email: 'jessica.taylor@comm...',
-    profileImage: 'https://broken-image-url.com/jessica.jpg',
+    profileImage: '/images/avatars/4.png',
     emailMarketing: false,
     score: 63,
     role: 'Member',
@@ -733,8 +719,7 @@ export const mockUsers: User[] = [
     id: '24',
     name: 'Kevin Anderson',
     email: 'kevin.anderson@secu...',
-    profileImage:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/4.png',
     emailMarketing: true,
     score: 84,
     role: 'Member',
@@ -745,7 +730,7 @@ export const mockUsers: User[] = [
     id: '25',
     name: 'Stephanie White',
     email: 'stephanie.white@qual...',
-    profileImage: '',
+    profileImage: '/images/avatars/6.png',
     emailMarketing: true,
     score: 71,
     role: 'Admin',
@@ -756,8 +741,7 @@ export const mockUsers: User[] = [
     id: '26',
     name: 'Andrew Clark',
     email: 'andrew.clark@logis...',
-    profileImage:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/7.png',
     emailMarketing: false,
     score: 47,
     role: 'Member',
@@ -768,7 +752,7 @@ export const mockUsers: User[] = [
     id: '27',
     name: 'Nicole Lewis',
     email: 'nicole.lewis@custom...',
-    profileImage: 'https://broken-image-url.com/nicole.jpg',
+    profileImage: '/images/avatars/5.png',
     emailMarketing: true,
     score: 92,
     role: 'Moderator',
@@ -779,8 +763,7 @@ export const mockUsers: User[] = [
     id: '28',
     name: 'Ryan Hall',
     email: 'ryan.hall@develop...',
-    profileImage:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/8.png',
     emailMarketing: true,
     score: 88,
     role: 'Member',
@@ -791,7 +774,7 @@ export const mockUsers: User[] = [
     id: '29',
     name: 'Lauren Young',
     email: 'lauren.young@analyt...',
-    profileImage: '',
+    profileImage: '/images/avatars/1.png',
     emailMarketing: false,
     score: 55,
     role: 'Member',
@@ -802,8 +785,7 @@ export const mockUsers: User[] = [
     id: '30',
     name: 'Brandon King',
     email: 'brandon.king@strate...',
-    profileImage:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face',
+    profileImage: '/images/avatars/2.png',
     emailMarketing: true,
     score: 79,
     role: 'Admin',
@@ -3823,8 +3805,19 @@ export const sidebarItems: SidebarItem[] = [
     id: 'marketing',
     title: 'Marketing',
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd" d="M1.50885 1.74973C1.50696 1.75655 1.50396 1.77019 1.51439 1.79849L3.52282 7.24994H5.70819C6.1224 7.24994 6.45819 7.58573 6.45819 7.99994C6.45819 8.41416 6.1224 8.74994 5.70819 8.74994H3.52282L1.51439 14.2014C1.50396 14.2297 1.50696 14.2433 1.50885 14.2502C1.51192 14.2613 1.52029 14.2774 1.53702 14.2923C1.55375 14.3073 1.57064 14.3139 1.58202 14.3157C1.589 14.3168 1.60287 14.3183 1.62984 14.3048L14.0904 8.07446C14.1126 8.06333 14.1209 8.05251 14.1253 8.04492C14.1314 8.0347 14.1365 8.01917 14.1365 7.99994C14.1365 7.98072 14.1314 7.96518 14.1253 7.95497C14.1209 7.94737 14.1127 7.93658 14.0904 7.92545L1.62985 1.69514C1.62985 1.69514 1.62985 1.69514 1.62985 1.69514C1.60288 1.68166 1.58899 1.68313 1.582 1.68425C1.57062 1.68608 1.55373 1.69261 1.537 1.70758C1.52028 1.72256 1.51192 1.73862 1.50885 1.74973ZM2.20057 7.99994L0.106873 2.31705C0.106873 2.31705 0.106873 2.31705 0.106873 2.31705C-0.389073 0.970917 1.01755 -0.288052 2.30066 0.353497L14.7612 6.58377C15.9282 7.16723 15.9282 8.83262 14.7612 9.4161C14.7612 9.4161 14.7612 9.41609 14.7612 9.4161L2.30067 15.6464C1.01747 16.288 -0.38904 15.0289 0.106872 13.6828L2.20057 7.99994Z" fill="#717680"/>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M1.50885 1.74973C1.50696 1.75655 1.50396 1.77019 1.51439 1.79849L3.52282 7.24994H5.70819C6.1224 7.24994 6.45819 7.58573 6.45819 7.99994C6.45819 8.41416 6.1224 8.74994 5.70819 8.74994H3.52282L1.51439 14.2014C1.50396 14.2297 1.50696 14.2433 1.50885 14.2502C1.51192 14.2613 1.52029 14.2774 1.53702 14.2923C1.55375 14.3073 1.57064 14.3139 1.58202 14.3157C1.589 14.3168 1.60287 14.3183 1.62984 14.3048L14.0904 8.07446C14.1126 8.06333 14.1209 8.05251 14.1253 8.04492C14.1314 8.0347 14.1365 8.01917 14.1365 7.99994C14.1365 7.98072 14.1314 7.96518 14.1253 7.95497C14.1209 7.94737 14.1127 7.93658 14.0904 7.92545L1.62985 1.69514C1.62985 1.69514 1.62985 1.69514 1.62985 1.69514C1.60288 1.68166 1.58899 1.68313 1.582 1.68425C1.57062 1.68608 1.55373 1.69261 1.537 1.70758C1.52028 1.72256 1.51192 1.73862 1.50885 1.74973ZM2.20057 7.99994L0.106873 2.31705C0.106873 2.31705 0.106873 2.31705 0.106873 2.31705C-0.389073 0.970917 1.01755 -0.288052 2.30066 0.353497L14.7612 6.58377C15.9282 7.16723 15.9282 8.83262 14.7612 9.4161C14.7612 9.4161 14.7612 9.41609 14.7612 9.4161L2.30067 15.6464C1.01747 16.288 -0.38904 15.0289 0.106872 13.6828L2.20057 7.99994Z"
+          fill="#717680"
+        />
       </svg>
     ),
     subItems: [

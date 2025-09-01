@@ -33,3 +33,5 @@ export { default as FilterChip } from './filter-chip';
 export { default as EnhancedFilters } from './enhanced-filters';
 export { default as BulkActionsDropdown } from './bulk-actions-dropdown';
 export { Switch } from './switch';
+export { default as SidebarToggle } from './sidebar-toggle';
+export { default as Sidebar } from './sidebar';

@@ -16,8 +16,7 @@ export const mockPages: Page[] = [
     status: 'Published',
     author: {
       name: 'Lucas Marcellus',
-      avatar:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+      avatar: '/images/avatars/1.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -27,8 +26,7 @@ export const mockPages: Page[] = [
     status: 'Published',
     author: {
       name: 'Sofia Valente',
-      avatar:
-        'https://ui-avatars.com/api/?name=Sofia+Valente&background=random&color=fff&size=128&font-size=0.5&length=2',
+      avatar: '/images/avatars/2.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -38,8 +36,7 @@ export const mockPages: Page[] = [
     status: 'Not published',
     author: {
       name: 'Nina Cortez',
-      avatar:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face',
+      avatar: '/images/avatars/3.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -49,8 +46,7 @@ export const mockPages: Page[] = [
     status: 'Not published',
     author: {
       name: 'Jasper Lemoine',
-      avatar:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+      avatar: '/images/avatars/4.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -60,8 +56,7 @@ export const mockPages: Page[] = [
     status: 'Not published',
     author: {
       name: "Clara D'Angelo",
-      avatar:
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face',
+      avatar: '/images/avatars/5.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -71,8 +66,7 @@ export const mockPages: Page[] = [
     status: 'Not published',
     author: {
       name: 'Felix Montoya',
-      avatar:
-        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face',
+      avatar: '/images/avatars/6.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -82,8 +76,7 @@ export const mockPages: Page[] = [
     status: 'Published',
     author: {
       name: 'Isabella Torres',
-      avatar:
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face',
+      avatar: '/images/avatars/7.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },
@@ -93,8 +86,7 @@ export const mockPages: Page[] = [
     status: 'Published',
     author: {
       name: 'Owen Sinclair',
-      avatar:
-        'https://ui-avatars.com/api/?name=Owen+Sinclair&background=random&color=fff&size=128&font-size=0.5&length=2',
+      avatar: '/images/avatars/8.png',
     },
     updated: 'Mar 26, 2024 at 11:44 PM',
   },

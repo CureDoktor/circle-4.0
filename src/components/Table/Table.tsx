@@ -76,7 +76,7 @@ const Table = <T extends { id: string }>({
     <div
       className={`border border-gray-200 rounded-lg overflow-hidden ${containerClassName}`}
     >
-      <div className="max-h-96 overflow-y-auto overflow-x-auto">
+      <div className="overflow-y-auto overflow-x-auto">
         <table className={`w-full min-w-full table-fixed ${className}`}>
           <thead className="bg-white sticky top-0 border-b border-gray-200">
             <tr className="border-b border-gray-200">
