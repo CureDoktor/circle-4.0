@@ -108,17 +108,23 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={() => handleItemClick(item.id)}
                 onKeyDown={e => handleKeyDown(e, item.id)}
-                className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-2 ${
                   expandedItem === item.id
-                    ? 'bg-blue-100 text-gray-900 font-bold scale-110'
-                    : 'hover:bg-gray-100 text-gray-500 hover:scale-105'
+                    ? 'border-gray-200 shadow-lg ring-2 ring-blue-200 hover:bg-gray-50'
+                    : 'border-transparent hover:bg-gray-100 hover:scale-105'
                 }`}
                 title={item.title}
                 aria-label={item.title}
                 aria-expanded={expandedItem === item.id}
                 aria-haspopup="true"
               >
-                {item.icon}
+                <div
+                  className={`transition-all duration-200 ${
+                    expandedItem === item.id ? 'text-gray-900' : 'text-gray-500'
+                  }`}
+                >
+                  {item.icon}
+                </div>
               </button>
 
               {/* Tooltip */}
