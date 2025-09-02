@@ -30,7 +30,7 @@ module.exports = {
           900: '#0f172a',
         },
         header: {
-          bg: '#1A1A2E',
+          bg: '#111138',
           dropdown: '#2A2A3E',
           search: '#0F0F1A',
         },

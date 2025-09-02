@@ -82,7 +82,11 @@ const Sidebar: React.FC<SidebarProps> = ({
         } transition-transform duration-300 ease-in-out`}
       >
         {/* Icon Column */}
-        <div className="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 space-y-4 rounded-l-xl">
+        <div
+          className={`bg-white flex flex-col gap-1 flex flex-col items-center py-[18px] space-y-1 px-2 ${
+            isCollapsed ? 'rounded-xl' : 'border-r border-gray-200 rounded-l-xl'
+          }`}
+        >
           {/* Mobile Close Button */}
           <button
             onClick={() => setIsMobileOpen(false)}
@@ -108,9 +112,9 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={() => handleItemClick(item.id)}
                 onKeyDown={e => handleKeyDown(e, item.id)}
-                className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 border-2 ${
+                className={`p-2 rounded-lg flex items-center justify-center text-lg transition-all duration-200 border-2 ${
                   expandedItem === item.id
-                    ? 'border-gray-200 shadow-lg ring-2 ring-blue-200 hover:bg-gray-50'
+                    ? 'border-gray-200 shadow-lg'
                     : 'border-transparent hover:bg-gray-100 hover:scale-105'
                 }`}
                 title={item.title}
@@ -128,10 +132,8 @@ const Sidebar: React.FC<SidebarProps> = ({
               </button>
 
               {/* Tooltip */}
-              <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded  opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+              <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded-xl  opacity-0 group-hover:opacity-100 translate-x-[-20px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
                 {item.title}
-                {/* Arrow pointing to the button */}
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
               </div>
             </div>
           ))}
@@ -180,15 +182,15 @@ const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Expanded Menu */}
         <div
-          className={`bg-white border-r border-gray-200 py-4  rounded-r-2xl overflow-hidden transition-all duration-300 ease-out ${
+          className={`flex flex-col gap-3 bg-white border-gray-200 py-4 px-2 rounded-r-2xl overflow-hidden transition-all duration-300 ease-out ${
             expandedItem && !isCollapsed
-              ? 'w-64 opacity-100 translate-x-0'
+              ? 'w-48 opacity-100 translate-x-0'
               : 'w-0 opacity-0 -translate-x-full'
           }`}
         >
           {/* Dynamic Title */}
-          <div className="px-4 mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <div className="px-4 py-2">
+            <h2 className="text-xl font-semibold text-gray-900">
               {items.find(item => item.id === expandedItem)?.title || 'Menu'}
             </h2>
           </div>
@@ -203,16 +205,16 @@ const Sidebar: React.FC<SidebarProps> = ({
             {items
               .filter(item => item.id === expandedItem)
               .map(item => (
-                <div key={item.id} className="px-4">
+                <div key={item.id}>
                   {item.subItems && (
-                    <ul className="space-y-1" role="menu">
+                    <ul role="menu">
                       {item.subItems.map(subItem => (
                         <li key={subItem.id} role="none">
                           <button
                             onClick={() =>
                               handleSubItemClick(item.id, subItem.id)
                             }
-                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${
+                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 ${
                               activeSubItem === subItem.id
                                 ? ' text-gray-900 font-medium border-2 border-gray-100'
                                 : 'text-gray-700 hover:bg-gray-100 border-2 border-white hover:text-gray-900'

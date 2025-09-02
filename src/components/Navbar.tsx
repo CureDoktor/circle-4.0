@@ -34,12 +34,12 @@ const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   return (
-    <nav className="bg-header-bg text-white px-6 py-2 shadow-lg border-0 relative">
+    <nav className="bg-header-bg text-white px-5 py-1.5 shadow-lg border-0 relative">
       <div className="flex items-center justify-between">
         {/* Logo and App Name */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center gap-2">
           {/* Logo */}
-          <img src="/images/logo.png" alt="Circle Logo" className="w-8 h-8" />
+          <img src="/images/logo.png" alt="Circle Logo" className="w-6 h-6" />
           <span className="font-semibold text-sm text-white">
             Future Founders
           </span>
@@ -51,22 +51,22 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center space-x-2 bg-header-dropdown hover:bg-opacity-80 px-4 py-2 rounded-lg  bg-[#717680]/10 text-sm font-medium text-white"
+              className="flex items-center gap-1 bg-header-dropdown hover:bg-opacity-80 px-3 py-2 rounded-lg  bg-[#717680]/10 text-sm font-medium text-white"
             >
               <span>{viewMode}</span>
               <svg
+                width="16"
+                height="16"
                 className={`w-4 h-4 transition-transform ${
                   isDropdownOpen ? 'rotate-180' : ''
                 }`}
+                viewBox="0 0 16 16"
                 fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
+                  d="M6.53388 6.83325C5.83219 6.83325 5.44464 7.64745 5.88712 8.19205L7.35348 9.99679C7.68695 10.4073 8.31348 10.4073 8.64702 9.99679L10.1133 8.19205C10.5558 7.64745 10.1683 6.83325 9.46655 6.83325H6.53388Z"
+                  fill="#F7F9FA"
                 />
               </svg>
             </button>
@@ -79,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       onViewModeChange('Admin');
                       setIsDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${
+                    className={`w-full text-left p-3 hover:bg-gray-100 ${
                       viewMode === 'Admin'
                         ? 'bg-blue-50 text-blue-600'
                         : 'text-gray-700'
@@ -106,7 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Search Bar */}
-          <div className="relative flex-1 max-w-md">
+          <div className="relative flex-1 gap-2 max-w-[340px]">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -127,15 +127,15 @@ const Navbar: React.FC<NavbarProps> = ({
               placeholder="Search..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm rounded-lg text-white bg-[#717680]/10 placeholder-[white] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 text-sm rounded-lg text-white bg-header-dropdown placeholder-[white] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           {/* Desktop Icons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center gap-3">
             {/* Inbox Icon */}
             <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
               <svg
@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 <img
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face"
                   alt="Profile"
-                  className="relative w-8 h-8 rounded-full border-2 border-white"
+                  className="relative w-6 h-6 rounded-full border-2 border-white"
                 />
               </div>
             </div>
@@ -231,7 +231,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="pt-4 space-y-4">
             {/* Mobile Search */}
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 left-0 px-3 flex items-center pointer-events-none">
                 <svg
                   className="h-5 w-5 text-gray-400"
                   fill="none"

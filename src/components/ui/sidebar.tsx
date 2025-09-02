@@ -43,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => onItemClick('sidebar', item.id)}
-              className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${
+              className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all duration-150 ${
                 activeItem === item.id
                   ? 'bg-white text-gray-900 font-medium border border-gray-200 shadow-sm'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'

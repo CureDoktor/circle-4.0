@@ -273,11 +273,11 @@ function App() {
           onViewModeChange={setViewMode}
           onToggleAIHelper={toggleAIHelper}
         />
-        <div className="flex flex-1 p-4 gap-3 bg-gray-50 min-h-0 overflow-hidden">
+        <div className="flex flex-1 p-[6px] gap-[6px] bg-gray-50 min-h-0 overflow-hidden">
           {viewMode === 'Admin' && (
             <div
               className={`transition-all duration-300 ease-out ${
-                isSidebarCollapsed ? 'w-16' : 'w-80'
+                isSidebarCollapsed ? 'w-[3.7rem]' : 'w-[16.5rem]'
               }`}
             >
               <Sidebar
