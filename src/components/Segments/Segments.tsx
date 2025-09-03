@@ -104,7 +104,7 @@ const Segments: React.FC<SegmentsProps> = ({ onToggleSidebar }) => {
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto">
+      <div className="flex-1 min-h-0 overflow-auto px-5">
         <Table
           columns={tableColumns}
           data={paginatedSegments}

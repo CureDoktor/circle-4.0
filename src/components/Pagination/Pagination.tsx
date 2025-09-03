@@ -22,7 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex-shrink-0 ${className}`}>
+    <div className={`flex-shrink-0 ${className} px-5 py-4`}>
       <div className="flex items-center justify-between">
         <div className="text-sm text-gray-600">
           Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of{' '}

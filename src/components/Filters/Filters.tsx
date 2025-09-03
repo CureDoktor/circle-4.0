@@ -18,7 +18,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, className = '' }) => {
           <button
             key={index}
             onClick={filter.onClick}
-            className="flex items-center space-x-1 px-3 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
+            className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg text-sm text-gray-700 hover:bg-gray-200 transition-colors"
           >
             <span>+</span>
             <span>{filter.label}</span>

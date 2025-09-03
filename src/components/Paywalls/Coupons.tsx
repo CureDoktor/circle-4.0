@@ -155,7 +155,7 @@ const Coupons: React.FC<CouponsProps> = ({ onToggleSidebar }) => {
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto">
+      <div className="flex-1 min-h-0 overflow-auto px-5">
         <TableEnhanced
           columns={columns}
           data={paginatedCoupons}

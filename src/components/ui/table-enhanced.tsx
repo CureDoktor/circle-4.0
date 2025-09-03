@@ -41,7 +41,7 @@ const TableEnhanced = <T extends { id: string }>({
     return (
       <div
         className={cn(
-          'border border-gray-200 rounded-lg overflow-auto',
+          'border border-gray-200 rounded-lg overflow-auto px-5',
           containerClassName
         )}
       >

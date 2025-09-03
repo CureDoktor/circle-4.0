@@ -47,16 +47,16 @@ const EnhancedFilters: React.FC<EnhancedFiltersProps> = ({
   };
 
   return (
-    <div className={cn('space-y-3', className)}>
+    <div className={cn('px-5 py-3 border-b border-gray-200', className)}>
       {/* Filter Buttons */}
       <div className="flex flex-wrap gap-2">
         {filters.map(filter => (
           <button
             key={filter.id}
             onClick={() => handleFilterClick(filter)}
-            className="inline-flex items-center gap-2 px-3 py-2 text-sm text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-md transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-900 border border-gray-200 hover:bg-gray-100 rounded-xl transition-colors shadow-sm"
           >
-            <Plus size={14} className="text-gray-600" />
+            <Plus size={16} className="text-black" />
             <span>{filter.label}</span>
           </button>
         ))}

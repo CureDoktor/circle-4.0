@@ -54,11 +54,11 @@ const Actions: React.FC<ActionsProps> = ({
   return (
     <div
       className={cn(
-        'flex-shrink-0 flex justify-between items-center',
+        'flex-shrink-0 flex justify-between items-center px-5 py-4',
         className
       )}
     >
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 ">
         <span className="text-sm text-gray-600">
           {selectedCount} of {totalCount} selected
         </span>

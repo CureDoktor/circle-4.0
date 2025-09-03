@@ -22,7 +22,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, className = '' }) => {
             onClick={filter.onClick}
             variant="secondary"
             size="sm"
-            className="flex items-center space-x-1 px-3 py-2"
+            className="flex items-center gap-2 px-3 py-2"
           >
             <span>+</span>
             <span>{filter.label}</span>
