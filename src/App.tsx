@@ -48,8 +48,6 @@ function App() {
     useState<AudienceData>(audienceData);
   const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
   const [isContentTransitioning, setIsContentTransitioning] = useState(false);
-  const [isSidebarContentTransitioning, setIsSidebarContentTransitioning] =
-    useState(false);
 
   // Load data from localStorage on app start
   useEffect(() => {
@@ -81,7 +79,6 @@ function App() {
         const firstSubItem = currentItem.subItems[0];
 
         setIsContentTransitioning(true);
-        setIsSidebarContentTransitioning(false);
 
         setTimeout(() => {
           setCurrentSection(firstSubItem.id);
@@ -94,7 +91,6 @@ function App() {
       } else {
         // Fallback for items without sub-items
         setIsContentTransitioning(true);
-        setIsSidebarContentTransitioning(false);
 
         setTimeout(() => {
           setCurrentSection(itemId);
@@ -273,10 +269,14 @@ function App() {
           onViewModeChange={setViewMode}
           onToggleAIHelper={toggleAIHelper}
         />
-        <div className="flex flex-1 p-[6px] gap-[6px] bg-gray-50 min-h-0 overflow-hidden">
+        <div
+          className={`flex flex-1 p-[6px] gap-[6px] bg-gray-50 min-h-0 overflow-hidden ${
+            isAIHelperOpen ? 'pr-[6px]' : 'pr-[0px]'
+          }`}
+        >
           {viewMode === 'Admin' && (
             <div
-              className={`transition-all duration-300 ease-out ${
+              className={`transition-all duration-500 ease-in-out flex-shrink-0 ${
                 isSidebarCollapsed ? 'w-[3.7rem]' : 'w-[16.5rem]'
               }`}
             >
@@ -284,14 +284,13 @@ function App() {
                 items={sidebarItems}
                 onItemClick={handleSidebarItemClick}
                 isCollapsed={isSidebarCollapsed}
-                isSidebarContentTransitioning={isSidebarContentTransitioning}
               />
             </div>
           )}
           <main
-            className={`flex-1 overflow-hidden transition-all duration-300 ease-out min-h-0 ${
+            className={`flex-1 overflow-hidden transition-all duration-500 ease-in-out min-h-0 flex-shrink-0 ${
               viewMode === 'Admin' && isSidebarCollapsed ? 'ml-0' : ''
-            } ${isAIHelperOpen ? '' : 'mr-0'}`}
+            } `}
           >
             <div
               className={`h-full transition-opacity duration-200 ease-out min-h-0 overflow-hidden ${

@@ -5,26 +5,30 @@ interface SidebarProps {
   items: SidebarItem[];
   onItemClick: (itemId: string, subItemId?: string) => void;
   isCollapsed?: boolean;
-  isSidebarContentTransitioning?: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
   onItemClick,
   isCollapsed = false,
-  isSidebarContentTransitioning = false,
 }) => {
   const [expandedItem, setExpandedItem] = useState<string | null>('audience');
   const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [wasCollapsed, setWasCollapsed] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(true);
 
   // Track collapse state changes
   useEffect(() => {
     if (isCollapsed) {
-      setWasCollapsed(true);
+      // Hide content earlier when collapsing
+      setTimeout(() => {
+        setIsContentVisible(false);
+      }, 0);
     } else {
-      setWasCollapsed(false);
+      // Show content with same delay when expanding
+      setTimeout(() => {
+        setIsContentVisible(true);
+      }, 300);
     }
   }, [isCollapsed]);
 
@@ -83,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         {/* Icon Column */}
         <div
-          className={`bg-white flex flex-col gap-1 flex flex-col items-center py-[18px] space-y-1 px-2 ${
+          className={`bg-white flex flex-col gap-0.5 flex flex-col items-center py-[18px] space-y-1 px-2 ${
             isCollapsed ? 'rounded-xl' : 'border-r border-gray-200 rounded-l-xl'
           }`}
         >
@@ -112,9 +116,9 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={() => handleItemClick(item.id)}
                 onKeyDown={e => handleKeyDown(e, item.id)}
-                className={`p-2 rounded-lg flex items-center justify-center text-lg transition-all duration-200 border-2 ${
+                className={`p-2 rounded-xl flex items-center justify-center text-lg transition-all  duration-200 border ${
                   expandedItem === item.id
-                    ? 'border-gray-200 shadow-lg'
+                    ? 'border-gray-200 shadow-md'
                     : 'border-transparent hover:bg-gray-100 hover:scale-105'
                 }`}
                 title={item.title}
@@ -189,17 +193,19 @@ const Sidebar: React.FC<SidebarProps> = ({
           }`}
         >
           {/* Dynamic Title */}
-          <div className="px-4 py-2">
-            <h2 className="text-xl font-semibold text-gray-900">
+          <div
+            className={`px-4 py-2 transition-opacity duration-200 ease-out ${
+              isContentVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <h2 className="text-xl font-bold text-gray-900">
               {items.find(item => item.id === expandedItem)?.title || 'Menu'}
             </h2>
           </div>
 
           <div
             className={`transition-opacity duration-200 ease-out ${
-              isSidebarContentTransitioning && !wasCollapsed
-                ? 'opacity-50'
-                : 'opacity-100'
+              isContentVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
             {items
@@ -214,9 +220,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                             onClick={() =>
                               handleSubItemClick(item.id, subItem.id)
                             }
-                            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 ${
+                            className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all duration-150 ${
                               activeSubItem === subItem.id
-                                ? ' text-gray-900 font-medium border-2 border-gray-100'
+                                ? ' text-gray-900 font-medium border-2 border-gray-100 shadow-sm'
                                 : 'text-gray-700 hover:bg-gray-100 border-2 border-white hover:text-gray-900'
                             }`}
                             role="menuitem"

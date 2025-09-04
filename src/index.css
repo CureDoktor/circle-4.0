@@ -17,11 +17,15 @@
   }
 
   .nav-container {
-    @apply bg-white rounded-2xl shadow-sm border border-gray-100;
+    @apply bg-white rounded-2xl;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.03), 0 1px 4px 0 rgba(0, 0, 0, 0.03);
+    border: 1px solid #e4e7eb;
   }
 
   .page-container {
-    @apply bg-white rounded-2xl shadow-sm border border-gray-100;
+    @apply bg-white rounded-2xl;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.03), 0 1px 4px 0 rgba(0, 0, 0, 0.03);
+    border: 1px solid #e4e7eb;
   }
 }
 
