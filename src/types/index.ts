@@ -26,6 +26,7 @@ export interface SidebarItem {
   id: string;
   title: string;
   icon: string | React.ReactNode;
+  activeIcon?: string | React.ReactNode;
   subItems?: {
     id: string;
     title: string;

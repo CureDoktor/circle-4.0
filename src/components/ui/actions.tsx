@@ -59,18 +59,24 @@ const Actions: React.FC<ActionsProps> = ({
       )}
     >
       <div className="flex items-center space-x-4 ">
-        <span className="text-sm text-gray-600">
-          {selectedCount} of {totalCount} selected
-        </span>
-        {selectedCount > 0 && onDeleteSelected && (
-          <Button
-            onClick={onDeleteSelected}
-            variant="ghost"
-            size="sm"
-            className="text-sm text-red-600 hover:text-red-700 p-0 h-auto"
-          >
-            Delete selected
-          </Button>
+        {selectedCount > 0 ? (
+          <>
+            <span className="text-sm text-gray-600">
+              {selectedCount} of {totalCount} selected
+            </span>
+            {onDeleteSelected && (
+              <Button
+                onClick={onDeleteSelected}
+                variant="ghost"
+                size="sm"
+                className="text-sm text-red-600 hover:text-red-700 p-0 h-auto"
+              >
+                Delete selected
+              </Button>
+            )}
+          </>
+        ) : (
+          <span className="text-sm text-gray-600">{totalCount} total</span>
         )}
       </div>
       <BulkActionsDropdown actions={actions} />

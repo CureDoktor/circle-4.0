@@ -25,8 +25,8 @@ const EnhancedFilters: React.FC<EnhancedFiltersProps> = ({
   const handleFilterClick = (filter: FilterOption) => {
     setSelectedFilter(filter);
     setIsModalOpen(true);
+    
   };
-
   const handleApplyFilter = (condition: FilterCondition) => {
     // Remove existing filter for the same field
     const filtered = activeFilters.filter(f => f.field !== condition.field);

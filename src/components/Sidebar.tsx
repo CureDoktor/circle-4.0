@@ -20,15 +20,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   // Track collapse state changes
   useEffect(() => {
     if (isCollapsed) {
-      // Hide content earlier when collapsing
-      setTimeout(() => {
-        setIsContentVisible(false);
-      }, 0);
+      // Hide content immediately when collapsing
+      setIsContentVisible(false);
     } else {
-      // Show content with same delay when expanding
+      // Show content with longer delay when expanding
       setTimeout(() => {
         setIsContentVisible(true);
-      }, 300);
+      }, 400);
     }
   }, [isCollapsed]);
 
@@ -131,7 +129,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                     expandedItem === item.id ? 'text-gray-900' : 'text-gray-500'
                   }`}
                 >
-                  {item.icon}
+                  {expandedItem === item.id && item.activeIcon
+                    ? item.activeIcon
+                    : item.icon}
                 </div>
               </button>
 

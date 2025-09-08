@@ -20,16 +20,22 @@ const Actions: React.FC<ActionsProps> = ({
       className={`flex-shrink-0 flex justify-between items-center px-5 py-4 ${className}`}
     >
       <div className="flex items-center space-x-4">
-        <span className="text-sm text-gray-600">
-          {selectedCount} of {totalCount} selected
-        </span>
-        {selectedCount > 0 && onDeleteSelected && (
-          <button
-            onClick={onDeleteSelected}
-            className="text-sm text-red-600 hover:text-red-700"
-          >
-            Delete selected
-          </button>
+        {selectedCount > 0 ? (
+          <>
+            <span className="text-sm text-gray-600">
+              {selectedCount} of {totalCount} selected
+            </span>
+            {onDeleteSelected && (
+              <button
+                onClick={onDeleteSelected}
+                className="text-sm text-red-600 hover:text-red-700"
+              >
+                Delete selected
+              </button>
+            )}
+          </>
+        ) : (
+          <span className="text-sm text-gray-600">{totalCount} total</span>
         )}
       </div>
       <button

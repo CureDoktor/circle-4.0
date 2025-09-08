@@ -1,0 +1,83 @@
+import React from 'react';
+
+interface FirstLevelNavItem {
+  id: string;
+  title: string;
+  icon: React.ReactNode;
+  activeIcon?: React.ReactNode;
+}
+
+interface FirstLevelNavigationProps {
+  items: FirstLevelNavItem[];
+  onItemClick: (itemId: string) => void;
+  activeItem: string;
+}
+
+const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
+  items,
+  onItemClick,
+  activeItem,
+}) => {
+  const handleItemClick = (itemId: string) => {
+    onItemClick(itemId);
+  };
+
+  return (
+    <div className="bg-transparent text-white w-15 px-3 h-full flex flex-col items-center py-4 space-y-2">
+      <div className="flex flex-col gap-2">
+        {items.map(item => (
+          <div key={item.id} className="relative group">
+            <button
+              onClick={() => handleItemClick(item.id)}
+              className={`w-[36px] h-[36px] rounded-xl flex items-center hover:bg-gray-200 justify-center transition-all duration-200 ${
+                activeItem === item.id
+                  ? 'bg-gray-200 shadow-lg'
+                  : 'hover:scale-105'
+              }`}
+              title={item.title}
+              aria-label={item.title}
+            >
+              <div className={`transition-all duration-200`}>
+                {activeItem === item.id && item.activeIcon
+                  ? item.activeIcon
+                  : item.icon}
+              </div>
+            </button>
+
+            {/* Tooltip */}
+            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+              {item.title}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Separator line */}
+      <div className="w-8 h-px bg-white/20 my-2"></div>
+
+      {/* Profile picture */}
+      <div className="relative group">
+        <button
+          className="p-1 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-white/5 hover:scale-105"
+          title="Profile"
+          aria-label="Profile"
+        >
+          <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-purple-500/50">
+            <img
+              src="/images/avatars/1.png"
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </button>
+
+        {/* Tooltip */}
+        <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+          Profile
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FirstLevelNavigation;

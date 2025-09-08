@@ -223,11 +223,6 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Content count */}
-      <div className="flex-shrink-0">
-        <span className="text-sm text-gray-600">
-          {mockAccessGroups.length} access groups
-        </span>
-      </div>
 
       {/* Actions */}
       <Actions
