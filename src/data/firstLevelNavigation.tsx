@@ -11,70 +11,48 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
   {
     id: 'circle',
     title: 'Circle',
-    icon: (
-      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-        <span className="text-white font-bold text-lg">C</span>
-      </div>
-    ),
+    icon: <img src="/images/logo.png" alt="Circle Logo" className="w-6 h-6" />,
     activeIcon: (
-      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-        <span className="text-white font-bold text-lg">C</span>
-      </div>
+      <img src="/images/logo.png" alt="Circle Logo" className="w-6 h-6" />
     ),
   },
   {
     id: 'home',
     title: 'Home',
     icon: (
-      <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M11.3694 1.47389C11.7368 1.17537 12.2632 1.17537 12.6306 1.47389L20.6306 7.97389C20.8643 8.16378 21 8.44887 21 8.75V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V8.75C3 8.44887 3.1357 8.16378 3.36941 7.97389L11.3694 1.47389ZM8 15C7.44772 15 7 15.4477 7 16C7 16.5523 7.44772 17 8 17H16C16.5523 17 17 16.5523 17 16C17 15.4477 16.5523 15 16 15H8Z"
-            fill="#191B1F"
-          />
-        </svg>
-      </div>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.74999 15.4999C7.33578 15.4999 6.99999 15.8357 6.99999 16.2499C6.99999 16.6641 7.33578 16.9999 7.74999 16.9999V15.4999ZM16.25 16.9999C16.6642 16.9999 17 16.6641 17 16.2499C17 15.8357 16.6642 15.4999 16.25 15.4999V16.9999ZM19.5 9.25814V18.6499H21V9.25814H19.5ZM18.65 19.4999H5.34999V20.9999H18.65V19.4999ZM4.49999 18.6499V9.25814H2.99999V18.6499H4.49999ZM4.81174 8.60028L11.4617 3.15937L10.5119 1.99843L3.86188 7.43934L4.81174 8.60028ZM12.5383 3.15937L19.1883 8.60028L20.1381 7.43934L13.4881 1.99843L12.5383 3.15937ZM11.4617 3.15937C11.6508 3.00471 11.7614 2.91485 11.8487 2.85362C11.9282 2.79783 11.9449 2.79778 11.9323 2.80134L11.526 1.35741C11.3125 1.41749 11.1385 1.51954 10.9874 1.62554C10.844 1.72612 10.6838 1.85775 10.5119 1.99843L11.4617 3.15937ZM13.4881 1.99843C13.3162 1.85775 13.156 1.72612 13.0126 1.62554C12.8615 1.51954 12.6875 1.41749 12.474 1.35741L12.0677 2.80134C12.0551 2.79778 12.0718 2.79783 12.1513 2.85362C12.2386 2.91485 12.3492 3.00471 12.5383 3.15937L13.4881 1.99843ZM11.9323 2.80134C11.9766 2.78888 12.0234 2.78888 12.0677 2.80134L12.474 1.35741C12.164 1.27019 11.836 1.27019 11.526 1.35741L11.9323 2.80134ZM5.34999 19.4999C5.05759 19.4999 4.88339 19.4993 4.75427 19.4888C4.63389 19.4789 4.6201 19.4643 4.63649 19.4726L3.95551 20.8092C4.18581 20.9265 4.41899 20.9664 4.63212 20.9838C4.8365 21.0005 5.08234 20.9999 5.34999 20.9999V19.4999ZM2.99999 18.6499C2.99999 18.9175 2.99941 19.1634 3.01611 19.3678C3.03352 19.5809 3.07338 19.8141 3.19073 20.0444L4.52724 19.3634C4.53559 19.3798 4.52096 19.366 4.51112 19.2456C4.50057 19.1165 4.49999 18.9423 4.49999 18.6499H2.99999ZM4.63649 19.4726C4.58945 19.4487 4.55121 19.4104 4.52724 19.3634L3.19073 20.0444C3.35851 20.3737 3.62622 20.6414 3.95551 20.8092L4.63649 19.4726ZM19.5 18.6499C19.5 18.9423 19.4994 19.1165 19.4889 19.2456C19.479 19.366 19.4644 19.3798 19.4728 19.3634L20.8093 20.0444C20.9266 19.8141 20.9665 19.5809 20.9839 19.3678C21.0006 19.1634 21 18.9175 21 18.6499H19.5ZM18.65 20.9999C18.9177 20.9999 19.1635 21.0005 19.3679 20.9838C19.581 20.9664 19.8142 20.9265 20.0445 20.8092L19.3635 19.4726C19.3799 19.4643 19.3661 19.4789 19.2457 19.4888C19.1166 19.4993 18.9424 19.4999 18.65 19.4999V20.9999ZM19.4728 19.3634C19.4488 19.4104 19.4105 19.4487 19.3635 19.4726L20.0445 20.8092C20.3738 20.6414 20.6415 20.3737 20.8093 20.0444L19.4728 19.3634ZM21 9.25814C21 9.02065 21.0062 8.76275 20.9387 8.51459L19.4912 8.90821C19.4898 8.90287 19.4938 8.91222 19.4966 8.96689C19.4998 9.02914 19.5 9.11152 19.5 9.25814H21ZM19.1883 8.60028C19.3017 8.69312 19.3653 8.74546 19.4115 8.78734C19.4521 8.82412 19.4567 8.83315 19.4535 8.82864L20.6747 7.95765C20.5254 7.74827 20.3219 7.58973 20.1381 7.43934L19.1883 8.60028ZM20.9387 8.51459C20.8843 8.31479 20.795 8.12622 20.6747 7.95765L19.4535 8.82864C19.4707 8.85273 19.4835 8.87966 19.4912 8.90821L20.9387 8.51459ZM4.49999 9.25814C4.49999 9.11152 4.50021 9.02914 4.50339 8.96689C4.50619 8.91222 4.5102 8.90287 4.50875 8.90821L3.06132 8.51459C2.99383 8.76275 2.99999 9.02065 2.99999 9.25814H4.49999ZM3.86188 7.43934C3.67807 7.58973 3.47457 7.74828 3.32524 7.95765L4.54645 8.82864C4.54324 8.83315 4.54794 8.82412 4.58848 8.78734C4.63465 8.74546 4.69826 8.69312 4.81174 8.60028L3.86188 7.43934ZM4.50875 8.90821C4.51651 8.87967 4.52928 8.85273 4.54645 8.82864L3.32524 7.95765C3.20501 8.12622 3.11565 8.31479 3.06132 8.51459L4.50875 8.90821ZM7.74999 16.9999H16.25V15.4999H7.74999V16.9999Z"
+          fill="#545861"
+        />
+      </svg>
     ),
     activeIcon: (
-      <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-            fill="#374151"
-            stroke="#374151"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M9 22V12H15V22"
-            fill="#374151"
-            stroke="#374151"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
+      <svg
+        width="24"
+        height="25"
+        viewBox="0 0 24 25"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M11.3694 1.97389C11.7368 1.67537 12.2632 1.67537 12.6306 1.97389L20.6306 8.47389C20.8643 8.66378 21 8.94887 21 9.25V20.5C21 21.0523 20.5523 21.5 20 21.5H4C3.44772 21.5 3 21.0523 3 20.5V9.25C3 8.94887 3.1357 8.66378 3.36941 8.47389L11.3694 1.97389ZM8 15.5C7.44772 15.5 7 15.9477 7 16.5C7 17.0523 7.44772 17.5 8 17.5H16C16.5523 17.5 17 17.0523 17 16.5C17 15.9477 16.5523 15.5 16 15.5H8Z"
+          fill="#191B1F"
+        />
+      </svg>
     ),
   },
   {
-    id: 'star',
-    title: 'Star',
+    id: 'discover',
+    title: 'Discover',
     icon: (
       <svg
         width="24"
@@ -92,14 +70,14 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
     activeIcon: (
       <svg
         width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        height="25"
+        viewBox="0 0 24 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M13 3C13 2.44772 12.5523 2 12 2C11.4477 2 11 2.44772 11 3C11 6.18838 10.331 8.25562 9.1178 9.53621C7.91616 10.8046 5.98995 11.5 3 11.5C2.44772 11.5 2 11.9477 2 12.5C2 13.0523 2.44772 13.5 3 13.5C5.98995 13.5 7.91616 14.1954 9.1178 15.4638C10.331 16.7444 11 18.8116 11 22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22C13 18.8116 13.669 16.7444 14.8822 15.4638C16.0838 14.1954 18.01 13.5 21 13.5C21.5523 13.5 22 13.0523 22 12.5C22 11.9477 21.5523 11.5 21 11.5C18.01 11.5 16.0838 10.8046 14.8822 9.53621C13.669 8.25562 13 6.18838 13 3Z"
-          fill="#545861"
+          d="M13 3.5C13 2.94772 12.5523 2.5 12 2.5C11.4477 2.5 11 2.94772 11 3.5C11 6.68838 10.331 8.75562 9.1178 10.0362C7.91616 11.3046 5.98995 12 3 12C2.44772 12 2 12.4477 2 13C2 13.5523 2.44772 14 3 14C5.98995 14 7.91616 14.6954 9.1178 15.9638C10.331 17.2444 11 19.3116 11 22.5C11 23.0523 11.4477 23.5 12 23.5C12.5523 23.5 13 23.0523 13 22.5C13 19.3116 13.669 17.2444 14.8822 15.9638C16.0838 14.6954 18.01 14 21 14C21.5523 14 22 13.5523 22 13C22 12.4477 21.5523 12 21 12C18.01 12 16.0838 11.3046 14.8822 10.0362C13.669 8.75562 13 6.68838 13 3.5Z"
+          fill="#191B1F"
         />
       </svg>
     ),
@@ -127,26 +105,16 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
     activeIcon: (
       <svg
         width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        height="25"
+        viewBox="0 0 24 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M22 12H16L14 15H10L8 12H2"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M5.45 5.11L2 12V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H20C20.5304 22 21.0391 21.7893 21.4142 21.4142C21.7893 21.0391 22 20.5304 22 20V12L18.55 5.11C18.3844 4.77679 18.1292 4.49637 17.813 4.30028C17.4967 4.10419 17.1321 4 16.76 4H7.24C6.86792 4 6.50326 4.10419 6.18704 4.30028C5.87083 4.49637 5.61558 4.77679 5.45 5.11Z"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M5.39161 4.5H18.6084L23 13.069V20.5H1V13.069L5.39161 4.5ZM21.5 14V19H2.5V14H8.04306L9.58056 16H14.4194L15.9569 14H21.5Z"
+          fill="#191B1F"
         />
       </svg>
     ),
@@ -181,33 +149,23 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
     activeIcon: (
       <svg
         width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        height="25"
+        viewBox="0 0 24 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
-          fill="#545861"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21"
-          fill="currentColor"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12 2.5C8.13655 2.5 4.94782 5.5198 4.75447 9.37114L4.556 13.3003L3.0834 16.1563C3.02859 16.2626 3 16.3804 3 16.5V17.75C3 18.1642 3.33579 18.5 3.75 18.5H7.30888C7.66846 20.767 9.63185 22.5 12 22.5C14.3682 22.5 16.3315 20.767 16.6911 18.5H20.25C20.6642 18.5 21 18.1642 21 17.75V16.5C21 16.3804 20.9714 16.2626 20.9166 16.1563L19.444 13.3003L19.2455 9.37139C19.0522 5.52005 15.8634 2.5 12 2.5ZM12 21C10.4632 21 9.17555 19.9333 8.83697 18.5H15.163C14.8245 19.9333 13.5368 21 12 21Z"
+          fill="#191B1F"
         />
       </svg>
     ),
   },
   {
-    id: 'compass',
-    title: 'Compass',
+    id: 'manage',
+    title: 'Manage',
     icon: (
       <svg
         width="24"
@@ -217,13 +175,13 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+          d="M9.225 5.525L6.21875 4.83125L4.83125 6.21875L5.525 9.225L2.75 11.075V12.925L5.525 14.775L4.83125 17.7812L6.21875 19.1687L9.225 18.475L11.075 21.25H12.925L14.775 18.475L17.7812 19.1687L19.1687 17.7812L18.475 14.775L21.25 12.925V11.075L18.475 9.225L19.1687 6.21875L17.7812 4.83125L14.775 5.525L12.925 2.75H11.075L9.225 5.525Z"
           stroke="#545861"
           strokeWidth="1.5"
           strokeLinejoin="round"
         />
         <path
-          d="M15.5 8.5L10 10L8.5 15.5L14 14L15.5 8.5Z"
+          d="M14.75 12C14.75 13.5188 13.5188 14.75 12 14.75C10.4812 14.75 9.25 13.5188 9.25 12C9.25 10.4812 10.4812 9.25 12 9.25C13.5188 9.25 14.75 10.4812 14.75 12Z"
           stroke="#545861"
           strokeWidth="1.5"
           strokeLinejoin="round"
@@ -233,22 +191,16 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
     activeIcon: (
       <svg
         width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        height="25"
+        viewBox="0 0 24 25"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-          stroke="#545861"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M15.5 8.5L10 10L8.5 15.5L14 14L15.5 8.5Z"
-          stroke="#545861"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M9.93786 3.60362C10.3975 2.91414 11.1713 2.5 12 2.5C12.8287 2.5 13.6025 2.91414 14.0621 3.60362L14.6322 4.45875C14.9206 4.89137 15.4467 5.10027 15.9534 4.98336L16.6566 4.82107C17.5033 4.62568 18.3909 4.88025 19.0053 5.49467C19.6198 6.1091 19.8743 6.9967 19.6789 7.84338L19.5166 8.54664C19.3997 9.05327 19.6086 9.57937 20.0413 9.86778L20.8964 10.4379C21.5859 10.8975 22 11.6713 22 12.5C22 13.3287 21.5859 14.1025 20.8964 14.5621L20.0413 15.1322C19.6086 15.4206 19.3997 15.9467 19.5166 16.4534L19.6789 17.1566C19.8743 18.0033 19.6198 18.8909 19.0053 19.5053C18.3909 20.1198 17.5033 20.3743 16.6566 20.1789L15.9534 20.0166C15.4467 19.8997 14.9206 20.1086 14.6322 20.5413L14.0621 21.3964C13.6025 22.0859 12.8287 22.5 12 22.5C11.1713 22.5 10.3975 22.0859 9.93786 21.3964L9.36778 20.5413C9.07937 20.1086 8.55327 19.8997 8.04664 20.0166L7.34338 20.1789C6.4967 20.3743 5.6091 20.1198 4.99467 19.5053C4.38025 18.8909 4.12568 18.0033 4.32107 17.1566L4.48336 16.4534C4.60027 15.9467 4.39137 15.4206 3.95875 15.1322L3.10362 14.5621C2.41414 14.1025 2 13.3287 2 12.5C2 11.6713 2.41414 10.8975 3.10362 10.4379L3.95875 9.86778C4.39137 9.57937 4.60027 9.05327 4.48336 8.54664L4.32107 7.84338C4.12568 6.99671 4.38024 6.1091 4.99467 5.49467C5.6091 4.88024 6.4967 4.62568 7.34338 4.82107L8.04664 4.98336C8.55327 5.10027 9.07937 4.89137 9.36778 4.45875L9.93786 3.60362ZM8.875 12.5C8.875 10.7741 10.2741 9.375 12 9.375C13.7259 9.375 15.125 10.7741 15.125 12.5C15.125 14.2259 13.7259 15.625 12 15.625C10.2741 15.625 8.875 14.2259 8.875 12.5Z"
+          fill="#191B1F"
         />
       </svg>
     ),
@@ -257,77 +209,65 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
     id: 'harvard',
     title: 'Harvard Business School',
     icon: (
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/avatars/harvard.png"
-          alt="Harvard Business School"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img
+        src="/images/avatars/harvard.png"
+        alt="Harvard Business School"
+        className="h-6 w-6"
+      />
     ),
     activeIcon: (
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/avatars/harvard.png"
-          alt="Harvard Business School"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img
+        src="/images/avatars/harvard.png"
+        alt="Harvard Business School"
+        className="h-6 w-6"
+      />
     ),
   },
   {
-    id: 'community',
-    title: 'Community',
+    id: 'webflow',
+    title: 'Webflow',
     icon: (
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/avatars/blue-icon.png"
-          alt="Community"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img
+        src="/images/avatars/blue-icon.png"
+        alt="Webflow"
+        className="h-6 w-6"
+      />
     ),
     activeIcon: (
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/avatars/blue-icon.png"
-          alt="Community"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img
+        src="/images/avatars/blue-icon.png"
+        alt="Webflow"
+        className="h-6 w-6"
+      />
     ),
   },
   {
-    id: 'analytics',
-    title: 'Analytics',
+    id: 'framer',
+    title: 'Framer',
     icon: (
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/avatars/black-icon.png"
-          alt="Analytics"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img
+        src="/images/avatars/black-icon.png"
+        alt="Framer"
+        className="h-6 w-6"
+      />
     ),
     activeIcon: (
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-        <img
-          src="/images/avatars/black-icon.png"
-          alt="Analytics"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      <img
+        src="/images/avatars/black-icon.png"
+        alt="Framer"
+        className="h-6 w-6"
+      />
     ),
   },
   {
-    id: 'settings',
-    title: 'Settings',
+    id: 'obama foundation',
+    title: 'Obama Foundation',
     icon: (
       <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
         <img
           src="/images/avatars/white-icon.png"
-          alt="Settings"
-          className="w-full h-full object-cover"
+          alt="Obama Foundation"
+          className="h-6 w-6"
         />
       </div>
     ),
@@ -335,8 +275,8 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
       <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
         <img
           src="/images/avatars/white-icon.png"
-          alt="Settings"
-          className="w-full h-full object-cover"
+          alt="Obama Foundation"
+          className="h-6 w-6"
         />
       </div>
     ),

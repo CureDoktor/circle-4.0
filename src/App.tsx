@@ -31,24 +31,24 @@ function App() {
   const renderContent = () => {
     switch (activeFirstLevelItem) {
       case 'circle':
-        return <AdminSection />;
+        return <Feed />;
       case 'home':
         return <Feed />;
-      case 'star':
+      case 'discover':
         return <Discovery />;
       case 'inbox':
         return <SettingsSection />;
       case 'notifications':
         return <CommunitySection />;
-      case 'compass':
-        return <AnalyticsSection />;
+      case 'manage':
+        return <AdminSection />;
       case 'harvard':
         return <SettingsSection />;
-      case 'w1':
+      case 'webflow':
         return <CommunitySection />;
-      case 'w2':
+      case 'framer':
         return <AnalyticsSection />;
-      case 'waves':
+      case 'obama foundation':
         return <SettingsSection />;
       default:
         return <AdminSection />;
