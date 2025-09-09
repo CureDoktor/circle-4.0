@@ -4,6 +4,8 @@ import AdminSection from './components/AdminSection';
 import CommunitySection from './components/CommunitySection';
 import AnalyticsSection from './components/AnalyticsSection';
 import SettingsSection from './components/SettingsSection';
+import Feed from './components/Feed';
+import Discovery from './components/Discovery';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
 import { firstLevelNavItems } from './data/firstLevelNavigation';
@@ -31,9 +33,9 @@ function App() {
       case 'circle':
         return <AdminSection />;
       case 'home':
-        return <CommunitySection />;
+        return <Feed />;
       case 'star':
-        return <AnalyticsSection />;
+        return <Discovery />;
       case 'inbox':
         return <SettingsSection />;
       case 'notifications':
