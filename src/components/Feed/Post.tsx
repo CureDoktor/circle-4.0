@@ -9,9 +9,12 @@ interface PostProps {
   image: string;
   likes: number;
   isSaved: boolean;
+  onPostClick?: (post: any) => void;
+  onUserClick?: (user: any) => void;
 }
 
 const Post: React.FC<PostProps> = ({
+  id,
   author,
   avatar,
   timeAgo,
@@ -19,6 +22,8 @@ const Post: React.FC<PostProps> = ({
   image,
   likes,
   isSaved,
+  onPostClick,
+  onUserClick,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(isSaved);
@@ -33,18 +38,68 @@ const Post: React.FC<PostProps> = ({
     setIsBookmarked(!isBookmarked);
   };
 
+  const handlePostClick = () => {
+    if (onPostClick) {
+      onPostClick({
+        id,
+        author,
+        handle: `@${author.toLowerCase().replace(/\s+/g, '')}`,
+        avatar,
+        content,
+        images: [
+          image,
+          `https://picsum.photos/400/300?random=${id + 10}`,
+          `https://picsum.photos/400/300?random=${id + 20}`,
+        ],
+        likes: currentLikes,
+        timestamp: timeAgo,
+        bio: 'Making places that make you feel | Artist, builder, dad | Sold @liveoaklake',
+        socialLinks: {
+          linkedin: 'in LinkedIn',
+          twitter: `X @${author.toLowerCase().replace(/\s+/g, '')}`,
+        },
+      });
+    }
+  };
+
+  const handleUserClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onUserClick) {
+      onUserClick({
+        name: author,
+        handle: `@${author.toLowerCase().replace(/\s+/g, '')}`,
+        avatar,
+        bio: 'Making places that make you feel | Artist, builder, dad | Sold @liveoaklake',
+        socialLinks: {
+          linkedin: 'in LinkedIn',
+          twitter: `X @${author.toLowerCase().replace(/\s+/g, '')}`,
+        },
+        postCount: 3,
+      });
+    }
+  };
+
   return (
-    <div className="p-4 bg-white hover:bg-gray-50 transition-colors">
+    <div
+      className="p-4 bg-white hover:bg-gray-50 transition-colors cursor-pointer"
+      onClick={handlePostClick}
+    >
       {/* Post Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-3">
           <img
             src={avatar}
             alt={author}
-            className="w-10 h-10 rounded-full object-cover"
+            className="w-10 h-10 rounded-full object-cover cursor-pointer"
+            onClick={handleUserClick}
           />
           <div>
-            <h3 className="font-semibold text-gray-900">{author}</h3>
+            <h3
+              className="font-semibold text-gray-900 cursor-pointer hover:underline"
+              onClick={handleUserClick}
+            >
+              {author}
+            </h3>
             <p className="text-sm text-gray-500">{timeAgo}</p>
           </div>
         </div>

@@ -3,7 +3,12 @@ import HorizontalFilters from './HorizontalFilters';
 import Post from './Post';
 import RecentSaves from './RecentSaves';
 
-const Feed: React.FC = () => {
+export interface FeedProps {
+  onPostClick?: (post: any) => void;
+  onUserClick?: (user: any) => void;
+}
+
+const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
   const [posts] = useState([
     {
       id: 1,
@@ -180,7 +185,11 @@ const Feed: React.FC = () => {
           <div className="divide-y divide-gray-100">
             {posts.map((post, index) => (
               <React.Fragment key={post.id}>
-                <Post {...post} />
+                <Post
+                  {...post}
+                  onPostClick={onPostClick}
+                  onUserClick={onUserClick}
+                />
                 {/* Show Recent Saves after 3rd post */}
                 {index === 2 && showRecentSaves && <RecentSaves />}
               </React.Fragment>
