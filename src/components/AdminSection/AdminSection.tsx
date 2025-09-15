@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
 import ManageAudience from '../ManageAudience';
-import Community from '../Community';
+import Community from '../CommunitySection';
 import Content from '../Content/Content';
 import ContentSidebar from '../Content/ContentSidebar';
 import { Posts, Spaces, Topics, Moderation, MediaManager } from '../Content';
