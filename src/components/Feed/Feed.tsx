@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import HorizontalFilters from './HorizontalFilters';
 import Post from './Post';
 import RecentSaves from './RecentSaves';
+import ContentDetail from './ContentDetail';
+import ContentCards from './ContentCards';
 
 export interface FeedProps {
   onPostClick?: (post: any) => void;
@@ -9,6 +11,44 @@ export interface FeedProps {
 }
 
 const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
+  const [selectedContent, setSelectedContent] = useState<any>(null);
+  const [isContentVisible, setIsContentVisible] = useState(false);
+
+  const handlePostClick = (post: any) => {
+    if (onPostClick) {
+      onPostClick(post);
+    }
+  };
+
+  const handleCardClick = (card: any) => {
+    // Convert card to content format
+    const contentForDetail = {
+      id: card.id,
+      author: card.source,
+      avatar: '/images/avatars/1.png',
+      timeAgo: '1d',
+      content: `This is a detailed article about "${card.title}". The content would be expanded here with full article text, insights, and analysis.`,
+      image: card.thumbnail,
+      likes: Math.floor(Math.random() * 500) + 100,
+      isSaved: false,
+      title: card.title,
+    };
+
+    setSelectedContent(contentForDetail);
+    // Small delay to ensure content is set before animation starts
+    setTimeout(() => {
+      setIsContentVisible(true);
+    }, 10);
+  };
+
+  const handleCloseContent = () => {
+    setIsContentVisible(false);
+    // Delay setting content to null to allow animation to complete
+    setTimeout(() => {
+      setSelectedContent(null);
+    }, 500);
+  };
+
   const [posts] = useState([
     {
       id: 1,
@@ -92,6 +132,11 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
       {/* Horizontal Filters */}
       <div className="border-b border-gray-200">
         <HorizontalFilters />
+      </div>
+
+      {/* Content Cards Slider */}
+      <div className="px-6">
+        <ContentCards onCardClick={handleCardClick} />
       </div>
 
       {/* Main Feed Content */}
@@ -187,7 +232,7 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
               <React.Fragment key={post.id}>
                 <Post
                   {...post}
-                  onPostClick={onPostClick}
+                  onPostClick={handlePostClick}
                   onUserClick={onUserClick}
                 />
                 {/* Show Recent Saves after 3rd post */}
@@ -197,6 +242,13 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
           </div>
         </div>
       </div>
+
+      {/* Content Detail */}
+      <ContentDetail
+        content={selectedContent}
+        isVisible={isContentVisible}
+        onClose={handleCloseContent}
+      />
     </div>
   );
 };

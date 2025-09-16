@@ -201,7 +201,7 @@ const Community: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex">
+      <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar */}
         <div className="w-68 bg-white border-r border-gray-200 py-6 px-3">
           {/* Feed */}
@@ -226,8 +226,10 @@ const Community: React.FC = () => {
 
           {/* New member hub */}
           <div className="mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">New member hub</h3>
-            <div className="space-y-2">
+            <h3 className="font-semibold text-gray-900 mb-3 pl-3">
+              New member hub
+            </h3>
+            <div className="space-y-4">
               <div className="flex items-center bg-gray-100 space-x-3 rounded-lg px-3">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <button className=" py-2 text-gray-900 rounded-lg font-medium text-sm">
@@ -244,9 +246,11 @@ const Community: React.FC = () => {
           </div>
 
           {/* Activities */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-3">Activities</h3>
-            <div className="space-y-2">
+          <div className="mb-6">
+            <h3 className="font-semibold text-gray-900 mb-3 pl-3">
+              Activities
+            </h3>
+            <div className="space-y-4">
               <div className="flex items-center space-x-3 rounded-lg px-3">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <button className="text-gray-600 hover:text-gray-900 text-sm">
@@ -259,6 +263,26 @@ const Community: React.FC = () => {
                   The Monday group gathering
                 </button>
               </div>
+              <div className="flex items-center space-x-3 rounded-lg px-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <button className="text-gray-600 hover:text-gray-900 text-sm">
+                  Start here
+                </button>
+              </div>
+              <div className="flex items-center space-x-3 rounded-lg px-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <button className="text-gray-600 hover:text-gray-900 text-sm">
+                  Say hello
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* Activities */}
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-3 pl-3">
+              Activities
+            </h3>
+            <div className="space-y-4">
               <div className="flex items-center space-x-3 rounded-lg px-3">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <button className="text-gray-600 hover:text-gray-900 text-sm">
@@ -286,13 +310,9 @@ const Community: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Main Content Area */}
-        <div className="flex-1">
-          {/* Section Title with Actions */}
-          <div className="flex items-center justify-between bg-white border-b border-gray-200 p-6">
+        <div className="flex-1 flex-col overflow-hidden">
+          <div className="flex items-center justify-between bg-white border-b border-gray-200 p-6 h-20">
             <h2 className="text-md font-bold text-gray-900">Start Here</h2>
-
             {/* Right Actions */}
             <div className="flex items-center space-x-3 rounded-lg px-3">
               {/* User Profile */}
@@ -340,363 +360,375 @@ const Community: React.FC = () => {
               </button> */}
             </div>
           </div>
-          <div className="p-6">
-            {/* Welcome Banner */}
-            <div className="bg-green-800 rounded-lg p-8 mb-6 pl-10 relative overflow-hidden">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 max-w-[260px]">
-                  <div className="inline-block bg-green-700 text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
-                    Orientation
-                  </div>
-                  <h3 className="text-3xl font-bold text-white mb-4">
-                    Welcome to Elevate Academy
-                  </h3>
-                </div>
-                <div className="flex space-x-4">
-                  <div className="w-[92px] h-[62px] rounded-lg overflow-hidden relative right-[-140px] bottom-[-145px]">
-                    <img
-                      src="https://picsum.photos/64/64?random=1"
-                      alt="Person 1"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="w-[119px] h-[151px] relative right-[-5px] bottom-[20px] rounded-lg overflow-hidden">
-                    <img
-                      src="https://picsum.photos/48/48?random=2"
-                      alt="Person 2"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="w-[174px] h-[196px] rounded-lg overflow-hidden">
-                    <img
-                      src="https://picsum.photos/80/80?random=3"
-                      alt="Person 3"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            {/* Start a post */}
-            <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6 max-w-[610px] mx-auto">
-              <div className="flex items-center space-x-3 rounded-lg px-3">
-                <img
-                  src="/images/avatars/1.png"
-                  alt="User"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    placeholder="Start a post"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <button className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors">
-                  <svg
-                    className="w-5 h-5 text-gray-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+          {/* Main Content Area */}
+          <div className="flex-1 flex-col h-full overflow-auto">
+            {/* Section Title with Actions */}
 
-            {/* Posts Container - Scrollable */}
-            <div className="max-w-[610px] mx-auto max-h-[600px] overflow-y-auto scrollbar-hide">
-              {/* Post 1 */}
-              <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
-                {/* Post Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src="/images/avatars/2.png"
-                      alt="Aisha Khan"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        Aisha Khan
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Jun 30 • Course Strategy Mentor
-                      </p>
+            <div className="h-full">
+              <div className="p-6 h-full">
+                {/* Welcome Banner */}
+                <div className="bg-[#0A4A40] rounded-lg p-8 mb-6 pl-20 relative">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 max-w-[260px]">
+                      <div className="inline-block bg-[#227F71] border border-[#237265] text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
+                        Orientation
+                      </div>
+                      <h3 className="text-3xl font-bold text-white mb-4">
+                        Welcome to Elevate Academy
+                      </h3>
+                    </div>
+                    <div className="flex space-x-4">
+                      <div className="w-[92px] h-[62px] rounded-lg overflow-hidden relative right-[-140px] bottom-[-145px]">
+                        <img
+                          src="/images/placeholders/image-3.png"
+                          alt="Person 1"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="w-[119px] h-[151px] relative right-[-5px] bottom-[20px] rounded-lg overflow-hidden">
+                        <img
+                          src="/images/placeholders/image-2.png"
+                          alt="Person 2"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="w-[174px] h-[196px] rounded-lg overflow-hidden">
+                        <img
+                          src="/images/placeholders/image.png"
+                          alt="Person 3"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <button className="p-2 text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                </div>
+                <div>
+                  {/* Start a post */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6 max-w-[610px] mx-auto">
+                    <div className="flex items-center space-x-3 rounded-lg px-3">
+                      <img
+                        src="/images/avatars/1.png"
+                        alt="User"
+                        className="w-10 h-10 rounded-full object-cover"
                       />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Post Content */}
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Welcome to Elevate Academy!
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Hey there 👋 We&apos;re thrilled to have you here. This
-                    space is your go-to hub for building, learning, and growing
-                    alongside fellow educators, creators, and
-                    curriculum-builders. Whether you&apos;re just starting your
-                    course or scaling an existing program—you&apos;re in the
-                    right place. Let&apos;s build something that lasts.
-                  </p>
-                </div>
-
-                {/* Post Image */}
-                <div className="rounded-lg overflow-hidden">
-                  <img
-                    src="https://picsum.photos/600/300?random=4"
-                    alt="Post content"
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Post 2 */}
-              <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src="/images/avatars/3.png"
-                      alt="Sarah Johnson"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        Sarah Johnson
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Jun 29 • Content Creator
-                      </p>
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          placeholder="Start a post"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <button className="w-10 h-10 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-colors">
+                        <svg
+                          className="w-5 h-5 text-gray-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                  <button className="p-2 text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      />
-                    </svg>
-                  </button>
-                </div>
 
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Building Your First Course: A Step-by-Step Guide
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Starting your first course can feel overwhelming, but it
-                    doesn&apos;t have to be! Here&apos;s my proven framework
-                    that has helped over 500 creators launch successful courses.
-                    The key is to start small and iterate based on feedback.
-                  </p>
-                </div>
+                  {/* Posts Container - Scrollable */}
+                  <div className="max-w-[610px] mx-auto">
+                    {/* Post 1 */}
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                      {/* Post Header */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src="/images/avatars/2.png"
+                            alt="Aisha Khan"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Aisha Khan
+                            </h4>
+                            <p className="text-sm text-gray-500">
+                              Jun 30 • Course Strategy Mentor
+                            </p>
+                          </div>
+                        </div>
+                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
 
-                <div className="rounded-lg overflow-hidden">
-                  <img
-                    src="https://picsum.photos/600/300?random=5"
-                    alt="Post content"
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-              </div>
+                      {/* Post Content */}
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                          Welcome to Elevate Academy!
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                          Hey there 👋 We&apos;re thrilled to have you here.
+                          This space is your go-to hub for building, learning,
+                          and growing alongside fellow educators, creators, and
+                          curriculum-builders. Whether you&apos;re just starting
+                          your course or scaling an existing program—you&apos;re
+                          in the right place. Let&apos;s build something that
+                          lasts.
+                        </p>
+                      </div>
 
-              {/* Post 3 */}
-              <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src="/images/avatars/4.png"
-                      alt="Michael Chen"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        Michael Chen
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Jun 28 • Marketing Expert
-                      </p>
+                      {/* Post Image */}
+                      <div className="rounded-lg overflow-hidden">
+                        <img
+                          src="https://picsum.photos/600/300?random=4"
+                          alt="Post content"
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Post 2 */}
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src="/images/avatars/3.png"
+                            alt="Sarah Johnson"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Sarah Johnson
+                            </h4>
+                            <p className="text-sm text-gray-500">
+                              Jun 29 • Content Creator
+                            </p>
+                          </div>
+                        </div>
+                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                          Building Your First Course: A Step-by-Step Guide
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                          Starting your first course can feel overwhelming, but
+                          it doesn&apos;t have to be! Here&apos;s my proven
+                          framework that has helped over 500 creators launch
+                          successful courses. The key is to start small and
+                          iterate based on feedback.
+                        </p>
+                      </div>
+
+                      <div className="rounded-lg overflow-hidden">
+                        <img
+                          src="https://picsum.photos/600/300?random=5"
+                          alt="Post content"
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Post 3 */}
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src="/images/avatars/4.png"
+                            alt="Michael Chen"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Michael Chen
+                            </h4>
+                            <p className="text-sm text-gray-500">
+                              Jun 28 • Marketing Expert
+                            </p>
+                          </div>
+                        </div>
+                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                          The Power of Community in Online Learning
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                          One of the biggest mistakes I see course creators make
+                          is focusing only on content delivery. The real magic
+                          happens when you build a community around your course.
+                          Students learn better, stay engaged longer, and become
+                          your biggest advocates.
+                        </p>
+                      </div>
+
+                      <div className="rounded-lg overflow-hidden">
+                        <img
+                          src="https://picsum.photos/600/300?random=6"
+                          alt="Post content"
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Post 4 */}
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src="/images/avatars/5.png"
+                            alt="Emma Rodriguez"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Emma Rodriguez
+                            </h4>
+                            <p className="text-sm text-gray-500">
+                              Jun 27 • Course Designer
+                            </p>
+                          </div>
+                        </div>
+                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                          Pricing Your Course: Finding the Sweet Spot
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                          Pricing can make or break your course success. After
+                          analyzing 1000+ successful courses, I&apos;ve found
+                          that the sweet spot isn&apos;t always the highest
+                          price. It&apos;s about perceived value and your
+                          audience&apos;s willingness to pay.
+                        </p>
+                      </div>
+
+                      <div className="rounded-lg overflow-hidden">
+                        <img
+                          src="https://picsum.photos/600/300?random=7"
+                          alt="Post content"
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Post 5 */}
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src="/images/avatars/6.png"
+                            alt="David Park"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              David Park
+                            </h4>
+                            <p className="text-sm text-gray-500">
+                              Jun 26 • Tech Instructor
+                            </p>
+                          </div>
+                        </div>
+                        <button className="p-2 text-gray-400 hover:text-gray-600">
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div className="mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                          Tools That Will Transform Your Course Creation Process
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                          After creating 50+ courses, I&apos;ve tested every
+                          tool out there. Here are the ones that actually save
+                          time and improve quality. From recording software to
+                          community platforms, these tools have been
+                          game-changers for my workflow.
+                        </p>
+                      </div>
+
+                      <div className="rounded-lg overflow-hidden">
+                        <img
+                          src="https://picsum.photos/600/300?random=8"
+                          alt="Post content"
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <button className="p-2 text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    The Power of Community in Online Learning
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    One of the biggest mistakes I see course creators make is
-                    focusing only on content delivery. The real magic happens
-                    when you build a community around your course. Students
-                    learn better, stay engaged longer, and become your biggest
-                    advocates.
-                  </p>
-                </div>
-
-                <div className="rounded-lg overflow-hidden">
-                  <img
-                    src="https://picsum.photos/600/300?random=6"
-                    alt="Post content"
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Post 4 */}
-              <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src="/images/avatars/5.png"
-                      alt="Emma Rodriguez"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        Emma Rodriguez
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Jun 27 • Course Designer
-                      </p>
-                    </div>
-                  </div>
-                  <button className="p-2 text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Pricing Your Course: Finding the Sweet Spot
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Pricing can make or break your course success. After
-                    analyzing 1000+ successful courses, I&apos;ve found that the
-                    sweet spot isn&apos;t always the highest price. It&apos;s
-                    about perceived value and your audience&apos;s willingness
-                    to pay.
-                  </p>
-                </div>
-
-                <div className="rounded-lg overflow-hidden">
-                  <img
-                    src="https://picsum.photos/600/300?random=7"
-                    alt="Post content"
-                    className="w-full h-48 object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Post 5 */}
-              <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src="/images/avatars/6.png"
-                      alt="David Park"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900">
-                        David Park
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Jun 26 • Tech Instructor
-                      </p>
-                    </div>
-                  </div>
-                  <button className="p-2 text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Tools That Will Transform Your Course Creation Process
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    After creating 50+ courses, I&apos;ve tested every tool out
-                    there. Here are the ones that actually save time and improve
-                    quality. From recording software to community platforms,
-                    these tools have been game-changers for my workflow.
-                  </p>
-                </div>
-
-                <div className="rounded-lg overflow-hidden">
-                  <img
-                    src="https://picsum.photos/600/300?random=8"
-                    alt="Post content"
-                    className="w-full h-48 object-cover"
-                  />
                 </div>
               </div>
             </div>

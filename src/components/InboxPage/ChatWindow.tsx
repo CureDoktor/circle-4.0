@@ -59,7 +59,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
   return (
     <div className="flex-1 flex flex-col bg-white">
       {/* Chat Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="py-1.5 px-4 border-b border-gray-200">
         <div className="flex items-center space-x-3">
           <div className="relative">
             <img

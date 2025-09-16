@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChatList from './ChatList';
 import ChatWindow from './ChatWindow';
 import UserProfile from './UserProfile';
@@ -34,8 +34,48 @@ interface User {
 }
 
 const InboxPage: React.FC = () => {
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  // Initialize with first chat
+  const initialChat: Chat = {
+    id: '1',
+    name: 'Calvin Parks',
+    avatar: '/images/avatars/1.png',
+    lastMessage: 'Creating a space where there are no quantu...',
+    timestamp: '9:45',
+    isUnread: false,
+    isOnline: true,
+    messages: [
+      {
+        id: '1',
+        content: 'Hey! How are you doing today?',
+        timestamp: '9:30',
+        isOwn: false,
+      },
+      {
+        id: '2',
+        content:
+          "I'm doing great! Just working on some new projects. How about you?",
+        timestamp: '9:32',
+        isOwn: true,
+      },
+      {
+        id: '3',
+        content:
+          'Creating a space where there are no quantum leaps in learning, just steady progress.',
+        timestamp: '9:45',
+        isOwn: false,
+      },
+    ],
+  };
+
+  const [selectedChat, setSelectedChat] = useState<Chat>(initialChat);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  // Initialize selectedUser with first user data
+  useEffect(() => {
+    if (selectedChat && !selectedUser) {
+      setSelectedUser(getUserData(selectedChat.id));
+    }
+  }, [selectedChat, selectedUser]);
 
   // Mock data for different users
   const getUserData = (chatId: string): User => {

@@ -59,7 +59,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
+            {/* <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -73,7 +73,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
-            </button>
+            </button> */}
             <h2 className="text-lg font-semibold text-gray-900">Profile</h2>
           </div>
           <button className="px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1">
