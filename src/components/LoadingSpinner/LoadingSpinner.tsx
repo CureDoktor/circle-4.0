@@ -10,20 +10,45 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   className = '',
 }) => {
   const sizeClasses = {
-    sm: 'w-4 h-4',
-    md: 'w-8 h-8',
+    sm: 'w-6 h-6',
+    md: 'w-10 h-10',
     lg: 'w-12 h-12',
   };
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <div
-        className={`${sizeClasses[size]} border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin`}
+      <svg
+        className={`${sizeClasses[size]} animate-spin text-blue-600`}
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
         role="status"
         aria-label="Loading"
       >
-        <span className="sr-only">Loading...</span>
-      </div>
+        <circle
+          cx="20"
+          cy="20"
+          r="18"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="113.097"
+          strokeDashoffset="113.097"
+          opacity="0.2"
+        />
+        <circle
+          cx="20"
+          cy="20"
+          r="18"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="113.097"
+          strokeDashoffset="28.274"
+          opacity="1"
+        />
+      </svg>
+      <span className="sr-only">Loading...</span>
     </div>
   );
 };

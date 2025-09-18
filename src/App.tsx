@@ -38,11 +38,19 @@ function App() {
   };
 
   const handlePostClick = (post: any) => {
-    setNavigationStack(prev => [...prev, { type: 'post', data: post }]);
+    setIsLoading(true);
+    setTimeout(() => {
+      setNavigationStack(prev => [...prev, { type: 'post', data: post }]);
+      setIsLoading(false);
+    }, 500);
   };
 
   const handleUserClick = (user: any) => {
-    setNavigationStack(prev => [...prev, { type: 'user', data: user }]);
+    setIsLoading(true);
+    setTimeout(() => {
+      setNavigationStack(prev => [...prev, { type: 'user', data: user }]);
+      setIsLoading(false);
+    }, 500);
   };
 
   const handleBack = () => {

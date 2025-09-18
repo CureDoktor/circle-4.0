@@ -143,11 +143,16 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
 
   return (
     <div className="relative">
+      {/* Left Fade Gradient */}
+      {showLeftArrow && (
+        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+      )}
+
       {/* Left Arrow */}
       {showLeftArrow && (
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
         >
           <svg
             className="w-4 h-4 text-gray-600"
@@ -165,11 +170,16 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
         </button>
       )}
 
+      {/* Right Fade Gradient */}
+      {showRightArrow && (
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+      )}
+
       {/* Right Arrow */}
       {showRightArrow && (
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
         >
           <svg
             className="w-4 h-4 text-gray-600"
@@ -207,22 +217,6 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
                 alt={card.title}
                 className="w-full h-24 object-cover rounded-t-lg"
               />
-              {/* X button (as shown in image) */}
-              <button className="absolute top-1.5 right-1.5 w-4 h-4 bg-black bg-opacity-50 rounded-full flex items-center justify-center hover:bg-opacity-70 transition-colors">
-                <svg
-                  className="w-2 h-2 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
             </div>
 
             {/* Content */}

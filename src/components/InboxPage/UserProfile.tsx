@@ -56,12 +56,13 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
   return (
     <div className="w-80 bg-white border-l border-gray-200 flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
+      <div className="px-4 h-16 border-b border-gray-200 flex items-center">
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-3">
             {/* <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -76,9 +77,10 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
             </button> */}
             <h2 className="text-lg font-semibold text-gray-900">Profile</h2>
           </div>
-          <button className="px-3 py-1 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1">
+          <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1">
             <svg
-              className="w-4 h-4"
+              width="20"
+              height="20"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -118,7 +120,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
           <div className="flex items-center justify-center space-x-2 mt-3">
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -133,7 +136,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
             </button>
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

@@ -2,15 +2,16 @@ import React from 'react';
 
 const NotificationsHeader: React.FC = () => {
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-4">
-      <div className="flex items-center justify-between">
+    <div className="bg-white border-b border-gray-200 px-6 h-16">
+      <div className="flex items-center justify-between h-full">
         <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
 
         <div className="flex items-center space-x-4">
           {/* Hamburger Menu */}
           <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
             <svg
-              className="w-5 h-5"
+              width="20"
+              height="20"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -27,7 +28,8 @@ const NotificationsHeader: React.FC = () => {
           {/* Checkmark */}
           <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
             <svg
-              className="w-5 h-5"
+              width="20"
+              height="20"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -44,7 +46,8 @@ const NotificationsHeader: React.FC = () => {
           {/* Settings */}
           <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
             <svg
-              className="w-5 h-5"
+              width="20"
+              height="20"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

@@ -120,7 +120,7 @@ const ChatList: React.FC<ChatListProps> = ({
   return (
     <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="px-4 h-16 border-b border-gray-200 flex items-center">
         <h1 className="text-lg font-semibold text-gray-900">Inbox</h1>
       </div>
 

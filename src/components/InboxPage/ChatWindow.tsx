@@ -59,7 +59,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
   return (
     <div className="flex-1 flex flex-col bg-white">
       {/* Chat Header */}
-      <div className="py-1.5 px-4 border-b border-gray-200">
+      <div className="py-2 px-4 border-b border-gray-200 h-16">
         <div className="flex items-center space-x-3">
           <div className="relative">
             <img
@@ -160,7 +160,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Attachment */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -177,7 +178,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Video */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -194,7 +196,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Image */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -211,7 +214,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* GIF */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -228,7 +232,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Emoji */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -245,7 +250,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Hashtag */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -262,7 +268,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Mention */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -279,7 +286,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Link */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -296,7 +304,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Microphone */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -313,7 +322,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
             {/* Send */}
             <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
               <svg
-                className="w-5 h-5"
+                width="20"
+                height="20"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

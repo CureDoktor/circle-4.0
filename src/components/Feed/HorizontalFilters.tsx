@@ -71,13 +71,18 @@ const HorizontalFilters: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative bg-white border-b border-gray-200">
-      <div className="flex items-center">
+    <div className="relative bg-white border-b border-gray-200 px-5 h-16">
+      <div className="flex items-center h-full">
+        {/* Left Fade Gradient */}
+        {showLeftArrow && (
+          <div className="absolute left-5 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        )}
+
         {/* Left Arrow */}
         {showLeftArrow && (
           <button
             onClick={scrollLeft}
-            className="absolute left-0 z-10 w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
+            className="absolute left-6 z-20 w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
           >
             <svg
               className="w-4 h-4 text-gray-600"
@@ -116,11 +121,16 @@ const HorizontalFilters: React.FC = () => {
           ))}
         </div>
 
+        {/* Right Fade Gradient */}
+        {showRightArrow && (
+          <div className="absolute right-5 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        )}
+
         {/* Right Arrow */}
         {showRightArrow && (
           <button
             onClick={scrollRight}
-            className="absolute right-0 z-10 w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
+            className="absolute right-6 z-20 w-8 h-8 bg-white border border-gray-300 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
           >
             <svg
               className="w-4 h-4 text-gray-600"

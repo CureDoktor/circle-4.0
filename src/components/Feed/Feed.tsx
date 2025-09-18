@@ -13,6 +13,7 @@ export interface FeedProps {
 const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
   const [selectedContent, setSelectedContent] = useState<any>(null);
   const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isContentLoading, setIsContentLoading] = useState(false);
 
   const handlePostClick = (post: any) => {
     if (onPostClick) {
@@ -35,18 +36,19 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
     };
 
     setSelectedContent(contentForDetail);
-    // Small delay to ensure content is set before animation starts
+    setIsContentVisible(true);
+    setIsContentLoading(true);
+
+    // Simulate loading time
     setTimeout(() => {
-      setIsContentVisible(true);
-    }, 10);
+      setIsContentLoading(false);
+    }, 500);
   };
 
   const handleCloseContent = () => {
     setIsContentVisible(false);
-    // Delay setting content to null to allow animation to complete
-    setTimeout(() => {
-      setSelectedContent(null);
-    }, 500);
+    setIsContentLoading(false);
+    setSelectedContent(null);
   };
 
   const [posts] = useState([
@@ -143,8 +145,8 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-2xl mx-auto">
           {/* Post Creation Component */}
-          <div className="p-4 bg-white border-b border-gray-100">
-            <div className="flex items-start space-x-3">
+          <div className="p-4 bg-white border border-gray-100 mb-4 rounded-lg">
+            <div className="flex items-start space-x-4">
               <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-semibold">
                 N
               </div>
@@ -244,11 +246,14 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
       </div>
 
       {/* Content Detail */}
-      <ContentDetail
-        content={selectedContent}
-        isVisible={isContentVisible}
-        onClose={handleCloseContent}
-      />
+      {isContentVisible && (
+        <ContentDetail
+          content={selectedContent}
+          isVisible={isContentVisible}
+          isLoading={isContentLoading}
+          onClose={handleCloseContent}
+        />
+      )}
     </div>
   );
 };
