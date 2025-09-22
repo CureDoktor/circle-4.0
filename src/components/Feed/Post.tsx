@@ -38,8 +38,9 @@ const Post: React.FC<PostProps> = ({
     setIsBookmarked(!isBookmarked);
   };
 
-  const handlePostClick = () => {
+  const handlePostClick = (e: React.MouseEvent) => {
     if (onPostClick) {
+      const rect = e.currentTarget.getBoundingClientRect();
       onPostClick({
         id,
         author,
@@ -58,6 +59,7 @@ const Post: React.FC<PostProps> = ({
           linkedin: 'in LinkedIn',
           twitter: `X @${author.toLowerCase().replace(/\s+/g, '')}`,
         },
+        originRect: rect,
       });
     }
   };

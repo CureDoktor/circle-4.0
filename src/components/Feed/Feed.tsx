@@ -2,28 +2,35 @@ import React, { useState, useEffect } from 'react';
 import HorizontalFilters from './HorizontalFilters';
 import Post from './Post';
 import RecentSaves from './RecentSaves';
-import ContentDetail from './ContentDetail';
+import PostExpansion from './PostExpansion';
 import ContentCards from './ContentCards';
 
 export interface FeedProps {
-  onPostClick?: (post: any) => void;
   onUserClick?: (user: any) => void;
 }
 
-const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
-  const [selectedContent, setSelectedContent] = useState<any>(null);
-  const [isContentVisible, setIsContentVisible] = useState(false);
-  const [isContentLoading, setIsContentLoading] = useState(false);
+const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [isPostExpanded, setIsPostExpanded] = useState(false);
+  const [isPostLoading, setIsPostLoading] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const handlePostClick = (post: any) => {
-    if (onPostClick) {
-      onPostClick(post);
-    }
+    // Use local expansion instead of navigation
+    setSelectedPost(post);
+    setIsPostExpanded(true);
+    setIsPostLoading(true);
+
+    // Simulate loading time
+    setTimeout(() => {
+      setIsPostLoading(false);
+    }, 500);
   };
 
   const handleCardClick = (card: any) => {
-    // Convert card to content format
-    const contentForDetail = {
+    // Convert card to post format for expansion
+    const postForExpansion = {
       id: card.id,
       author: card.source,
       avatar: '/images/avatars/1.png',
@@ -33,22 +40,23 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
       likes: Math.floor(Math.random() * 500) + 100,
       isSaved: false,
       title: card.title,
+      originRect: null, // Will be set by the card click handler
     };
 
-    setSelectedContent(contentForDetail);
-    setIsContentVisible(true);
-    setIsContentLoading(true);
+    setSelectedPost(postForExpansion);
+    setIsPostExpanded(true);
+    setIsPostLoading(true);
 
     // Simulate loading time
     setTimeout(() => {
-      setIsContentLoading(false);
+      setIsPostLoading(false);
     }, 500);
   };
 
-  const handleCloseContent = () => {
-    setIsContentVisible(false);
-    setIsContentLoading(false);
-    setSelectedContent(null);
+  const handleClosePost = () => {
+    setIsPostExpanded(false);
+    setIsPostLoading(false);
+    setSelectedPost(null);
   };
 
   const [posts] = useState([
@@ -129,10 +137,38 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
     }
   }, [posts.length]);
 
+  // Handle scroll behavior for hiding top controls
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollThreshold = 100;
+
+      if (currentScrollY > scrollThreshold && currentScrollY > lastScrollY) {
+        // Scrolling down - hide controls
+        setIsScrolled(true);
+      } else if (
+        currentScrollY < lastScrollY ||
+        currentScrollY <= scrollThreshold
+      ) {
+        // Scrolling up or at top - show controls
+        setIsScrolled(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <div className="h-full bg-white flex flex-col">
+    <div className="h-full bg-white flex flex-col main-content-container">
       {/* Horizontal Filters */}
-      <div className="border-b border-gray-200">
+      <div
+        className={`border-b border-gray-200 transition-transform duration-300 ease-out ${
+          isScrolled ? '-translate-y-full' : 'translate-y-0'
+        }`}
+      >
         <HorizontalFilters />
       </div>
 
@@ -245,13 +281,14 @@ const Feed: React.FC<FeedProps> = ({ onPostClick, onUserClick }) => {
         </div>
       </div>
 
-      {/* Content Detail */}
-      {isContentVisible && (
-        <ContentDetail
-          content={selectedContent}
-          isVisible={isContentVisible}
-          isLoading={isContentLoading}
-          onClose={handleCloseContent}
+      {/* Post Expansion */}
+      {isPostExpanded && selectedPost && (
+        <PostExpansion
+          post={selectedPost}
+          isVisible={isPostExpanded}
+          isLoading={isPostLoading}
+          onClose={handleClosePost}
+          originRect={selectedPost.originRect}
         />
       )}
     </div>

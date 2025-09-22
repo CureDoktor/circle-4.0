@@ -171,3 +171,50 @@ textarea:focus {
 .slide-out-to-bottom {
   animation-name: slideOutToBottom;
 }
+
+/* First Level Navigation Content Animations */
+@keyframes slideUp {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-20%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(20%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 600ms ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 600ms ease-out;
+}

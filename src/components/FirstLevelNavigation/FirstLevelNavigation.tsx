@@ -9,7 +9,7 @@ interface FirstLevelNavItem {
 
 interface FirstLevelNavigationProps {
   items: FirstLevelNavItem[];
-  onItemClick: (itemId: string) => void;
+  onItemClick: (itemId: string, direction: 'up' | 'down') => void;
   activeItem: string;
 }
 
@@ -19,45 +19,63 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   activeItem,
 }) => {
   const handleItemClick = (itemId: string) => {
-    onItemClick(itemId);
+    // Find current active item index
+    const currentIndex = items.findIndex(item => item.id === activeItem);
+    // Find clicked item index
+    const clickedIndex = items.findIndex(item => item.id === itemId);
+
+    // Determine animation direction
+    const direction = clickedIndex < currentIndex ? 'up' : 'down';
+
+    onItemClick(itemId, direction);
   };
 
+  // Split items: exclude settings item (index 5) from top section
+  const topItems = items.filter((_, index) => index !== 5);
+  const settingsItem = items[5]; // Settings item at index 5
+
   return (
-    <div className="bg-transparent text-white w-15 px-3 h-full flex flex-col items-center justify-between py-4">
-      {/* First Item */}
-      <div className="relative group">
-        <button
-          onClick={() => handleItemClick(items[0].id)}
-          className={`w-[36px] h-[36px] rounded-xl flex items-center hover:bg-gray-200 justify-center transition-all duration-200 ${
-            activeItem === items[0].id
-              ? 'bg-gray-200 shadow-lg'
-              : 'hover:scale-105'
-          }`}
-          title={items[0].title}
-          aria-label={items[0].title}
-        >
-          <div className={`transition-all duration-200`}>
-            {activeItem === items[0].id && items[0].activeIcon
-              ? items[0].activeIcon
-              : items[0].icon}
-          </div>
-        </button>
-
-        {/* Tooltip */}
-        <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
-          {items[0].title}
-        </div>
-      </div>
-
-      {/* Rest of Sidebar Items */}
+    <div className="bg-white border-r border-gray-200 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-4">
+      {/* Top Section - 9 items (excluding settings) with separator between 5th and 6th */}
       <div className="flex flex-col gap-4">
-        {items.slice(1).map(item => (
+        {/* First 5 items */}
+        {topItems.slice(0, 5).map(item => (
           <div key={item.id} className="relative group">
             <button
               onClick={() => handleItemClick(item.id)}
               className={`w-[36px] h-[36px] rounded-xl flex items-center hover:bg-gray-200 justify-center transition-all duration-200 ${
                 activeItem === item.id
-                  ? 'bg-gray-200 shadow-lg'
+                  ? 'border border-gray-200 shadow-sm'
+                  : 'hover:scale-105'
+              }`}
+              title={item.title}
+              aria-label={item.title}
+            >
+              <div className={`transition-all duration-200`}>
+                {activeItem === item.id && item.activeIcon
+                  ? item.activeIcon
+                  : item.icon}
+              </div>
+            </button>
+
+            {/* Tooltip */}
+            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+              {item.title}
+            </div>
+          </div>
+        ))}
+
+        {/* Separator line between 5th and 6th items */}
+        <div className="w-[24px] h-[1px] mx-auto bg-[#E4E7EB] my-2"></div>
+
+        {/* Last 4 items (6th through 9th, excluding settings) */}
+        {topItems.slice(5).map(item => (
+          <div key={item.id} className="relative group">
+            <button
+              onClick={() => handleItemClick(item.id)}
+              className={`w-[36px] h-[36px] rounded-xl flex items-center hover:bg-gray-200 justify-center transition-all duration-200 ${
+                activeItem === item.id
+                  ? 'border border-gray-200 shadow-sm'
                   : 'hover:scale-105'
               }`}
               title={item.title}
@@ -80,7 +98,34 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
 
       <div>
         {/* Separator line */}
-        <div className="w-8 h-px bg-white/20 my-2"></div>
+        <div className="w-[24px] h-[1px] mx-auto bg-[#E4E7EB] my-4"></div>
+
+        {/* Settings item */}
+        {settingsItem && (
+          <div className="relative group mb-4">
+            <button
+              onClick={() => handleItemClick(settingsItem.id)}
+              className={`w-[36px] h-[36px] mx-auto rounded-xl flex items-center hover:bg-gray-200 justify-center transition-all duration-200 ${
+                activeItem === settingsItem.id
+                  ? 'border border-gray-200 shadow-sm'
+                  : 'hover:scale-105'
+              }`}
+              title={settingsItem.title}
+              aria-label={settingsItem.title}
+            >
+              <div className={`transition-all duration-200`}>
+                {activeItem === settingsItem.id && settingsItem.activeIcon
+                  ? settingsItem.activeIcon
+                  : settingsItem.icon}
+              </div>
+            </button>
+
+            {/* Tooltip */}
+            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+              {settingsItem.title}
+            </div>
+          </div>
+        )}
 
         {/* Profile picture */}
         <div className="relative group">

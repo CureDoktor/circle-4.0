@@ -110,7 +110,7 @@ const ContentDetail: React.FC<ContentDetailProps> = ({
           {/* Content */}
           <div className="h-full overflow-y-auto">
             <div
-              className="max-w-4xl mx-auto p-6 transition-all duration-500"
+              className="max-w-2xl mx-auto p-6 transition-all duration-500"
               style={{
                 transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
                 opacity: isVisible ? 1 : 0,

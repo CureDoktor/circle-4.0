@@ -17,6 +17,10 @@ function App() {
   const [activeFirstLevelItem, setActiveFirstLevelItem] =
     useState<string>('circle');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [animationDirection, setAnimationDirection] = useState<'up' | 'down'>(
+    'down'
+  );
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [navigationStack, setNavigationStack] = useState<
     Array<{
       type: 'feed' | 'post' | 'user';
@@ -24,17 +28,24 @@ function App() {
     }>
   >([{ type: 'feed' }]);
 
-  const handleFirstLevelNavigationClick = (itemId: string) => {
+  const handleFirstLevelNavigationClick = (
+    itemId: string,
+    direction: 'up' | 'down'
+  ) => {
     if (itemId === activeFirstLevelItem) return; // Don't reload if same item
 
-    setIsLoading(true);
+    // Change content immediately
+    setActiveFirstLevelItem(itemId);
+    setNavigationStack([{ type: 'feed' }]); // Reset navigation stack
 
-    // Simulate loading time for smooth transition
+    // Start animation
+    setAnimationDirection(direction);
+    setIsAnimating(true);
+
+    // End animation after duration
     setTimeout(() => {
-      setActiveFirstLevelItem(itemId);
-      setNavigationStack([{ type: 'feed' }]); // Reset navigation stack
-      setIsLoading(false);
-    }, 500);
+      setIsAnimating(false);
+    }, 600);
   };
 
   const handlePostClick = (post: any) => {
@@ -59,7 +70,7 @@ function App() {
     }
   };
 
-  const renderContent = () => {
+  const renderContent = (itemId: string) => {
     // Check if we're in a nested navigation (post or user view)
     const currentView = navigationStack[navigationStack.length - 1];
 
@@ -84,15 +95,11 @@ function App() {
     }
 
     // Default navigation based on first level item
-    switch (activeFirstLevelItem) {
+    switch (itemId) {
       case 'circle':
-        return (
-          <Feed onPostClick={handlePostClick} onUserClick={handleUserClick} />
-        );
+        return <Feed onUserClick={handleUserClick} />;
       case 'home':
-        return (
-          <Feed onPostClick={handlePostClick} onUserClick={handleUserClick} />
-        );
+        return <Feed onUserClick={handleUserClick} />;
       case 'discover':
         return <Discovery />;
       case 'inbox':
@@ -116,21 +123,39 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className="h-screen bg-gray-50 flex overflow-hidden p-1.5">
+      <div className="h-screen bg-gray-50 flex overflow-hidden">
         <FirstLevelNavigation
           items={firstLevelNavItems}
           onItemClick={handleFirstLevelNavigationClick}
           activeItem={activeFirstLevelItem}
         />
-        <div className="flex-1 overflow-hidden rounded-2xl shadow-sm border border-gray-200 relative">
-          {isLoading ? (
+        <div
+          className={`flex-1 overflow-hidden rounded-2xl shadow-sm border border-gray-200 relative m-4 ${
+            isAnimating
+              ? animationDirection === 'up'
+                ? 'animate-slide-up'
+                : 'animate-slide-down'
+              : ''
+          }`}
+        >
+          {isLoading && !isAnimating ? (
             <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
               <LoadingSpinner size="lg" />
             </div>
           ) : (
-            <div className="h-full transition-opacity duration-300 ease-in-out">
-              {renderContent()}
-            </div>
+            <>
+              {/* Previous content - stays visible during animation */}
+              {isAnimating && (
+                <div className="absolute inset-0 h-full">
+                  {renderContent(activeFirstLevelItem)}
+                </div>
+              )}
+
+              {/* New content */}
+              <div className="h-full">
+                {renderContent(activeFirstLevelItem)}
+              </div>
+            </>
           )}
         </div>
       </div>
