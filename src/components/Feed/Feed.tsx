@@ -40,17 +40,17 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
       likes: Math.floor(Math.random() * 500) + 100,
       isSaved: false,
       title: card.title,
-      originRect: null, // Will be set by the card click handler
+      originRect: card.originRect, // Use the click position from the card
     };
 
     setSelectedPost(postForExpansion);
     setIsPostExpanded(true);
     setIsPostLoading(true);
 
-    // Simulate loading time
+    // Simulate loading time - make it faster
     setTimeout(() => {
       setIsPostLoading(false);
-    }, 500);
+    }, 300);
   };
 
   const handleClosePost = () => {

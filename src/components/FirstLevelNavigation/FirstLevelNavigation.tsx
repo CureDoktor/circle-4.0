@@ -134,7 +134,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
             title="Profile"
             aria-label="Profile"
           >
-            <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-purple-500/50">
+            <div className="w-6 h-6 rounded-full overflow-hidden ring-2 ring-purple-500/50">
               <img
                 src="/images/avatars/1.png"
                 alt="Profile"

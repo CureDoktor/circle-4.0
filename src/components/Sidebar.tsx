@@ -85,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         {/* Icon Column */}
         <div
-          className={`bg-white flex flex-col gap-0.5 flex flex-col items-center py-[18px] space-y-1 px-2 ${
+          className={`bg-white flex flex-col gap-4 flex flex-col items-center py-[18px] px-2 ${
             isCollapsed ? 'rounded-xl' : 'border-r border-gray-200 rounded-l-xl'
           }`}
         >
@@ -95,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             className="lg:hidden absolute top-4 right-4 p-1 hover:bg-gray-100 rounded"
           >
             <svg
-              className="w-5 h-5 text-gray-600"
+              className="w-6 h-6 text-gray-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -103,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
+                strokeWidth={1.5}
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
@@ -114,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <button
                 onClick={() => handleItemClick(item.id)}
                 onKeyDown={e => handleKeyDown(e, item.id)}
-                className={`p-2 rounded-xl flex items-center justify-center text-lg transition-all  duration-200 border ${
+                className={`p-1 w-[36px] h-[36px] rounded-xl flex items-center justify-center text-lg transition-all duration-200 border ${
                   expandedItem === item.id
                     ? 'border-gray-200 shadow-md'
                     : 'border-transparent hover:bg-gray-100 hover:scale-105'
@@ -255,7 +255,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={1.5}
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>

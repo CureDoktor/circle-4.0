@@ -118,7 +118,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
     <>
       {/* Background overlay with undercut effect */}
       <div
-        className={`fixed inset-0 bg-black/20 z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/20 z-40 transition-opacity duration-200 ${
           animationPhase === 'expanded' ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={handleClose}
@@ -126,7 +126,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
 
       {/* Undercut effect - shows bottom of previous page */}
       <div
-        className={`fixed h-8 bg-white z-35 transition-opacity duration-300 ${
+        className={`fixed h-8 bg-white z-35 transition-opacity duration-200 ${
           animationPhase === 'expanded' ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
@@ -142,7 +142,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
       {/* Main expansion container */}
       <div
         ref={expansionRef}
-        className={`fixed z-50 bg-white rounded-2xl shadow-2xl border border-gray-200 transition-all duration-300 ease-out ${
+        className={`fixed z-50 bg-white rounded-2xl shadow-2xl border border-gray-200 transition-all duration-200 ease-out ${
           animationPhase === 'expanded' ? 'rounded-2xl' : 'rounded-lg'
         }`}
         style={{
@@ -158,18 +158,32 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
           <div className="h-full flex flex-col">
             {/* Header - Fixed at top */}
             <div
-              className={`flex items-center justify-between p-6 border-b border-gray-200 transition-all duration-300 flex-shrink-0 ${
+              className={`flex items-center justify-between p-6 border-b border-gray-200 transition-all duration-200 flex-shrink-0 ${
                 animationPhase === 'expanded'
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-4'
               }`}
               style={{
                 transitionDelay:
-                  animationPhase === 'expanded' ? '200ms' : '0ms',
+                  animationPhase === 'expanded' ? '100ms' : '0ms',
               }}
             >
+              {/* Left side - Logo and Community name */}
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">W</span>
+                </div>
+                <span className="text-gray-900 font-medium">
+                  WEBFLOW COMMUNITY
+                </span>
+              </div>
+
+              {/* Right side - Action buttons */}
+              <div className="flex items-center space-x-3">
+                <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+                  Join
+                </button>
+                <button className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
                   <svg
                     className="w-4 h-4 text-gray-600"
                     fill="none"
@@ -180,71 +194,42 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
                     />
                   </svg>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <button className="px-4 py-1 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">
-                    Subscribed
-                  </button>
-                  <button className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-gray-600"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </button>
-                  <button className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <button
-                onClick={handleClose}
-                className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
-              >
-                <svg
-                  className="w-4 h-4 text-gray-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                </button>
+                <button
+                  onClick={handleClose}
+                  className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-4 h-4 text-gray-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Content - Scrollable */}
             <div className="flex-1 overflow-y-auto min-h-0">
               <div
-                className={`max-w-2xl mx-auto p-6 transition-all duration-500 ${
+                className={`max-w-2xl mx-auto p-6 transition-all duration-300 ${
                   animationPhase === 'expanded'
                     ? 'opacity-100 translate-y-0'
                     : 'opacity-0 translate-y-8'
                 }`}
                 style={{
                   transitionDelay:
-                    animationPhase === 'expanded' ? '300ms' : '0ms',
+                    animationPhase === 'expanded' ? '150ms' : '0ms',
                 }}
               >
                 {/* Article Header */}
@@ -328,14 +313,14 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
 
             {/* Footer - Fixed at bottom */}
             <div
-              className={`border-t border-gray-200 p-6 transition-all duration-400 flex-shrink-0 bg-white ${
+              className={`border-t border-gray-200 p-6 transition-all duration-250 flex-shrink-0 bg-white ${
                 animationPhase === 'expanded'
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-4'
               }`}
               style={{
                 transitionDelay:
-                  animationPhase === 'expanded' ? '400ms' : '0ms',
+                  animationPhase === 'expanded' ? '200ms' : '0ms',
               }}
             >
               <div className="max-w-4xl mx-auto">

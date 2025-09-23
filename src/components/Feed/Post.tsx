@@ -40,7 +40,22 @@ const Post: React.FC<PostProps> = ({
 
   const handlePostClick = (e: React.MouseEvent) => {
     if (onPostClick) {
-      const rect = e.currentTarget.getBoundingClientRect();
+      // Get the exact click position relative to the viewport
+      const clickX = e.clientX;
+      const clickY = e.clientY;
+
+      // Create a small rect around the click point for the zoom origin
+      const clickRect = {
+        left: clickX - 2,
+        top: clickY - 2,
+        right: clickX + 2,
+        bottom: clickY + 2,
+        width: 4,
+        height: 4,
+        x: clickX - 2,
+        y: clickY - 2,
+      };
+
       onPostClick({
         id,
         author,
@@ -59,7 +74,7 @@ const Post: React.FC<PostProps> = ({
           linkedin: 'in LinkedIn',
           twitter: `X @${author.toLowerCase().replace(/\s+/g, '')}`,
         },
-        originRect: rect,
+        originRect: clickRect,
       });
     }
   };

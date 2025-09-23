@@ -7,6 +7,16 @@ interface ContentCard {
   thumbnail: string;
   type: 'video' | 'article';
   duration: string;
+  originRect?: {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } | null;
 }
 
 interface ContentCardsProps {
@@ -207,7 +217,26 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
         {cards.map(card => (
           <div
             key={card.id}
-            onClick={() => onCardClick(card)}
+            onClick={e => {
+              // Get the exact click position relative to the viewport
+              const clickX = e.clientX;
+              const clickY = e.clientY;
+
+              // Create a small rect around the click point for the zoom origin
+              const clickRect = {
+                left: clickX - 2,
+                top: clickY - 2,
+                right: clickX + 2,
+                bottom: clickY + 2,
+                width: 4,
+                height: 4,
+                x: clickX - 2,
+                y: clickY - 2,
+              };
+
+              // Pass the card with click position
+              onCardClick({ ...card, originRect: clickRect });
+            }}
             className="flex-shrink-0 w-48 bg-white rounded-lg shadow-sm cursor-pointer hover:shadow-md transition-shadow"
           >
             {/* Thumbnail */}
