@@ -9,7 +9,7 @@ interface FirstLevelNavItem {
 
 interface FirstLevelNavigationProps {
   items: FirstLevelNavItem[];
-  onItemClick: (itemId: string, direction: 'up' | 'down') => void;
+  onItemClick: (itemId: string) => void;
   activeItem: string;
 }
 
@@ -19,15 +19,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   activeItem,
 }) => {
   const handleItemClick = (itemId: string) => {
-    // Find current active item index
-    const currentIndex = items.findIndex(item => item.id === activeItem);
-    // Find clicked item index
-    const clickedIndex = items.findIndex(item => item.id === itemId);
-
-    // Determine animation direction
-    const direction = clickedIndex < currentIndex ? 'up' : 'down';
-
-    onItemClick(itemId, direction);
+    onItemClick(itemId);
   };
 
   // Split items: exclude settings item (index 5) from top section

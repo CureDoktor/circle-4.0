@@ -18,34 +18,48 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <svg
-        className={`${sizeClasses[size]} animate-spin text-blue-600`}
-        viewBox="0 0 40 40"
-        fill="none"
+        className={`${sizeClasses[size]} animate-spin`}
         xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 200 200"
         role="status"
         aria-label="Loading"
       >
+        <defs>
+          <radialGradient
+            id="a11"
+            cx=".66"
+            fx=".66"
+            cy=".3125"
+            fy=".3125"
+            gradientTransform="scale(1.5)"
+          >
+            <stop offset="0" stopColor="#506CF0"></stop>
+            <stop offset=".3" stopColor="#506CF0" stopOpacity=".9"></stop>
+            <stop offset=".6" stopColor="#506CF0" stopOpacity=".6"></stop>
+            <stop offset=".8" stopColor="#506CF0" stopOpacity=".3"></stop>
+            <stop offset="1" stopColor="#506CF0" stopOpacity="0"></stop>
+          </radialGradient>
+        </defs>
         <circle
-          cx="20"
-          cy="20"
-          r="18"
-          stroke="currentColor"
-          strokeWidth="2"
+          fill="none"
+          stroke="url(#a11)"
+          strokeWidth="21"
           strokeLinecap="round"
-          strokeDasharray="113.097"
-          strokeDashoffset="113.097"
-          opacity="0.2"
+          strokeDasharray="200 1000"
+          strokeDashoffset="0"
+          cx="100"
+          cy="100"
+          r="70"
         />
         <circle
-          cx="20"
-          cy="20"
-          r="18"
-          stroke="currentColor"
-          strokeWidth="2"
+          fill="none"
+          opacity=".2"
+          stroke="#506CF0"
+          strokeWidth="21"
           strokeLinecap="round"
-          strokeDasharray="113.097"
-          strokeDashoffset="28.274"
-          opacity="1"
+          cx="100"
+          cy="100"
+          r="70"
         />
       </svg>
       <span className="sr-only">Loading...</span>

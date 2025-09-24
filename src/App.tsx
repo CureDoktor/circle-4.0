@@ -17,10 +17,6 @@ function App() {
   const [activeFirstLevelItem, setActiveFirstLevelItem] =
     useState<string>('circle');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [animationDirection, setAnimationDirection] = useState<'up' | 'down'>(
-    'down'
-  );
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [navigationStack, setNavigationStack] = useState<
     Array<{
       type: 'feed' | 'post' | 'user';
@@ -28,24 +24,18 @@ function App() {
     }>
   >([{ type: 'feed' }]);
 
-  const handleFirstLevelNavigationClick = (
-    itemId: string,
-    direction: 'up' | 'down'
-  ) => {
+  const handleFirstLevelNavigationClick = (itemId: string) => {
     if (itemId === activeFirstLevelItem) return; // Don't reload if same item
 
-    // Change content immediately
-    setActiveFirstLevelItem(itemId);
-    setNavigationStack([{ type: 'feed' }]); // Reset navigation stack
+    // Show loading spinner
+    setIsLoading(true);
 
-    // Start animation
-    setAnimationDirection(direction);
-    setIsAnimating(true);
-
-    // End animation after duration
+    // Change content after brief loading
     setTimeout(() => {
-      setIsAnimating(false);
-    }, 600);
+      setActiveFirstLevelItem(itemId);
+      setNavigationStack([{ type: 'feed' }]); // Reset navigation stack
+      setIsLoading(false);
+    }, 300);
   };
 
   const handlePostClick = (post: any) => {
@@ -129,33 +119,13 @@ function App() {
           onItemClick={handleFirstLevelNavigationClick}
           activeItem={activeFirstLevelItem}
         />
-        <div
-          className={`flex-1 overflow-hidden rounded-2xl shadow-sm border border-gray-200 relative m-4 ${
-            isAnimating
-              ? animationDirection === 'up'
-                ? 'animate-slide-up'
-                : 'animate-slide-down'
-              : ''
-          }`}
-        >
-          {isLoading && !isAnimating ? (
+        <div className="flex-1 overflow-hidden rounded-2xl shadow-sm border border-gray-200 relative m-4">
+          {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
               <LoadingSpinner size="lg" />
             </div>
           ) : (
-            <>
-              {/* Previous content - stays visible during animation */}
-              {isAnimating && (
-                <div className="absolute inset-0 h-full">
-                  {renderContent(activeFirstLevelItem)}
-                </div>
-              )}
-
-              {/* New content */}
-              <div className="h-full">
-                {renderContent(activeFirstLevelItem)}
-              </div>
-            </>
+            <div className="h-full">{renderContent(activeFirstLevelItem)}</div>
           )}
         </div>
       </div>
