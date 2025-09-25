@@ -178,7 +178,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
       </div>
 
       {/* Main Feed Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto mb-4">
         <div className="max-w-2xl mx-auto">
           {/* Post Creation Component */}
           <div className="p-4 bg-white border border-gray-100 mb-4 rounded-lg">
@@ -280,7 +280,6 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
           </div>
         </div>
       </div>
-
       {/* Post Expansion */}
       {isPostExpanded && selectedPost && (
         <PostExpansion

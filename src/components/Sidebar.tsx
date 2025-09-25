@@ -79,14 +79,14 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar */}
       <div
-        className={`nav-container h-full flex sidebar-container fixed lg:relative z-50 rounded-2xl ${
+        className={`nav-container h-full flex sidebar-container fixed lg:relative z-50 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } transition-transform duration-300 ease-in-out`}
       >
         {/* Icon Column */}
         <div
           className={`bg-white flex flex-col gap-4 flex flex-col items-center py-[18px] px-2 ${
-            isCollapsed ? 'rounded-xl' : 'border-r border-gray-200 rounded-l-xl'
+            isCollapsed ? '' : 'border-r border-gray-200'
           }`}
         >
           {/* Mobile Close Button */}

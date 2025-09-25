@@ -265,8 +265,8 @@ const AdminSection: React.FC = () => {
         onToggleAIHelper={toggleAIHelper}
       />
       <div
-        className={`flex flex-1 p-[6px] gap-[6px] pb-5 bg-gray-50 min-h-0 overflow-hidden ${
-          isAIHelperOpen ? 'pr-[6px]' : 'pr-[0px]'
+        className={`flex flex-1 pb-5 bg-gray-50 min-h-0 overflow-hidden ${
+          isAIHelperOpen ? '' : 'pr-[0px]'
         }`}
       >
         {viewMode === 'Admin' && (

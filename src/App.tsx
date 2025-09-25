@@ -121,7 +121,7 @@ function App() {
         />
         <div className="flex-1 overflow-hidden rounded-2xl shadow-sm border border-gray-200 relative m-4">
           {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
+            <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
               <LoadingSpinner size="lg" />
             </div>
           ) : (
