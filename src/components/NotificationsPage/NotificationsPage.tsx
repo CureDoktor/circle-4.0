@@ -123,35 +123,40 @@ const NotificationsPage: React.FC = () => {
       <NotificationsHeader />
 
       {/* Filter Tabs */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex space-x-6">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                activeTab === tab.id
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
-            >
-              <span>{tab.label}</span>
-              {tab.count && (
-                <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          ))}
+      <div className="bg-white px-6 py-4">
+        <div className="max-w-[680px] mx-auto">
+          <div className="flex space-x-1 rounded-lg p-1">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === tab.id
+                    ? 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900 border border-transparent'
+                }`}
+              >
+                {tab.label}
+                {tab.count && (
+                  <span className="mx-2 border border-gray-200 text-gray-700 text-xs px-2 py-1 rounded-xl">
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Notifications List */}
       <div className="flex-1 overflow-y-auto">
-        <div className="flex-1 max-w-3xl mx-auto border border-gray-200 rounded-lg">
+        <div
+          className="flex-1 max-w-4xl mx-auto rounded-lg"
+          style={{ maxWidth: '680px' }}
+        >
           {/* Today */}
           <div>
-            <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+            <div className="px-6 py-3">
               <h3 className="text-sm font-semibold text-gray-900">Today</h3>
             </div>
             <div className="divide-y divide-gray-200">
@@ -163,7 +168,7 @@ const NotificationsPage: React.FC = () => {
 
           {/* Last 7 days */}
           <div>
-            <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+            <div className="px-6 py-3">
               <h3 className="text-sm font-semibold text-gray-900">
                 Last 7 days
               </h3>
@@ -177,7 +182,7 @@ const NotificationsPage: React.FC = () => {
 
           {/* Older */}
           <div>
-            <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
+            <div className="px-6 py-3">
               <h3 className="text-sm font-semibold text-gray-900">Older</h3>
             </div>
             <div className="divide-y divide-gray-200">

@@ -18,7 +18,6 @@ import InviteLinks from '../InviteLinks/InviteLinks';
 import Tags from '../Tags/Tags';
 import ProfileFields from '../ProfileFields/ProfileFields';
 import ActivityLogs from '../ActivityLogs/ActivityLogs';
-import PlaceholderPage from '../PlaceholderPage';
 import AIHelperChat from '../AIHelperChat';
 import Onboarding from '../Onboarding';
 import Gamification from '../Gamification';
@@ -26,7 +25,36 @@ import Live from '../Live';
 import Overview from '../Marketing/Overview';
 import Broadcasts from '../Marketing/Broadcasts';
 import Forms from '../Marketing/Forms';
-import Settings from '../Marketing/Settings';
+import Settings from '../Settings/Settings';
+import {
+  General,
+  CustomDomain,
+  CommunityAI,
+  MobileApp,
+  WeeklyDigest,
+  Embed,
+  SingleSignOn,
+  Messaging,
+  Legal,
+} from '../Settings';
+import Knowledge from '../Knowledge';
+import Agents from '../Agents';
+import SubscriptionGroups from '../SubscriptionGroups';
+import Transactions from '../Transactions';
+import Subscriptions from '../Subscriptions';
+import Taxes from '../Taxes';
+import ExportLogs from '../ExportLogs';
+import Affiliates from '../Affiliates';
+import Commissions from '../Commissions';
+import HeaderNavigation from '../HeaderNavigation';
+import SEO from '../SEO';
+import Redirects from '../Redirects';
+import Defaults from '../Defaults';
+import CodeSnippets from '../CodeSnippets';
+import PaywallsSettings from '../PaywallsSettings';
+import AffiliatesSettings from '../AffiliatesSettings';
+import BrandedApp from '../BrandedApp';
+import AIInbox from '../AIInbox';
 import { ViewMode, AudienceData } from '../../types';
 import {
   audienceData,
@@ -59,6 +87,13 @@ const AdminSection: React.FC = () => {
       setTimeout(() => {
         setCurrentSection(subItemId);
         setActiveSubItem(subItemId);
+
+        // Keep sidebar collapsed for branded-app and ai-inbox, expand for others
+        if (subItemId === 'branded-app' || subItemId === 'ai-inbox') {
+          setIsSidebarCollapsed(true);
+        } else {
+          setIsSidebarCollapsed(false);
+        }
 
         setTimeout(() => {
           setIsContentTransitioning(false);
@@ -189,6 +224,24 @@ const AdminSection: React.FC = () => {
         return <Forms onToggleSidebar={toggleSidebar} />;
       case 'settings':
         return <Settings onToggleSidebar={toggleSidebar} />;
+      case 'general':
+        return <General onToggleSidebar={toggleSidebar} />;
+      case 'custom-domain':
+        return <CustomDomain onToggleSidebar={toggleSidebar} />;
+      case 'community-ai':
+        return <CommunityAI onToggleSidebar={toggleSidebar} />;
+      case 'mobile-app':
+        return <MobileApp onToggleSidebar={toggleSidebar} />;
+      case 'weekly-digest':
+        return <WeeklyDigest onToggleSidebar={toggleSidebar} />;
+      case 'embed':
+        return <Embed onToggleSidebar={toggleSidebar} />;
+      case 'single-sign-on':
+        return <SingleSignOn onToggleSidebar={toggleSidebar} />;
+      case 'messaging':
+        return <Messaging onToggleSidebar={toggleSidebar} />;
+      case 'legal':
+        return <Legal onToggleSidebar={toggleSidebar} />;
       case 'all-workflows':
         return <Workflows onToggleSidebar={toggleSidebar} />;
       case 'history':
@@ -206,45 +259,41 @@ const AdminSection: React.FC = () => {
       case 'paywalls':
         return <Paywalls onToggleSidebar={toggleSidebar} />;
       case 'subscription-groups':
-        return (
-          <PlaceholderPage
-            title="Subscription Groups"
-            description="Subscription groups management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <SubscriptionGroups onToggleSidebar={toggleSidebar} />;
       case 'transactions':
-        return (
-          <PlaceholderPage
-            title="Transactions"
-            description="Transactions management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Transactions onToggleSidebar={toggleSidebar} />;
       case 'subscriptions':
-        return (
-          <PlaceholderPage
-            title="Subscriptions"
-            description="Subscriptions management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Subscriptions onToggleSidebar={toggleSidebar} />;
       case 'taxes':
-        return (
-          <PlaceholderPage
-            title="Taxes"
-            description="Taxes management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <Taxes onToggleSidebar={toggleSidebar} />;
       case 'export-logs':
-        return (
-          <PlaceholderPage
-            title="Export Logs"
-            description="Export logs management interface will be implemented here."
-            onToggleSidebar={toggleSidebar}
-          />
-        );
+        return <ExportLogs onToggleSidebar={toggleSidebar} />;
+      case 'affiliates':
+        return <Affiliates onToggleSidebar={toggleSidebar} />;
+      case 'commissions':
+        return <Commissions onToggleSidebar={toggleSidebar} />;
+      case 'navigation':
+        return <HeaderNavigation onToggleSidebar={toggleSidebar} />;
+      case 'seo':
+        return <SEO onToggleSidebar={toggleSidebar} />;
+      case 'redirects':
+        return <Redirects onToggleSidebar={toggleSidebar} />;
+      case 'defaults':
+        return <Defaults onToggleSidebar={toggleSidebar} />;
+      case 'code-snippets':
+        return <CodeSnippets onToggleSidebar={toggleSidebar} />;
+      case 'paywalls-settings':
+        return <PaywallsSettings onToggleSidebar={toggleSidebar} />;
+      case 'affiliates-settings':
+        return <AffiliatesSettings onToggleSidebar={toggleSidebar} />;
+      case 'branded-app':
+        return <BrandedApp onToggleSidebar={toggleSidebar} />;
+      case 'ai-inbox':
+        return <AIInbox onToggleSidebar={toggleSidebar} />;
+      case 'knowledge':
+        return <Knowledge onToggleSidebar={toggleSidebar} />;
+      case 'agents':
+        return <Agents onToggleSidebar={toggleSidebar} />;
 
       default:
         return (
@@ -265,20 +314,21 @@ const AdminSection: React.FC = () => {
         onToggleAIHelper={toggleAIHelper}
       />
       <div
-        className={`flex flex-1 pb-5 bg-gray-50 min-h-0 overflow-hidden ${
+        className={`flex flex-1 pb-5 bg-gray-50 min-h-0 overflow-hidden mb-3 ${
           isAIHelperOpen ? '' : 'pr-[0px]'
         }`}
       >
         {viewMode === 'Admin' && (
           <div
             className={`transition-all duration-500 ease-in-out flex-shrink-0 ${
-              isSidebarCollapsed ? 'w-[3.7rem]' : 'w-[16.5rem]'
+              isSidebarCollapsed ? 'w-[3.5rem]' : 'w-[16.5rem]'
             }`}
           >
             <Sidebar
               items={sidebarItems}
               onItemClick={handleSidebarItemClick}
               isCollapsed={isSidebarCollapsed}
+              currentSection={currentSection}
             />
           </div>
         )}

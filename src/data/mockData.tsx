@@ -4007,8 +4007,8 @@ export const sidebarItems: SidebarItem[] = [
     title: 'Workflows',
     icon: (
       <svg
-        width="20"
-        height="20"
+        width="24"
+        height="24"
         viewBox="0 0 20 22"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -4146,7 +4146,7 @@ export const sidebarItems: SidebarItem[] = [
       { id: 'coupons', title: 'Coupons' },
       { id: 'taxes', title: 'Taxes' },
       { id: 'export-logs', title: 'Export logs' },
-      { id: 'settings', title: 'Settings' },
+      { id: 'paywalls-settings', title: 'Settings' },
     ],
   },
   {
@@ -4255,7 +4255,7 @@ export const sidebarItems: SidebarItem[] = [
     subItems: [
       { id: 'affiliates', title: 'Affiliates' },
       { id: 'commissions', title: 'Commissions' },
-      { id: 'settings', title: 'Settings' },
+      { id: 'affiliates-settings', title: 'Settings' },
     ],
   },
   {
@@ -4388,8 +4388,14 @@ export const sidebarItems: SidebarItem[] = [
     ),
     subItems: [
       { id: 'general', title: 'General' },
-      { id: 'security', title: 'Security' },
-      { id: 'notifications', title: 'Notifications' },
+      { id: 'custom-domain', title: 'Custom domain' },
+      { id: 'community-ai', title: 'Community AI' },
+      { id: 'mobile-app', title: 'Mobile app' },
+      { id: 'weekly-digest', title: 'Weekly digest' },
+      { id: 'embed', title: 'Embed' },
+      { id: 'single-sign-on', title: 'Single sign-on' },
+      { id: 'messaging', title: 'Messaging' },
+      { id: 'legal', title: 'Legal' },
     ],
   },
 ];

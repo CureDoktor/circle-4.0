@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ChatList from './ChatList';
 import ChatWindow from './ChatWindow';
 import UserProfile from './UserProfile';
+import InboxNavbar from './InboxNavbar';
 
 interface Chat {
   id: string;
@@ -325,13 +326,16 @@ const InboxPage: React.FC = () => {
   };
 
   return (
-    <div className="h-full bg-white flex">
-      <ChatList
-        onChatSelect={handleChatSelect}
-        selectedChatId={selectedChat?.id || ''}
-      />
-      <ChatWindow chat={selectedChat} />
-      <UserProfile user={selectedUser} />
+    <div className="h-full bg-white flex flex-col">
+      <InboxNavbar />
+      <div className="flex-1 flex min-h-0">
+        <ChatList
+          onChatSelect={handleChatSelect}
+          selectedChatId={selectedChat?.id || ''}
+        />
+        <ChatWindow chat={selectedChat} />
+        <UserProfile user={selectedUser} />
+      </div>
     </div>
   );
 };

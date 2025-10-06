@@ -5,12 +5,14 @@ interface SidebarProps {
   items: SidebarItem[];
   onItemClick: (itemId: string, subItemId?: string) => void;
   isCollapsed?: boolean;
+  currentSection?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
   onItemClick,
   isCollapsed = false,
+  currentSection,
 }) => {
   const [expandedItem, setExpandedItem] = useState<string | null>('audience');
   const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
@@ -86,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* Icon Column */}
         <div
           className={`bg-white flex flex-col gap-4 flex flex-col items-center py-[18px] px-2 ${
-            isCollapsed ? '' : 'border-r border-gray-200'
+            isCollapsed ? 'rounded-xl' : 'border-r border-gray-200'
           }`}
         >
           {/* Mobile Close Button */}
@@ -212,28 +214,30 @@ const Sidebar: React.FC<SidebarProps> = ({
               .filter(item => item.id === expandedItem)
               .map(item => (
                 <div key={item.id}>
-                  {item.subItems && (
-                    <ul role="menu">
-                      {item.subItems.map(subItem => (
-                        <li key={subItem.id} role="none">
-                          <button
-                            onClick={() =>
-                              handleSubItemClick(item.id, subItem.id)
-                            }
-                            className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all duration-150 ${
-                              activeSubItem === subItem.id
-                                ? ' text-gray-900 font-medium border-2 border-gray-100 shadow-sm'
-                                : 'text-gray-700 hover:bg-gray-100 border-2 border-white hover:text-gray-900'
-                            }`}
-                            role="menuitem"
-                            aria-current={subItem.active ? 'page' : undefined}
-                          >
-                            {subItem.title}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  {item.subItems &&
+                    currentSection !== 'branded-app' &&
+                    currentSection !== 'ai-inbox' && (
+                      <ul role="menu">
+                        {item.subItems.map(subItem => (
+                          <li key={subItem.id} role="none">
+                            <button
+                              onClick={() =>
+                                handleSubItemClick(item.id, subItem.id)
+                              }
+                              className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all duration-150 ${
+                                activeSubItem === subItem.id
+                                  ? ' text-gray-900 font-medium border-2 border-gray-100 shadow-sm'
+                                  : 'text-gray-700 hover:bg-gray-100 border-2 border-white hover:text-gray-900'
+                              }`}
+                              role="menuitem"
+                              aria-current={subItem.active ? 'page' : undefined}
+                            >
+                              {subItem.title}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                 </div>
               ))}
           </div>
