@@ -3,7 +3,6 @@ import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
 import ManageAudience from '../ManageAudience';
 import Community from '../CommunitySection';
-import Content from '../Content/Content';
 import ContentSidebar from '../Content/ContentSidebar';
 import { Posts, Spaces, Topics, Moderation, MediaManager } from '../Content';
 import Workflows from '../Workflows/Workflows';
@@ -42,6 +41,8 @@ import Agents from '../Agents';
 import SubscriptionGroups from '../SubscriptionGroups';
 import Transactions from '../Transactions';
 import Subscriptions from '../Subscriptions';
+import { PageEditor } from '../PageEditor';
+import Content from '../Content/Content';
 import Taxes from '../Taxes';
 import ExportLogs from '../ExportLogs';
 import Affiliates from '../Affiliates';
@@ -72,6 +73,8 @@ const AdminSection: React.FC = () => {
     useState<AudienceData>(audienceData);
   const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
   const [isContentTransitioning, setIsContentTransitioning] = useState(false);
+  const [isPageEditorOpen, setIsPageEditorOpen] = useState(false);
+  const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
 
   // Load data from localStorage on app start
   useEffect(() => {
@@ -147,6 +150,24 @@ const AdminSection: React.FC = () => {
     setCurrentAudienceData(newData);
   };
 
+  const handlePageClick = (pageId: string) => {
+    setSelectedPageId(pageId);
+    setIsPageEditorOpen(true);
+  };
+
+  const handleCreatePage = (templateId?: string) => {
+    console.log('handleCreatePage called with templateId:', templateId);
+    if (templateId) {
+      setSelectedPageId(templateId);
+      setIsPageEditorOpen(true);
+    }
+  };
+
+  const handleBackFromEditor = () => {
+    setIsPageEditorOpen(false);
+    setSelectedPageId(null);
+  };
+
   const renderContent = () => {
     if (viewMode === 'Community') {
       return <Community />;
@@ -176,6 +197,8 @@ const AdminSection: React.FC = () => {
             ]}
             columns={['Name', 'Status', 'Author', 'Updated']}
             onToggleSidebar={toggleSidebar}
+            onPageClick={handlePageClick}
+            onCreatePage={handleCreatePage}
           />
         );
       case 'posts':
@@ -305,6 +328,19 @@ const AdminSection: React.FC = () => {
         );
     }
   };
+
+  // If page editor is open, show it as full screen (overrides everything)
+  if (isPageEditorOpen) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white">
+        <PageEditor
+          onToggleSidebar={toggleSidebar}
+          onBackToList={handleBackFromEditor}
+          selectedPageId={selectedPageId}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col overflow-hidden">

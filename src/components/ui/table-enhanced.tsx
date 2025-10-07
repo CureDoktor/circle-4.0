@@ -22,6 +22,7 @@ export interface TableProps<T = any> {
   selectedItems: string[];
   onSelectAll: () => void;
   onSelectItem: (itemId: string) => void;
+  onRowClick?: (item: T) => void;
   isLoading?: boolean;
   className?: string;
   containerClassName?: string;
@@ -33,6 +34,7 @@ const TableEnhanced = <T extends { id: string }>({
   selectedItems,
   onSelectAll,
   onSelectItem,
+  onRowClick,
   isLoading = false,
   className = '',
   containerClassName = '',
@@ -119,7 +121,8 @@ const TableEnhanced = <T extends { id: string }>({
             {data.map((item, index) => (
               <TableRow
                 key={item.id || index}
-                className="hover:bg-gray-50 transition-colors"
+                className="hover:bg-gray-50 transition-colors cursor-pointer"
+                onClick={() => onRowClick?.(item)}
               >
                 <TableCell className="w-12 px-6 py-4">
                   <input

@@ -5,6 +5,7 @@ import ContentContainer from '../ContentContainer';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
+import TemplateLibrary from '../PageEditor/TemplateLibrary';
 
 interface ContentProps {
   onToggleSidebar: () => void;
@@ -13,16 +14,21 @@ interface ContentProps {
   filters?: string[];
   columns?: string[];
   icon?: React.ReactNode;
+  onPageClick?: (pageId: string) => void;
+  onCreatePage?: (templateId?: string) => void;
 }
 
 const Content: React.FC<ContentProps> = ({
   onToggleSidebar,
   title = 'Pages',
   createButtonText = 'Create page',
+  onPageClick,
+  onCreatePage,
 }) => {
   const [pages] = useState(mockPages);
   const [selectedPages, setSelectedPages] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
   const itemsPerPage = 20;
 
   const totalPages = Math.ceil(pages.length / itemsPerPage);
@@ -49,6 +55,16 @@ const Content: React.FC<ContentProps> = ({
   const handleDeleteSelected = () => {
     console.log('Delete selected pages');
     setSelectedPages([]);
+  };
+
+  const handleCreatePageClick = () => {
+    setShowTemplateModal(true);
+  };
+
+  const handleTemplateSelect = (templateId: string) => {
+    console.log('Content: Template selected:', templateId);
+    setShowTemplateModal(false);
+    onCreatePage?.(templateId); // Pass the templateId to open editor with selected template
   };
 
   // Define table columns
@@ -120,7 +136,11 @@ const Content: React.FC<ContentProps> = ({
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title={title}
-      actions={<Button variant="default">{createButtonText}</Button>}
+      actions={
+        <Button variant="default" onClick={handleCreatePageClick}>
+          {createButtonText}
+        </Button>
+      }
     >
       {/* Actions */}
       <Actions
@@ -137,6 +157,7 @@ const Content: React.FC<ContentProps> = ({
           selectedItems={selectedPages}
           onSelectAll={handleSelectAll}
           onSelectItem={handleSelectItem}
+          onRowClick={item => onPageClick?.(item.id)}
         />
       </div>
 
@@ -152,6 +173,14 @@ const Content: React.FC<ContentProps> = ({
           setCurrentPage(prev => Math.min(prev + 1, totalPages))
         }
       />
+
+      {/* Template Library Modal */}
+      {showTemplateModal && (
+        <TemplateLibrary
+          onClose={() => setShowTemplateModal(false)}
+          onSelectTemplate={handleTemplateSelect}
+        />
+      )}
     </ContentContainer>
   );
 };

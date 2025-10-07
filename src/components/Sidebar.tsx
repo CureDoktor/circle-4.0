@@ -188,16 +188,14 @@ const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Expanded Menu */}
         <div
-          className={`flex flex-col gap-3 bg-white border-gray-200 py-4 px-2 rounded-r-2xl overflow-hidden transition-all duration-300 ease-out ${
-            expandedItem && !isCollapsed
-              ? 'w-48 opacity-100 translate-x-0'
-              : 'w-0 opacity-0 -translate-x-full'
+          className={`flex flex-col gap-3 bg-white border-gray-200 py-4 px-2 rounded-r-2xl overflow-hidden transition-all ease-out ${
+            expandedItem && !isCollapsed ? 'w-48 opacity-100' : 'w-0 opacity-0'
           }`}
         >
           {/* Dynamic Title */}
           <div
             className={`px-4 py-2 transition-opacity duration-200 ease-out ${
-              isContentVisible ? 'opacity-100' : 'opacity-0'
+              isContentVisible ? 'block' : 'hidden'
             }`}
           >
             <h2 className="text-xl font-bold text-gray-900">
@@ -207,7 +205,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
           <div
             className={`transition-opacity duration-200 ease-out ${
-              isContentVisible ? 'opacity-100' : 'opacity-0'
+              isContentVisible ? 'block' : 'hidden'
             }`}
           >
             {items
