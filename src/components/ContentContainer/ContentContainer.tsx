@@ -17,7 +17,7 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
 }) => {
   return (
     <div
-      className={`page-container h-full flex flex-col overflow-hidden ${className}`}
+      className={`page-container h-full flex flex-col overflow-hidden border-r-transparent ${className}`}
     >
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex-shrink-0">

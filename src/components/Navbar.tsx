@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   return (
-    <nav className="bg-header-bg text-white px-5 py-2 shadow-lg border-b border-gray-200 relative">
+    <nav className="bg-header-bg text-white px-5 py-2 border-b border-gray-200 relative">
       <div className="flex items-center justify-between">
         {/* Logo and App Name */}
         <div className="flex items-center gap-2">

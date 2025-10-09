@@ -313,7 +313,7 @@ const TemplatePreview: React.FC<TemplatePreviewProps> = ({ templateId }) => {
   };
 
   return (
-    <div className="w-full h-full transform origin-top-left">
+    <div className="w-full h-full transform scale-75 origin-top-left">
       {renderTemplatePreview()}
     </div>
   );

@@ -81,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar */}
       <div
-        className={`nav-container h-full flex sidebar-container fixed lg:relative z-50 ${
+        className={`nav-container h-full flex sidebar-container fixed lg:relative border-l-transparent z-50 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         } transition-transform duration-300 ease-in-out`}
       >

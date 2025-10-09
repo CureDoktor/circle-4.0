@@ -34,7 +34,7 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
       }}
     >
       <div
-        className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden"
+        className="bg-white rounded-lg shadow-xl max-w-6xl w-full mx-4 max-h-[95vh] overflow-hidden"
         style={{
           animation: 'zoomIn 500ms ease-out',
           animationFillMode: 'both',
@@ -74,7 +74,7 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
             <h3 className="text-2xl font-bold text-gray-900">All templates</h3>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {templates.map(template => (
               <div
                 key={template.id}
@@ -84,7 +84,7 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
                 onClick={() => handleTemplateSelect(template.id)}
               >
                 <div
-                  className={`border-2 rounded-lg overflow-hidden transition-all duration-300 ${
+                  className={`border-2 rounded-xl overflow-hidden transition-all duration-300 ${
                     hoveredTemplate === template.id
                       ? 'border-blue-500 shadow-xl scale-105'
                       : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
@@ -125,8 +125,8 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
                 )}
 
                 {/* Template Info */}
-                <div className="mt-3 text-center">
-                  <div className="text-sm font-medium text-gray-900">
+                <div className="mt-4 text-center">
+                  <div className="text-base font-semibold text-gray-900">
                     {template.name}
                   </div>
                 </div>
