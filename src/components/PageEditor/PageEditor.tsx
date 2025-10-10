@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TemplateLibrary from './TemplateLibrary';
 import PagePreview from './PagePreview';
+import DesignSidebar from './DesignSidebar';
 import './PageEditor.css';
 
 interface PageEditorProps {
@@ -26,6 +27,8 @@ const PageEditor: React.FC<PageEditorProps> = ({
   const [deviceType, setDeviceType] = useState<'desktop' | 'tablet' | 'mobile'>(
     'desktop'
   );
+  const [activeTab, setActiveTab] = useState<'editor' | 'copilot'>('editor');
+  const [showDesignSidebar, setShowDesignSidebar] = useState(false);
 
   const handleCreatePage = () => {
     console.log('Create Page clicked, opening template library');
@@ -67,24 +70,24 @@ const PageEditor: React.FC<PageEditorProps> = ({
       <div className="flex items-center justify-between bg-gray-100 pb-4">
         {/* Left: Back button and breadcrumb */}
         <div className="flex items-center space-x-4">
-          <button
-            onClick={handleBack}
-            className="p-2 hover:bg-gray-100 rounded-md transition-colors"
-          >
-            <svg
-              className="w-5 h-5 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <button
+              onClick={handleBack}
+            className="p-1 hover:bg-gray-100 rounded-md transition-colors"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
+              <svg
+              className="w-5 h-5 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-500">Home page</span>
             <svg
@@ -106,8 +109,8 @@ const PageEditor: React.FC<PageEditorProps> = ({
         {/* Right: Editor controls and action buttons */}
         <div className="flex items-center space-x-4 rounded-xl">
           {/* Editor Icons */}
-          <div className="flex items-center space-x-3">
-            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
+          <div className="flex items-center space-x-2">
+            <button className="p-1 hover:bg-gray-100 rounded-md transition-colors">
               <svg
                 width="16"
                 height="16"
@@ -129,7 +132,7 @@ const PageEditor: React.FC<PageEditorProps> = ({
                 />
               </svg>
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
+            <button className="p-1 hover:bg-gray-100 rounded-md transition-colors">
               <svg
                 width="16"
                 height="16"
@@ -163,7 +166,7 @@ const PageEditor: React.FC<PageEditorProps> = ({
                 </svg>
               </div>
             </div>
-            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
+            <button className="p-1 hover:bg-gray-100 rounded-md transition-colors">
               <svg
                 width="16"
                 height="16"
@@ -179,7 +182,7 @@ const PageEditor: React.FC<PageEditorProps> = ({
                 />
               </svg>
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors">
+            <button className="p-1 hover:bg-gray-100 rounded-md transition-colors">
               <svg
                 width="16"
                 height="16"
@@ -198,21 +201,21 @@ const PageEditor: React.FC<PageEditorProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-2">
-            <button className="px-4 py-2 text-sm text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
-              Save draft
-            </button>
-            <button className="px-4 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors">
-              Publish page
-            </button>
+        <div className="flex items-center space-x-2">
+            <button className="px-3 py-1.5 text-sm font-medium text-black bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+            Save draft
+          </button>
+            <button className="px-3 py-1.5 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-colors">
+            Publish page
+          </button>
           </div>
         </div>
       </div>
 
       {/* Main Editor Area */}
-      <div className="flex-1 flex bg-gray-50 overflow-hidden">
+      <div className="flex-1 flex bg-gray-50 overflow-hidden relative">
         {/* Left Toolbar */}
-        <div className="w-16 bg-white border border-gray-200 rounded-xl flex flex-col items-center py-4 space-y-4 overflow-y-hidden">
+        <div className="w-[52px] bg-white border border-gray-200 rounded-xl flex flex-col items-center py-4 space-y-2 overflow-y-hidden">
           <button className="p-1 text-gray-600 hover:bg-gray-100 rounded-md transition-colors">
             <svg
               width="18"
@@ -309,7 +312,10 @@ const PageEditor: React.FC<PageEditorProps> = ({
               />
             </svg>
           </button>
-          <button className="p-1 text-gray-600 hover:bg-gray-100 rounded-md transition-colors">
+          <button
+            onClick={() => setShowDesignSidebar(true)}
+            className="p-1 text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+          >
             <svg
               width="24"
               height="24"
@@ -364,8 +370,14 @@ const PageEditor: React.FC<PageEditorProps> = ({
           </button>
         </div>
 
+        {/* Design Sidebar - Expandable from Left Toolbar */}
+        {showDesignSidebar && (
+          <DesignSidebar onClose={() => setShowDesignSidebar(false)} />
+        )}
+
         {/* Center Editor */}
-        <div className="flex-1 flex flex-col overflow-auto">
+
+        <div className="flex-1 flex flex-col overflow-auto scrollbar-hide">
           {!currentTemplate ? (
             <div className="flex-1 flex items-center justify-center bg-gray-50">
               <div className="text-center">
@@ -411,128 +423,293 @@ const PageEditor: React.FC<PageEditorProps> = ({
         <div className="w-80 bg-white border-l border-gray-200 overflow-y-hidden rounded-xl">
           <div className="p-4 border-b border-gray-200">
             <div className="flex space-x-1">
-              <button className="px-3 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
+              <button
+                onClick={() => setActiveTab('editor')}
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'editor'
+                    ? 'text-black bg-gray-100'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
                 Editor
               </button>
-              <button className="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+              <button
+                onClick={() => setActiveTab('copilot')}
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === 'copilot'
+                    ? 'text-black bg-gray-100'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
                 Co-pilot
               </button>
             </div>
           </div>
 
-          <div className="p-4 space-y-6">
-            {/* Background Section */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">
-                Background
-              </h3>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">Color</span>
-                  <div className="w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer"></div>
+          <div className="pt-4 space-y-6">
+            {activeTab === 'editor' ? (
+              <>
+                {/* Background Section */}
+                <div className="px-5">
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">
+                    Background
+                  </h3>
+                  <div className="space-y-2 py-5">
+                    <div className="flex items-center  justify-between">
+                      <span className="text-sm text-black-600 font-medium">
+                        Color
+                      </span>
+                      <div className="w-6 h-6 bg-white border border-gray-300 rounded cursor-pointer"></div>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      To see the page background, ensure the section background
+                      opacity is less than 100%.
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500">
-                  To see the page background, ensure the section background
-                  opacity is less than 100%.
-                </p>
-              </div>
-            </div>
 
-            {/* Padding Section */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">
-                Padding
-              </h3>
-              <div className="grid grid-cols-4 gap-2">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Top
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                {/* Padding Section */}
+                <div className="border-y border-gray-200 py-5 px-5">
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">
+                    Padding
+                  </h3>
+                  <div className="grid grid-cols-4 gap-2">
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Top
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Right
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Bottom
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Left
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Right
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Bottom
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Left
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </div>
 
-            {/* Margin Section */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Margin</h3>
-              <div className="grid grid-cols-4 gap-2">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Top
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                {/* Margin Section */}
+                <div className="px-5">
+                  <h3 className="text-sm font-medium text-gray-900 mb-3">
+                    Margin
+                  </h3>
+                  <div className="grid grid-cols-4 gap-2">
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Top
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Right
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="16"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Bottom
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Left
+                      </label>
+                      <input
+                        type="number"
+                        defaultValue="0"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Right
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="16"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+              </>
+            ) : (
+              <>
+                {/* Co-pilot Chat Interface */}
+                <div className="flex-1 flex flex-col h-full">
+                  {/* Chat Messages */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {/* User Message */}
+                    <div className="flex justify-end">
+                      <div className="bg-gray-200 rounded-lg px-4 py-2 max-w-xs">
+                        <p className="text-sm text-gray-800">
+                          I want to create a new access group for my beta
+                          testers
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* AI Message */}
+                    <div className="flex justify-start">
+                      <div className="flex items-start space-x-2 max-w-xs">
+                        <div className="flex items-center space-x-1">
+                          <svg
+                            className="w-4 h-4 text-blue-500"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <span className="text-sm font-bold text-gray-900">
+                            Circle Copilot
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-start">
+                      <div className="bg-white border rounded-lg px-4 py-2 max-w-xs">
+                        <p className="text-sm text-gray-800">
+                          I&apos;ll help you create a new access group. First,
+                          let me get some details:{' '}
+                          <strong>
+                            What would you like to name this group?
+                          </strong>
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* User Message */}
+                    <div className="flex justify-end">
+                      <div className="bg-gray-200 rounded-lg px-4 py-2 max-w-xs">
+                        <p className="text-sm text-gray-800">
+                          Beta Testers Q3 2025
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* AI Message */}
+                    <div className="flex justify-start">
+                      <div className="flex items-start space-x-2 max-w-xs">
+                        <div className="flex items-center space-x-1">
+                          <svg
+                            className="w-4 h-4 text-blue-500"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <span className="text-sm font-bold text-gray-900">
+                            Circle Copilot
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-start">
+                      <div className="bg-white border rounded-lg px-4 py-2 max-w-xs">
+                        <p className="text-sm text-gray-800">
+                          Great name! Would you like to add a description for
+                          &quot;Beta Testers Q3 2025&quot;?
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* User Message */}
+                    <div className="flex justify-end">
+                      <div className="bg-gray-200 rounded-lg px-4 py-2 max-w-xs">
+                        <p className="text-sm text-gray-800">
+                          Filter by the &quot;beta&quot; tag
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* AI Typing Indicator */}
+                    <div className="flex justify-start">
+                      <div className="flex items-start space-x-2 max-w-xs">
+                        <div className="flex items-center space-x-1">
+                          <svg
+                            className="w-4 h-4 text-blue-500"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <div className="flex space-x-1">
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                            <div
+                              className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
+                              style={{ animationDelay: '0.2s' }}
+                            ></div>
+                            <div
+                              className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"
+                              style={{ animationDelay: '0.4s' }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Input Field */}
+                  <div className="p-4 border-t border-gray-200">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        placeholder="Modify this page..."
+                        className="flex-1 px-3 py-2 bg-gray-100 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                      <button className="p-2 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors">
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Bottom
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Left
-                  </label>
-                  <input
-                    type="number"
-                    defaultValue="0"
-                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       </div>

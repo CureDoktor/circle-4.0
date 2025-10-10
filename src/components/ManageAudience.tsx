@@ -257,7 +257,7 @@ const ManageAudience: React.FC<ManageAudienceProps> = ({
         />
 
         {/* Table */}
-        <div className="flex-1 min-h-0 overflow-auto px-5">
+        <div className="flex-1 min-h-0 overflow-auto border-b border-t border-gray-200">
           <Table
             columns={tableColumns}
             data={paginatedUsers}

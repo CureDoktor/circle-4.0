@@ -194,7 +194,7 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto px-5 pt-6">
+      <div className="flex-1 min-h-0 overflow-auto pt-6">
         <Table
           columns={columns}
           data={currentData}

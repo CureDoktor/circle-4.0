@@ -30,9 +30,7 @@ const Table = <T extends { id: string }>({
 }: TableProps<T>) => {
   if (isLoading) {
     return (
-      <div
-        className={`border border-gray-200 rounded-lg overflow-hidden h-full ${containerClassName}`}
-      >
+      <div className={`overflow-hidden h-full ${containerClassName}`}>
         <div className="animate-pulse h-full">
           <div className="overflow-y-auto h-full">
             <table className="w-full">

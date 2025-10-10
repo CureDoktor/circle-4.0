@@ -25,6 +25,10 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
     onSelectTemplate(templateId);
   };
 
+  const handleStartFromScratch = () => {
+    onSelectTemplate('blank'); // Pass 'blank' as template ID for starting from scratch
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -44,12 +48,15 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900">Template library</h2>
           <div className="flex items-center space-x-4">
-            <button className="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+            <button
+              onClick={handleStartFromScratch}
+              className="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            >
               Start from scratch
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+              className="p-2 text-gray-400 hover:text-gray-600 rounded-md transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -86,11 +93,11 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
                 <div
                   className={`border-2 rounded-xl overflow-hidden transition-all duration-300 ${
                     hoveredTemplate === template.id
-                      ? 'border-blue-500 shadow-xl scale-105'
-                      : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
+                      ? 'border-blue-500 shadow-xl hover:bg-gray-100'
+                      : 'border-gray-200'
                   }`}
                 >
-                  <div className="aspect-[4/3] bg-white relative">
+                  <div className="aspect-[4/3] bg-white relative  hover:bg-gray-100">
                     {/* Template Preview */}
                     <div className="absolute inset-0 bg-white rounded overflow-hidden">
                       <TemplatePreview templateId={template.id} />
@@ -100,8 +107,8 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
 
                 {/* Hover Actions */}
                 {hoveredTemplate === template.id && (
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-                    <div className="flex flex-col space-y-2">
+                  <div className="absolute w-full h-full flex items-center justify-center rounded-lg">
+                    <div className="flex flex-col bg-black bg-opacity-50 space-y-2">
                       <button
                         onClick={e => {
                           e.stopPropagation();

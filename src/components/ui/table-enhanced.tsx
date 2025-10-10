@@ -41,12 +41,7 @@ const TableEnhanced = <T extends { id: string }>({
 }: TableProps<T>) => {
   if (isLoading) {
     return (
-      <div
-        className={cn(
-          'border border-gray-200 rounded-lg overflow-auto px-5',
-          containerClassName
-        )}
-      >
+      <div className={cn(' overflow-auto px-5', containerClassName)}>
         <div className="animate-pulse h-full">
           <div className="overflow-y-auto h-full">
             <Table>
@@ -86,7 +81,7 @@ const TableEnhanced = <T extends { id: string }>({
   return (
     <div
       className={cn(
-        'border border-gray-200 rounded-lg overflow-hidden',
+        'border-b border-t border-gray-200 overflow-hidden',
         containerClassName
       )}
     >
