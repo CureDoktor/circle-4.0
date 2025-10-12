@@ -10,15 +10,25 @@ import { Actions } from '../ui';
 import { Pagination } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
+import NewPaywall from './NewPaywall';
 
 interface PaywallsProps {
   onToggleSidebar: () => void;
+  isAIHelperOpen?: boolean;
+  onCloseAIHelper?: () => void;
+  onPreviewToggle?: (isOpen: boolean) => void;
 }
 
-const Paywalls: React.FC<PaywallsProps> = ({ onToggleSidebar }) => {
+const Paywalls: React.FC<PaywallsProps> = ({
+  onToggleSidebar,
+  isAIHelperOpen,
+  onCloseAIHelper,
+  onPreviewToggle,
+}) => {
   const [activeTab, setActiveTab] = useState<string>('all');
   const [selectedPaywalls, setSelectedPaywalls] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showNewPaywall, setShowNewPaywall] = useState(false);
   const itemsPerPage = 20;
 
   const paywallCounts = getPaywallCounts();
@@ -125,12 +135,27 @@ const Paywalls: React.FC<PaywallsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Show NewPaywall component if showNewPaywall is true
+  if (showNewPaywall) {
+    return (
+      <NewPaywall
+        onBack={() => setShowNewPaywall(false)}
+        isAIHelperOpen={isAIHelperOpen}
+        onCloseAIHelper={onCloseAIHelper}
+        onPreviewToggle={onPreviewToggle}
+      />
+    );
+  }
+
   return (
     <ContentContainer
       onToggleSidebar={onToggleSidebar}
       title="Paywalls"
       actions={
-        <button className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+        <button
+          onClick={() => setShowNewPaywall(true)}
+          className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+        >
           Create paywall
         </button>
       }

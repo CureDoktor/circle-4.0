@@ -53,3 +53,19 @@
 .animate-slideInFromLeft {
   animation: slideInFromLeft 300ms ease-out;
 }
+
+/* Slide in from right animation for Paywall Preview */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInFromRight {
+  animation: slideInFromRight 500ms ease;
+}

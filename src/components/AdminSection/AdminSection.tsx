@@ -75,12 +75,20 @@ const AdminSection: React.FC = () => {
   const [isContentTransitioning, setIsContentTransitioning] = useState(false);
   const [isPageEditorOpen, setIsPageEditorOpen] = useState(false);
   const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Load data from localStorage on app start
   useEffect(() => {
     const savedData = loadAudienceData();
     setCurrentAudienceData(savedData);
   }, []);
+
+  // Reset preview state when leaving paywalls section
+  useEffect(() => {
+    if (currentSection !== 'paywalls') {
+      setIsPreviewOpen(false);
+    }
+  }, [currentSection]);
 
   const handleSidebarItemClick = (itemId: string, subItemId?: string) => {
     if (subItemId) {
@@ -143,7 +151,15 @@ const AdminSection: React.FC = () => {
   };
 
   const toggleAIHelper = () => {
-    setIsAIHelperOpen(!isAIHelperOpen);
+    const newAIHelperState = !isAIHelperOpen;
+
+    // If we're in paywalls section and preview is open, close it first
+    if (newAIHelperState && currentSection === 'paywalls' && isPreviewOpen) {
+      // The preview will be closed by the useEffect in NewPaywall
+      // and then AI helper will open
+    }
+
+    setIsAIHelperOpen(newAIHelperState);
   };
 
   const handleDataChange = (newData: AudienceData) => {
@@ -280,7 +296,14 @@ const AdminSection: React.FC = () => {
           />
         );
       case 'paywalls':
-        return <Paywalls onToggleSidebar={toggleSidebar} />;
+        return (
+          <Paywalls
+            onToggleSidebar={toggleSidebar}
+            isAIHelperOpen={isAIHelperOpen}
+            onCloseAIHelper={() => setIsAIHelperOpen(false)}
+            onPreviewToggle={setIsPreviewOpen}
+          />
+        );
       case 'subscription-groups':
         return <SubscriptionGroups onToggleSidebar={toggleSidebar} />;
       case 'transactions':
