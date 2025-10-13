@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableColumn } from '../Table';
+import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Actions from '../Actions';
 import Pagination from '../Pagination';

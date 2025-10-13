@@ -2,7 +2,7 @@ import React from 'react';
 
 const PaywallPreview: React.FC = () => {
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg max-h-screen shadow-lg border border-gray-200 overflow-hidden m-4">
       {/* Top Visual Elements */}
       <div className="relative h-48 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 overflow-hidden">
         {/* Scattered oval elements */}

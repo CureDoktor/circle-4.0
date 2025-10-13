@@ -74,32 +74,33 @@ const NewPaywall: React.FC<NewPaywallProps> = ({
   };
 
   return (
-    <div className="h-full bg-gray-50 flex  transition-all">
+    <div className="h-full bg-white flex overflow-auto transition-all border-l border-gray-200">
       {/* Main Content Area */}
       <div
         className={`${
           showPreview ? 'flex-1' : 'flex-1'
         } flex flex-col overflow-auto scrollbar-hide transition-all duration-300 ease-in-out`}
       >
-        <div className="max-w-7xl mx-auto px-4 py-8 w-full">
+        <div className="max-w-5xl mx-auto px-4 py-8 w-full">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
               <button
                 onClick={onBack}
-                className="p-2 text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                className="p-2 text-gray-600 hover:bg-gray-100 rounded-xl border border-gray-200 transition-colors"
               >
                 <svg
-                  className="w-5 h-5"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
                   fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M8.86366 4.26166C9.15656 4.55456 9.15656 5.02943 8.86366 5.32232L4.93566 9.25033H16.875C17.2892 9.25033 17.625 9.58611 17.625 10.0003C17.625 10.4145 17.2892 10.7503 16.875 10.7503H4.93566L8.86366 14.6783C9.15656 14.9712 9.15656 15.4461 8.86366 15.739C8.57077 16.0319 8.0959 16.0319 7.803 15.739L2.59467 10.5307C2.30178 10.2378 2.30178 9.76289 2.59467 9.47L7.803 4.26166C8.0959 3.96877 8.57077 3.96877 8.86366 4.26166Z"
+                    fill="#717680"
                   />
                 </svg>
               </button>
@@ -147,8 +148,8 @@ const NewPaywall: React.FC<NewPaywallProps> = ({
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-gray-100 text-gray-900 border border-gray-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'text-gray-900 border border-gray-200'
+                      : 'text-gray-600 hover:text-gray-900 border border-transparent hover:bg-gray-50'
                   }`}
                 >
                   {tab.label}
@@ -166,7 +167,7 @@ const NewPaywall: React.FC<NewPaywallProps> = ({
 
       {/* Preview Sidebar */}
       {showPreview && (
-        <div className="w-96 animate-slideInFromRight">
+        <div className="w-[600px] animate-slideInFromRight max-h-screen bg-gray-50 p-4 mt-5 rounded-lg mr-5">
           <PaywallPreview />
         </div>
       )}

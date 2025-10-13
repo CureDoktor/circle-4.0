@@ -14,6 +14,7 @@ export interface TableColumn<T = any> {
   label: string;
   render?: (item: T) => React.ReactNode;
   className?: string;
+  width?: string | number;
 }
 
 export interface TableProps<T = any> {
@@ -36,12 +37,11 @@ const TableEnhanced = <T extends { id: string }>({
   onSelectItem,
   onRowClick,
   isLoading = false,
-  className = '',
   containerClassName = '',
 }: TableProps<T>) => {
   if (isLoading) {
     return (
-      <div className={cn(' overflow-auto px-5', containerClassName)}>
+      <div className={cn('overflow-auto px-5', containerClassName)}>
         <div className="animate-pulse h-full">
           <div className="overflow-y-auto h-full">
             <Table>
@@ -79,68 +79,72 @@ const TableEnhanced = <T extends { id: string }>({
   }
 
   return (
-    <div
-      className={cn(
-        'border-b border-t border-gray-200 overflow-hidden',
-        containerClassName
-      )}
-    >
-      <div className="overflow-y-auto overflow-x-auto">
-        <Table className={cn('w-full min-w-full', className)}>
-          <TableHeader className="sticky top-0 bg-white z-10">
-            <TableRow>
-              <TableHead className="w-12 px-6 py-3 bg-white">
+    <div className={cn(' h-full flex flex-col relative', containerClassName)}>
+      {/* Fixed Header */}
+      <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-gray-200">
+        <div className="flex w-full align-middle items-center">
+          <div className="w-12 px-6 py-3 bg-white flex-shrink-0">
+            <input
+              type="checkbox"
+              checked={selectedItems.length === data.length && data.length > 0}
+              onChange={onSelectAll}
+              className="rounded border-gray-300 text-gray-900 focus:ring-gray-500"
+            />
+          </div>
+          {columns.map((column, index) => (
+            <div
+              key={index}
+              className={cn(
+                'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-white',
+                column.className
+              )}
+              style={{
+                width: column.width || 'auto',
+                minWidth: column.width || '150px',
+                flex: column.width ? 'none' : '1',
+              }}
+            >
+              {column.label}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Scrollable Body */}
+      <div className="flex-1 overflow-y-auto overflow-x-auto relative">
+        <div className="w-full">
+          {data.map((item, index) => (
+            <div
+              key={item.id || index}
+              className="flex hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100"
+              onClick={() => onRowClick?.(item)}
+            >
+              <div className="w-12 px-6 py-4 flex-shrink-0">
                 <input
                   type="checkbox"
-                  checked={
-                    selectedItems.length === data.length && data.length > 0
-                  }
-                  onChange={onSelectAll}
+                  checked={selectedItems.includes(item.id)}
+                  onChange={() => onSelectItem(item.id)}
                   className="rounded border-gray-300 text-gray-900 focus:ring-gray-500"
                 />
-              </TableHead>
-              {columns.map((column, index) => (
-                <TableHead
-                  key={index}
-                  className={cn(
-                    'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-white',
-                    column.className
-                  )}
+              </div>
+              {columns.map((column, colIndex) => (
+                <div
+                  key={colIndex}
+                  className={cn('px-6 py-4', column.className)}
+                  style={{
+                    width: column.width || 'auto',
+                    minWidth: column.width || '150px',
+                    flex: column.width ? 'none' : '1',
+                  }}
                 >
-                  {column.label}
-                </TableHead>
+                  {column.render
+                    ? column.render(item)
+                    : (item as any)[column.key]}
+                </div>
               ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.map((item, index) => (
-              <TableRow
-                key={item.id || index}
-                className="hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={() => onRowClick?.(item)}
-              >
-                <TableCell className="w-12 px-6 py-4">
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(item.id)}
-                    onChange={() => onSelectItem(item.id)}
-                    className="rounded border-gray-300 text-gray-900 focus:ring-gray-500"
-                  />
-                </TableCell>
-                {columns.map((column, colIndex) => (
-                  <TableCell
-                    key={colIndex}
-                    className={cn('px-6 py-4', column.className)}
-                  >
-                    {column.render
-                      ? column.render(item)
-                      : (item as any)[column.key]}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
