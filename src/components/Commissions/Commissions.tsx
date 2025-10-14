@@ -149,11 +149,33 @@ const Commissions: React.FC<CommissionsProps> = ({ onToggleSidebar }) => {
   ];
 
   const tabs: Tab[] = [
-    { id: 'all', label: 'All', count: 12 },
-    { id: 'pending', label: 'Pending', count: 0 },
-    { id: 'due', label: 'Due', count: 0 },
-    { id: 'processing', label: 'Processing', count: 12 },
-    { id: 'paid', label: 'Paid', count: 0 },
+    { id: 'all', label: 'All', count: commissionsData.length },
+    {
+      id: 'pending',
+      label: 'Pending',
+      count: commissionsData.filter(
+        commission => commission.status === 'pending'
+      ).length,
+    },
+    {
+      id: 'due',
+      label: 'Due',
+      count: commissionsData.filter(commission => commission.status === 'due')
+        .length,
+    },
+    {
+      id: 'processing',
+      label: 'Processing',
+      count: commissionsData.filter(
+        commission => commission.status === 'processing'
+      ).length,
+    },
+    {
+      id: 'paid',
+      label: 'Paid',
+      count: commissionsData.filter(commission => commission.status === 'paid')
+        .length,
+    },
   ];
 
   const columns: TableColumn<Commission>[] = [
@@ -220,11 +242,37 @@ const Commissions: React.FC<CommissionsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const totalItems = commissionsData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'pending':
+        return commissionsData.filter(
+          commission => commission.status === 'pending'
+        );
+      case 'due':
+        return commissionsData.filter(
+          commission => commission.status === 'due'
+        );
+      case 'processing':
+        return commissionsData.filter(
+          commission => commission.status === 'processing'
+        );
+      case 'paid':
+        return commissionsData.filter(
+          commission => commission.status === 'paid'
+        );
+      case 'all':
+      default:
+        return commissionsData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = commissionsData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

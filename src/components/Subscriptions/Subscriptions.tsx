@@ -189,9 +189,21 @@ const Subscriptions: React.FC<SubscriptionsProps> = ({ onToggleSidebar }) => {
   ];
 
   const tabs: Tab[] = [
-    { id: 'all', label: 'All', count: 515 },
-    { id: 'active', label: 'Active', count: 50 },
-    { id: 'canceled', label: 'Canceled', count: 465 },
+    { id: 'all', label: 'All', count: subscriptionsData.length },
+    {
+      id: 'active',
+      label: 'Active',
+      count: subscriptionsData.filter(
+        subscription => subscription.status === 'active'
+      ).length,
+    },
+    {
+      id: 'canceled',
+      label: 'Canceled',
+      count: subscriptionsData.filter(
+        subscription => subscription.status === 'canceled'
+      ).length,
+    },
   ];
 
   const columns: TableColumn<Subscription>[] = [
@@ -276,11 +288,29 @@ const Subscriptions: React.FC<SubscriptionsProps> = ({ onToggleSidebar }) => {
     { id: 'startDate', label: 'Start date', type: 'text' },
   ];
 
-  const totalItems = subscriptionsData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'active':
+        return subscriptionsData.filter(
+          subscription => subscription.status === 'active'
+        );
+      case 'canceled':
+        return subscriptionsData.filter(
+          subscription => subscription.status === 'canceled'
+        );
+      case 'all':
+      default:
+        return subscriptionsData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = subscriptionsData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

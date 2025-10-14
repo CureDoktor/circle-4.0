@@ -23,15 +23,15 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   };
 
   // Split items: exclude settings item (index 5) from top section
-  const topItems = items.filter((_, index) => index !== 5);
-  const settingsItem = items[5]; // Settings item at index 5
+  const topItems = items.filter((_, index) => index !== 4);
+  const settingsItem = items[4]; // Settings item at index 4
 
   return (
     <div className="bg-white border-r border-gray-200 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-4">
       {/* Top Section - 9 items (excluding settings) with separator between 5th and 6th */}
       <div className="flex flex-col gap-4">
-        {/* First 5 items */}
-        {topItems.slice(0, 5).map(item => (
+        {/* First 4 items */}
+        {topItems.slice(0, 4).map(item => (
           <div key={item.id} className="relative group">
             <button
               onClick={() => handleItemClick(item.id)}
@@ -61,7 +61,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
         <div className="w-[24px] h-[1px] mx-auto bg-[#E4E7EB] my-2"></div>
 
         {/* Last 4 items (6th through 9th, excluding settings) */}
-        {topItems.slice(5).map(item => (
+        {topItems.slice(4).map(item => (
           <div key={item.id} className="relative group">
             <button
               onClick={() => handleItemClick(item.id)}

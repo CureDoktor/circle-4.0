@@ -267,7 +267,29 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const tabs: Tab[] = [{ id: 'all', label: 'All', count: 38 }];
+  const tabs: Tab[] = [
+    { id: 'all', label: 'All', count: affiliatesData.length },
+    {
+      id: 'active',
+      label: 'Active',
+      count: affiliatesData.filter(
+        affiliate =>
+          affiliate.visitors !== null ||
+          affiliate.leads !== null ||
+          affiliate.conversions !== null
+      ).length,
+    },
+    {
+      id: 'inactive',
+      label: 'Inactive',
+      count: affiliatesData.filter(
+        affiliate =>
+          affiliate.visitors === null &&
+          affiliate.leads === null &&
+          affiliate.conversions === null
+      ).length,
+    },
+  ];
 
   const columns: TableColumn<Affiliate>[] = [
     {
@@ -353,11 +375,35 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const totalItems = affiliatesData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'active':
+        return affiliatesData.filter(
+          affiliate =>
+            affiliate.visitors !== null ||
+            affiliate.leads !== null ||
+            affiliate.conversions !== null
+        );
+      case 'inactive':
+        return affiliatesData.filter(
+          affiliate =>
+            affiliate.visitors === null &&
+            affiliate.leads === null &&
+            affiliate.conversions === null
+        );
+      case 'all':
+      default:
+        return affiliatesData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = affiliatesData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

@@ -224,11 +224,25 @@ const Agents: React.FC<AgentsProps> = ({ onToggleSidebar }) => {
     { id: 'isActive', label: 'Active Status', type: 'boolean' },
   ];
 
-  const totalItems = agentsData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'active':
+        return agentsData.filter(agent => agent.isActive);
+      case 'inactive':
+        return agentsData.filter(agent => !agent.isActive);
+      case 'all':
+      default:
+        return agentsData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = agentsData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

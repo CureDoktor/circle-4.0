@@ -240,10 +240,28 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
   ];
 
   const tabs: Tab[] = [
-    { id: 'all', label: 'All', count: 1097 },
-    { id: 'paid', label: 'Paid', count: 661 },
-    { id: 'refunded', label: 'Refunded', count: 411 },
-    { id: 'failed', label: 'Failed', count: 25 },
+    { id: 'all', label: 'All', count: transactionsData.length },
+    {
+      id: 'paid',
+      label: 'Paid',
+      count: transactionsData.filter(
+        transaction => transaction.status === 'paid'
+      ).length,
+    },
+    {
+      id: 'refunded',
+      label: 'Refunded',
+      count: transactionsData.filter(
+        transaction => transaction.status === 'refunded'
+      ).length,
+    },
+    {
+      id: 'failed',
+      label: 'Failed',
+      count: transactionsData.filter(
+        transaction => transaction.status === 'failed'
+      ).length,
+    },
   ];
 
   const columns: TableColumn<Transaction>[] = [
@@ -347,11 +365,33 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
     { id: 'date', label: 'Date', type: 'text' },
   ];
 
-  const totalItems = transactionsData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'paid':
+        return transactionsData.filter(
+          transaction => transaction.status === 'paid'
+        );
+      case 'refunded':
+        return transactionsData.filter(
+          transaction => transaction.status === 'refunded'
+        );
+      case 'failed':
+        return transactionsData.filter(
+          transaction => transaction.status === 'failed'
+        );
+      case 'all':
+      default:
+        return transactionsData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = transactionsData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);

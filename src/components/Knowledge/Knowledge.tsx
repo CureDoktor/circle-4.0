@@ -112,8 +112,16 @@ const Knowledge: React.FC<KnowledgeProps> = ({ onToggleSidebar }) => {
   ];
 
   const tabs: Tab[] = [
-    { id: 'community', label: 'Community', count: knowledgeData.length },
-    { id: 'custom', label: 'Custom', count: 0 },
+    {
+      id: 'community',
+      label: 'Community',
+      count: knowledgeData.filter(item => item.spaceGroup !== 'Custom').length,
+    },
+    {
+      id: 'custom',
+      label: 'Custom',
+      count: knowledgeData.filter(item => item.spaceGroup === 'Custom').length,
+    },
   ];
 
   const filterOptions: FilterOption[] = [
@@ -124,11 +132,24 @@ const Knowledge: React.FC<KnowledgeProps> = ({ onToggleSidebar }) => {
     { id: 'usedInReplies', label: 'Used in Replies', type: 'text' },
   ];
 
-  const totalItems = knowledgeData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'community':
+        return knowledgeData.filter(item => item.spaceGroup !== 'Custom');
+      case 'custom':
+        return knowledgeData.filter(item => item.spaceGroup === 'Custom');
+      default:
+        return knowledgeData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = knowledgeData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
