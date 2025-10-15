@@ -31,8 +31,11 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
       {/* Top Section - 9 items (excluding settings) with separator between 5th and 6th */}
       <div className="flex flex-col gap-4">
         {/* First 4 items */}
-        {topItems.slice(0, 4).map(item => (
-          <div key={item.id} className="relative group">
+        {topItems.slice(0, 4).map((item, index) => (
+          <div
+            key={item.id}
+            className={`relative group ${index === 0 ? 'pb-2 pt-0.5' : ''}`}
+          >
             <button
               onClick={() => handleItemClick(item.id)}
               className={`w-[36px] h-[36px] rounded-xl flex items-center hover:bg-gray-200 justify-center transition-all duration-200 ${

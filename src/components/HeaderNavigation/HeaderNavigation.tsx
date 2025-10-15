@@ -87,8 +87,16 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
   ];
 
   const tabs: Tab[] = [
-    { id: 'logged-in', label: 'Logged in', count: 12 },
-    { id: 'logged-out', label: 'Logged out', count: 8 },
+    {
+      id: 'logged-in',
+      label: 'Logged in',
+      count: navigationData.filter(item => item.status === 'enabled').length,
+    },
+    {
+      id: 'logged-out',
+      label: 'Logged out',
+      count: navigationData.filter(item => item.status === 'admin-only').length,
+    },
   ];
 
   const columns: TableColumn<NavigationItem>[] = [
@@ -140,11 +148,25 @@ const HeaderNavigation: React.FC<HeaderNavigationProps> = ({
     },
   ];
 
-  const totalItems = navigationData.length;
+  // Filter data based on active tab
+  const getFilteredData = () => {
+    switch (activeTab) {
+      case 'logged-in':
+        return navigationData.filter(item => item.status === 'enabled');
+      case 'logged-out':
+        return navigationData.filter(item => item.status === 'admin-only');
+      case 'all':
+      default:
+        return navigationData;
+    }
+  };
+
+  const filteredData = getFilteredData();
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentData = navigationData.slice(startIndex, endIndex);
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
