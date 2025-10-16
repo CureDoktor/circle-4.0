@@ -110,7 +110,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
       {/* Main expansion container */}
       <div
         ref={expansionRef}
-        className={`absolute z-50 bg-white rounded-2xl shadow-md transition-all duration-200 ease-out ${
+        className={`absolute z-50 bg-white rounded-2xl shadow-xl transition-all duration-200 ease-out ${
           animationPhase === 'expanded' ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
@@ -140,10 +140,24 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
             >
               {/* Left side - Logo and Community name */}
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                  <img src="/images/avatars/blue-icon.png" alt="Webflow" />
+                <div className="w-9 h-9 rounded-lg overflow-hidden">
+                  {post.communityIcon ? (
+                    <img
+                      src={post.communityIcon}
+                      alt={post.communityName}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                      <span className="text-white text-sm font-bold">
+                        {post.communityName?.charAt(0).toUpperCase() || 'C'}
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <span className="text-gray-900 text-xs">WEBFLOW COMMUNITY</span>
+                <span className="text-gray-600 text-xs font-semibold tracking-wider uppercase">
+                  {post.communityName || 'WEBFLOW COMMUNITY'}
+                </span>
               </div>
 
               {/* Right side - Action buttons */}
@@ -214,38 +228,168 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
                     animationPhase === 'expanded' ? '150ms' : '0ms',
                 }}
               >
-                {/* Author info */}
-                <div className="flex items-center space-x-3 mb-6">
-                  <img
-                    src={post.avatar}
-                    alt={post.author}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      {post.author}
-                    </h3>
-                    <p className="text-sm text-gray-500">{post.timestamp}</p>
+                {/* Post Card */}
+                <div className="bg-white flex flex-col gap-6 items-center w-full">
+                  {/* Image */}
+                  {post.image && (
+                    <div className="aspect-[680/269] relative rounded w-full">
+                      <img
+                        src={post.image}
+                        alt="Post image"
+                        className="absolute inset-0 w-full h-full object-cover rounded"
+                      />
+                    </div>
+                  )}
+
+                  {/* Post Info */}
+                  <div className="flex flex-col gap-6 items-start w-full">
+                    {/* Info & Content */}
+                    <div className="flex flex-col gap-4 items-start w-full">
+                      {/* Post & See more */}
+                      <div className="flex flex-col items-center w-full">
+                        <div className="flex flex-col gap-6 items-start w-full">
+                          {/* Avatar & Info */}
+                          <div className="flex gap-3 items-center w-full">
+                            <div className="w-9 h-9 rounded-full overflow-hidden">
+                              <img
+                                src={post.avatar}
+                                alt={post.author}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="flex flex-1 flex-col">
+                              {/* Top Row */}
+                              <div className="flex h-5.5 items-start justify-between w-full">
+                                <div className="flex flex-1 gap-2 items-start">
+                                  <div className="flex flex-col">
+                                    <p className="text-sm font-semibold text-gray-900 leading-5">
+                                      {post.author}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              {/* Meta Info */}
+                              <div className="flex gap-2 items-center">
+                                <div className="flex gap-2.5 items-center justify-center">
+                                  <p className="text-sm text-gray-500 leading-5">
+                                    {post.timeAgo}
+                                  </p>
+                                </div>
+                                <div className="w-1 h-1 bg-gray-400 rounded-full" />
+                                <div className="flex gap-2.5 items-center justify-center">
+                                  <p className="text-sm text-gray-500 leading-5 overflow-ellipsis overflow-hidden whitespace-nowrap max-w-96">
+                                    {post.authorBio}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Post Title */}
+                          <div className="flex gap-2.5 items-center justify-center w-full">
+                            <p className="flex-1 text-4xl font-bold text-gray-900 leading-12 tracking-tight">
+                              {post.title}
+                            </p>
+                          </div>
+
+                          {/* Post Body */}
+                          <div className="flex gap-2.5 items-center justify-center w-full">
+                            <div className="flex-1 text-base text-gray-600 leading-6">
+                              {post.content
+                                .split('\n')
+                                .map((paragraph: string, index: number) => (
+                                  <p key={index} className="mb-4 last:mb-0">
+                                    {paragraph}
+                                  </p>
+                                ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Post Actions */}
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex gap-3 items-start">
+                        {/* Like Button */}
+                        <button className="w-6 h-6 flex items-center justify-center text-gray-400 hover:scale-110 transition-transform">
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                            />
+                          </svg>
+                        </button>
+                        {/* Comment Button */}
+                        <button className="w-6 h-6 flex items-center justify-center text-gray-400 hover:scale-110 transition-transform">
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      {/* Meta Info */}
+                      <div className="flex gap-2 items-center justify-center">
+                        <div className="flex gap-2 items-start">
+                          {/* Avatar Group */}
+                          <div className="flex items-center pl-0 pr-1 py-0">
+                            <div className="flex -space-x-1">
+                              <div className="w-5 h-5 rounded-full border-2 border-white bg-blue-500 overflow-hidden">
+                                <img
+                                  src="/images/avatars/1.png"
+                                  alt="User"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="w-5 h-5 rounded-full border-2 border-white bg-blue-500 overflow-hidden">
+                                <img
+                                  src="/images/avatars/2.png"
+                                  alt="User"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="w-5 h-5 rounded-full border-2 border-white bg-blue-500 overflow-hidden">
+                                <img
+                                  src="/images/avatars/3.png"
+                                  alt="User"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex gap-2.5 items-center">
+                            <p className="text-sm font-medium text-gray-500 leading-5 text-right">
+                              {post.likes?.toLocaleString() || '0'} likes
+                            </p>
+                          </div>
+                        </div>
+                        <div className="w-1 h-1 bg-gray-400 rounded-full" />
+                        <div className="flex gap-2.5 items-center">
+                          <p className="text-sm font-medium text-gray-500 leading-5 text-right">
+                            {post.comments?.toLocaleString() || '0'} comments
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                {/* Post content */}
-                <div className="mb-6">
-                  <p className="text-lg text-gray-700 leading-relaxed">
-                    {post.content}
-                  </p>
-                </div>
-
-                {/* Images */}
-                {post.images && post.images.length > 0 && (
-                  <div className="mb-6">
-                    <img
-                      src={post.images[0]}
-                      alt="Post content"
-                      className="w-full h-auto rounded-lg"
-                    />
-                  </div>
-                )}
               </div>
             </div>
 

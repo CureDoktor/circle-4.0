@@ -11,9 +11,19 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
   {
     id: 'circle',
     title: 'Circle',
-    icon: <img src="/images/logo.png" alt="Circle Logo" className="w-6 h-6" />,
+    icon: (
+      <img
+        src="/images/circle-logo.png"
+        alt="Circle Logo"
+        className="w-8 h-8"
+      />
+    ),
     activeIcon: (
-      <img src="/images/logo.png" alt="Circle Logo" className="w-6 h-6" />
+      <img
+        src="/images/circle-logo.png"
+        alt="Circle Logo"
+        className="w-8 h-8"
+      />
     ),
   },
   {

@@ -27,14 +27,14 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   const settingsItem = items[4]; // Settings item at index 4
 
   return (
-    <div className="bg-white border-r border-gray-200 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-4">
+    <div className="bg-white border-r border-gray-200 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-[30px]">
       {/* Top Section - 9 items (excluding settings) with separator between 5th and 6th */}
       <div className="flex flex-col gap-4">
         {/* First 4 items */}
         {topItems.slice(0, 4).map((item, index) => (
           <div
             key={item.id}
-            className={`relative group ${index === 0 ? 'pb-2 pt-0.5' : ''}`}
+            className={`relative group ${index === 0 ? 'pb-[10px]' : ''}`}
           >
             <button
               onClick={() => handleItemClick(item.id)}
@@ -125,7 +125,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
         {/* Profile picture */}
         <div className="relative group">
           <button
-            className="p-1 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-white/5 hover:scale-105"
+            className="p-2 rounded-full flex items-center transition-all duration-200 hover:bg-white/5 hover:scale-105"
             title="Profile"
             aria-label="Profile"
           >

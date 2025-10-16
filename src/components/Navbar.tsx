@@ -17,7 +17,11 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleAIHelper }) => {
         {/* Logo and App Name */}
         <div className="flex items-center gap-2">
           {/* Logo */}
-          <img src="/images/logo.png" alt="Circle Logo" className="w-6 h-6" />
+          <img
+            src="/images/avatars/blue-icon.png"
+            alt="Circle Logo"
+            className="w-6 h-6"
+          />
           <span className="font-semibold text-sm text-black">
             Future Founders
           </span>

@@ -33,7 +33,7 @@ const RecentSaves: React.FC = () => {
   ];
 
   return (
-    <div className="p-4 bg-gray-50 border-y border-gray-200">
+    <div className="p-4 bg-gray-50 border border-gray-200 rounded-2xl">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Recent Saves</h2>
