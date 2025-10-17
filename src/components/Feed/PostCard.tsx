@@ -34,7 +34,7 @@ const PostCard: React.FC<PostCardProps> = ({
   onUserClick,
 }) => {
   return (
-    <div 
+    <div
       className="bg-white border border-gray-200 rounded-2xl overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
       onClick={onPostClick}
     >
@@ -83,11 +83,15 @@ const PostCard: React.FC<PostCardProps> = ({
             <div className="flex flex-col gap-5">
               {/* Avatar & Info */}
               <div className="flex gap-3 items-center w-full">
-                <div 
+                <div
                   className="w-9 h-9 rounded-full overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation(); // Sprečava otvaranje post modala
-                    onUserClick?.({ name: authorName, avatar: authorAvatar, bio: authorBio });
+                    onUserClick?.({
+                      name: authorName,
+                      avatar: authorAvatar,
+                      bio: authorBio,
+                    });
                   }}
                 >
                   <img
@@ -136,7 +140,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 <div className="flex flex-col gap-4 items-start w-full">
                   {/* Post Title */}
                   <div className="flex gap-2.5 items-center justify-center w-full">
-                    <p className="flex-1 text-2xl font-bold text-gray-900 leading-10 tracking-tight">
+                    <p className="flex-1 text-[2rem] font-bold text-gray-900 leading-10 tracking-tight">
                       {title}
                     </p>
                   </div>
@@ -159,7 +163,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 className={`w-6 h-6 flex items-center justify-center hover:scale-110 transition-transform ${
                   liked ? 'text-red-500' : 'text-gray-400'
                 }`}
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation(); // Sprečava otvaranje post modala
                   // TODO: Implementirati like funkcionalnost
                 }}
@@ -179,9 +183,9 @@ const PostCard: React.FC<PostCardProps> = ({
                 </svg>
               </button>
               {/* Comment Button */}
-              <button 
+              <button
                 className="w-6 h-6 flex items-center justify-center text-gray-400 hover:scale-110 transition-transform"
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation(); // Sprečava otvaranje post modala
                   // TODO: Implementirati comment funkcionalnost
                 }}
