@@ -72,7 +72,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
     {
       id: 1,
       communityName: 'Framer community',
-      communityIcon: '/images/avatars/1.png',
+      communityIcon: '/images/avatars/blue-icon.png',
       author: 'Melissa Emberson',
       authorBio: 'Framer Team Writer',
       avatar: '/images/avatars/1.png',
@@ -88,7 +88,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
     {
       id: 2,
       communityName: 'future founders community',
-      communityIcon: '/images/avatars/2.png',
+      communityIcon: '/images/avatars/black-icon.png',
       author: 'Calvin Parks',
       authorBio: 'Webflow genius',
       avatar: '/images/avatars/2.png',
@@ -104,7 +104,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
     {
       id: 3,
       communityName: 'Webflow community',
-      communityIcon: '/images/avatars/3.png',
+      communityIcon: '/images/avatars/harvard.png',
       author: 'Clavin Parks',
       authorBio: 'Webflow genius',
       avatar: '/images/avatars/3.png',
@@ -157,7 +157,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
     <div className="h-full bg-white flex flex-col main-content-container">
       {/* Horizontal Filters */}
       <div
-        className={`border-b border-gray-200 transition-transform duration-300 ease-out ${
+        className={` transition-transform duration-300 ease-out ${
           isScrolled ? '-translate-y-full' : 'translate-y-0'
         }`}
       >
@@ -171,7 +171,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
 
       {/* Main Feed Content */}
       <div className="flex-1 overflow-y-auto overflow-x-visible mb-4 p-8">
-        <div className="max-w-2xl mx-auto px-6">
+        <div className="max-w-2xl mx-auto">
           {/* Start a post komponenta */}
           <div className="mb-9">
             <StartPost />
