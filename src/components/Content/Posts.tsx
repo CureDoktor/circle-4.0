@@ -3,7 +3,7 @@ import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
 import EnhancedFilters from '../ui/enhanced-filters';
-import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import { FilterCondition } from '../ui/filter-modal';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
@@ -41,7 +41,7 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
   }, [activeTab]);
 
   // Mock data for posts
-  const mockPosts: Post[] = [
+  const [posts, setPosts] = useState<Post[]>([
     {
       id: '1',
       title: 'Getting Started with Circle',
@@ -98,25 +98,25 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
       comments: 0,
       updated: '1 week ago',
     },
-  ];
+  ]);
 
   // Filter data based on active tab and filters
   const getFilteredData = () => {
-    let filtered = mockPosts;
+    let filtered = posts;
 
     // First filter by tab
     switch (activeTab) {
       case 'drafts':
-        filtered = mockPosts.filter(post => post.status === 'Draft');
+        filtered = posts.filter(post => post.status === 'Draft');
         break;
       case 'scheduled':
-        filtered = mockPosts.filter(post => post.status === 'Scheduled');
+        filtered = posts.filter(post => post.status === 'Scheduled');
         break;
       case 'published':
-        filtered = mockPosts.filter(post => post.status === 'Published');
+        filtered = posts.filter(post => post.status === 'Published');
         break;
       default:
-        filtered = mockPosts;
+        filtered = posts;
     }
 
     // Then apply additional filters
@@ -147,7 +147,44 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected posts');
+    if (selectedPosts.length === 0) return;
+    setPosts(prev => prev.filter(post => !selectedPosts.includes(post.id)));
+    setSelectedPosts([]);
+  };
+
+  const handlePublishSelected = () => {
+    if (selectedPosts.length === 0) return;
+    setPosts(prev =>
+      prev.map(post =>
+        selectedPosts.includes(post.id)
+          ? { ...post, status: 'Published' as const }
+          : post
+      )
+    );
+    setSelectedPosts([]);
+  };
+
+  const handleDraftSelected = () => {
+    if (selectedPosts.length === 0) return;
+    setPosts(prev =>
+      prev.map(post =>
+        selectedPosts.includes(post.id)
+          ? { ...post, status: 'Draft' as const }
+          : post
+      )
+    );
+    setSelectedPosts([]);
+  };
+
+  const handleScheduleSelected = () => {
+    if (selectedPosts.length === 0) return;
+    setPosts(prev =>
+      prev.map(post =>
+        selectedPosts.includes(post.id)
+          ? { ...post, status: 'Scheduled' as const }
+          : post
+      )
+    );
     setSelectedPosts([]);
   };
 
@@ -223,29 +260,46 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
   ];
 
   const tabs: Tab[] = [
-    { id: 'all', label: 'All', count: mockPosts.length },
+    { id: 'all', label: 'All', count: posts.length },
     {
       id: 'published',
       label: 'Published',
-      count: mockPosts.filter(p => p.status === 'Published').length,
+      count: posts.filter(p => p.status === 'Published').length,
     },
     {
       id: 'drafts',
       label: 'Drafts',
-      count: mockPosts.filter(p => p.status === 'Draft').length,
+      count: posts.filter(p => p.status === 'Draft').length,
     },
     {
       id: 'scheduled',
       label: 'Scheduled',
-      count: mockPosts.filter(p => p.status === 'Scheduled').length,
+      count: posts.filter(p => p.status === 'Scheduled').length,
     },
   ];
 
-  const filterOptions: FilterOption[] = [
-    { id: 'title', label: 'Title', type: 'text' },
-    { id: 'author', label: 'Author', type: 'text' },
-    { id: 'space', label: 'Space', type: 'text' },
-    { id: 'status', label: 'Status', type: 'text' },
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Published', 'Draft', 'Scheduled'],
+    },
+    {
+      id: 'title',
+      label: 'Title',
+      type: 'text' as const,
+    },
+    {
+      id: 'author',
+      label: 'Author',
+      type: 'text' as const,
+    },
+    {
+      id: 'space',
+      label: 'Space',
+      type: 'text' as const,
+    },
   ];
 
   return (
@@ -259,7 +313,7 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
 
       {/* Filters */}
       <EnhancedFilters
-        filters={filterOptions}
+        filters={filters}
         activeFilters={activeFilters}
         onFilterChange={setActiveFilters}
       />
@@ -269,10 +323,36 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedPosts.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'publish',
+            label: 'Publish selected',
+            onClick: handlePublishSelected,
+            disabled: selectedPosts.length === 0,
+          },
+          {
+            id: 'draft',
+            label: 'Move to draft',
+            onClick: handleDraftSelected,
+            disabled: selectedPosts.length === 0,
+          },
+          {
+            id: 'schedule',
+            label: 'Schedule selected',
+            onClick: handleScheduleSelected,
+            disabled: selectedPosts.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedPosts.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedData}

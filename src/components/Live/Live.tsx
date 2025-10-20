@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import EnhancedFilters from '../ui/enhanced-filters';
-import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import { FilterCondition } from '../ui/filter-modal';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
@@ -32,7 +32,7 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for live streams
-  const mockLiveStreams: LiveStream[] = [
+  const [streams, setStreams] = useState<LiveStream[]>([
     {
       id: '1',
       title: 'Community Q&A Session',
@@ -85,11 +85,11 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
       viewers: 234,
       startedAt: '3 days ago',
     },
-  ];
+  ]);
 
   // Filter and pagination logic
   const getFilteredData = () => {
-    return applyFilters(mockLiveStreams, activeFilters);
+    return applyFilters(streams, activeFilters);
   };
 
   const filteredData = getFilteredData();
@@ -116,15 +116,54 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected streams');
+    if (selectedStreams.length === 0) return;
+    setStreams(prev =>
+      prev.filter(stream => !selectedStreams.includes(stream.id))
+    );
     setSelectedStreams([]);
   };
 
-  const filterOptions: FilterOption[] = [
-    { id: 'name', label: 'Name', type: 'text' },
-    { id: 'status', label: 'Status', type: 'text' },
-    { id: 'type', label: 'Type', type: 'text' },
-    { id: 'participants', label: 'Participants', type: 'text' },
+  const handleEndSelected = () => {
+    if (selectedStreams.length === 0) return;
+    setStreams(prev =>
+      prev.map(stream =>
+        selectedStreams.includes(stream.id)
+          ? { ...stream, status: 'Ended' as const }
+          : stream
+      )
+    );
+    setSelectedStreams([]);
+  };
+
+  const handleScheduleSelected = () => {
+    if (selectedStreams.length === 0) return;
+    setStreams(prev =>
+      prev.map(stream =>
+        selectedStreams.includes(stream.id)
+          ? { ...stream, status: 'Scheduled' as const }
+          : stream
+      )
+    );
+    setSelectedStreams([]);
+  };
+
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Live', 'Ended', 'Scheduled'],
+    },
+    {
+      id: 'title',
+      label: 'Title',
+      type: 'text' as const,
+    },
+    {
+      id: 'host',
+      label: 'Host',
+      type: 'text' as const,
+    },
   ];
 
   const tableColumns: TableColumn<LiveStream>[] = [
@@ -197,13 +236,13 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
   const stats = [
     {
       label: 'Total Streams',
-      value: mockLiveStreams.length,
+      value: streams.length,
       change: '+12%',
       changeType: 'positive' as const,
     },
     {
       label: 'Active Viewers',
-      value: mockLiveStreams
+      value: streams
         .filter(s => s.status === 'Live')
         .reduce((sum, s) => sum + s.viewers, 0),
       change: '+5%',
@@ -263,7 +302,7 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
 
       {/* Filters */}
       <EnhancedFilters
-        filters={filterOptions}
+        filters={filters}
         activeFilters={activeFilters}
         onFilterChange={setActiveFilters}
       />
@@ -273,10 +312,30 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedStreams.length}
         totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'end',
+            label: 'End selected',
+            onClick: handleEndSelected,
+            disabled: selectedStreams.length === 0,
+          },
+          {
+            id: 'schedule',
+            label: 'Schedule selected',
+            onClick: handleScheduleSelected,
+            disabled: selectedStreams.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedStreams.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedData}

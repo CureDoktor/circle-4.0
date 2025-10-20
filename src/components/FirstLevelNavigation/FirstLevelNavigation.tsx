@@ -27,7 +27,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   const settingsItem = items[4]; // Settings item at index 4
 
   return (
-    <div className="bg-white border-r border-gray-200 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-[30px]">
+    <div className="bg-base-grey-50 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-[30px]">
       {/* Top Section - 9 items (excluding settings) with separator between 5th and 6th */}
       <div className="flex flex-col gap-4">
         {/* First 4 items */}

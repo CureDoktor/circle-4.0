@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ChevronDown } from 'lucide-react';
+import { X } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { FilterCondition } from './filter-modal';
 
@@ -23,44 +23,50 @@ const FilterChip: React.FC<FilterChipProps> = ({
     ) {
       return condition.value === 'yes' ? 'Yes' : 'No';
     }
-    return `${condition.operator} ${condition.value}`;
+    return (
+      <span className="flex items-center">
+        <span className=" text-gray-500 pl-1">{condition.operator}</span>{' '}
+        <span className="w-px h-[24px] bg-gray-200 mx-2" />{' '}
+        <span className="text-gray-900 font-medium pr-1">
+          {condition.value}
+        </span>
+      </span>
+    );
   };
 
   return (
     <div
       className={cn(
-        'inline-flex items-center bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 text-sm transition-colors',
+        'inline-flex items-center bg-gray-100 hover:bg-gray-200 rounded-md px-2 text-xs transition-colors border border-gray-200',
         className
       )}
+      onClick={e => {
+        // Allow clicking chip (not the X) to trigger edit when provided
+        if ((e.target as HTMLElement).closest('button')) return;
+        onEdit?.();
+      }}
     >
-      {/* Remove button */}
-      <button
-        onClick={onRemove}
-        className="text-gray-600 hover:text-gray-800 mr-2 transition-colors"
-      >
-        <X size={14} />
-      </button>
-
       {/* Field name */}
-      <span className="text-gray-700 font-medium capitalize">
+      <span className="text-gray-900 font-medium capitalize">
         {condition.field.replace(/([A-Z])/g, ' $1').trim()}
       </span>
 
       {/* Separator */}
-      <div className="w-px h-4 bg-gray-300 mx-2" />
+      <div className="w-px bg-gray-300 mr-2" />
 
       {/* Value */}
-      <span className="text-gray-900 font-medium">{getDisplayValue()}</span>
+      <span className="text-gray-900 font-medium border-x border-gray-200 px-1">
+        {getDisplayValue()}
+      </span>
 
-      {/* Edit button */}
-      {onEdit && (
-        <button
-          onClick={onEdit}
-          className="text-gray-600 hover:text-gray-800 ml-2 transition-colors"
-        >
-          <ChevronDown size={14} />
-        </button>
-      )}
+      {/* Remove button on the right */}
+      <button
+        onClick={onRemove}
+        className="text-gray-600 hover:text-gray-800 ml-2 transition-colors"
+        aria-label="Remove filter"
+      >
+        <X size={16} />
+      </button>
     </div>
   );
 };

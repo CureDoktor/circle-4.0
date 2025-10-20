@@ -212,7 +212,7 @@ const AIHelperChat: React.FC<AIHelperChatProps> = ({ onClose }) => {
 
       {/* Input Area */}
       <div className="px-3 pb-3">
-        <div className="bg-white rounded-xl p-3 border border-gray-200">
+        <div className="bg-white rounded-xl p-3 border border-gray-100">
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div>
               {/* Message input */}

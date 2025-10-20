@@ -171,7 +171,7 @@ const Paywalls: React.FC<PaywallsProps> = ({
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <TableEnhanced
           columns={columns}
           data={paginatedPaywalls}

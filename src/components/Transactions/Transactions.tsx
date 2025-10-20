@@ -3,7 +3,7 @@ import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
 import EnhancedFilters from '../ui/enhanced-filters';
-import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import { FilterCondition } from '../ui/filter-modal';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
@@ -40,7 +40,7 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
   const [activeTab, setActiveTab] = useState('all');
 
-  const transactionsData: Transaction[] = [
+  const [transactions, setTransactions] = useState<Transaction[]>([
     {
       id: '1',
       customer: {
@@ -237,30 +237,28 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
       paywall: 'VIP Membership',
       date: 'September 19, 2025',
     },
-  ];
+  ]);
 
   const tabs: Tab[] = [
-    { id: 'all', label: 'All', count: transactionsData.length },
+    { id: 'all', label: 'All', count: transactions.length },
     {
       id: 'paid',
       label: 'Paid',
-      count: transactionsData.filter(
-        transaction => transaction.status === 'paid'
-      ).length,
+      count: transactions.filter(transaction => transaction.status === 'paid')
+        .length,
     },
     {
       id: 'refunded',
       label: 'Refunded',
-      count: transactionsData.filter(
+      count: transactions.filter(
         transaction => transaction.status === 'refunded'
       ).length,
     },
     {
       id: 'failed',
       label: 'Failed',
-      count: transactionsData.filter(
-        transaction => transaction.status === 'failed'
-      ).length,
+      count: transactions.filter(transaction => transaction.status === 'failed')
+        .length,
     },
   ];
 
@@ -354,36 +352,104 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  const filterOptions: FilterOption[] = [
-    { id: 'name', label: 'Name', type: 'text' },
-    { id: 'email', label: 'E-mail', type: 'text' },
-    { id: 'member', label: 'Member', type: 'text' },
-    { id: 'status', label: 'Status', type: 'select' },
-    { id: 'paywall', label: 'Paywall', type: 'text' },
-    { id: 'event', label: 'Event', type: 'text' },
-    { id: 'amount', label: 'Amount', type: 'text' },
-    { id: 'date', label: 'Date', type: 'text' },
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['paid', 'refunded', 'pending', 'failed'],
+    },
+    {
+      id: 'customerName',
+      label: 'Customer Name',
+      type: 'text' as const,
+    },
+    {
+      id: 'customerEmail',
+      label: 'Customer Email',
+      type: 'text' as const,
+    },
+    {
+      id: 'paywall',
+      label: 'Paywall',
+      type: 'text' as const,
+    },
+    {
+      id: 'amount',
+      label: 'Amount',
+      type: 'text' as const,
+    },
   ];
 
-  // Filter data based on active tab
+  // Filter data based on active tab and custom filters
   const getFilteredData = () => {
+    let filtered = transactions;
+
+    // Apply tab filter
     switch (activeTab) {
       case 'paid':
-        return transactionsData.filter(
+        filtered = filtered.filter(
           transaction => transaction.status === 'paid'
         );
+        break;
       case 'refunded':
-        return transactionsData.filter(
+        filtered = filtered.filter(
           transaction => transaction.status === 'refunded'
         );
+        break;
       case 'failed':
-        return transactionsData.filter(
+        filtered = filtered.filter(
           transaction => transaction.status === 'failed'
         );
+        break;
       case 'all':
       default:
-        return transactionsData;
+        // No tab filter
+        break;
     }
+
+    // Apply custom filters
+    return filtered.filter(transaction => {
+      return activeFilters.every(filter => {
+        switch (filter.field) {
+          case 'status': {
+            return filter.operator === 'is'
+              ? transaction.status === filter.value
+              : transaction.status !== filter.value;
+          }
+          case 'customerName': {
+            const name = transaction.customer.name.toLowerCase();
+            const searchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? name.includes(searchValue)
+              : !name.includes(searchValue);
+          }
+          case 'customerEmail': {
+            const email = transaction.customer.email.toLowerCase();
+            const emailSearchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? email.includes(emailSearchValue)
+              : !email.includes(emailSearchValue);
+          }
+          case 'paywall': {
+            const paywall = transaction.paywall.toLowerCase();
+            const paywallSearchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? paywall.includes(paywallSearchValue)
+              : !paywall.includes(paywallSearchValue);
+          }
+          case 'amount': {
+            const amount = transaction.amount.toLowerCase();
+            const amountSearchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? amount.includes(amountSearchValue)
+              : !amount.includes(amountSearchValue);
+          }
+          default:
+            return true;
+        }
+      });
+    });
   };
 
   const filteredData = getFilteredData();
@@ -427,6 +493,38 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
     }
   };
 
+  const handleDeleteSelected = () => {
+    if (selectedItems.length === 0) return;
+    setTransactions(prev =>
+      prev.filter(transaction => !selectedItems.includes(transaction.id))
+    );
+    setSelectedItems([]);
+  };
+
+  const handleRefundSelected = () => {
+    if (selectedItems.length === 0) return;
+    setTransactions(prev =>
+      prev.map(transaction =>
+        selectedItems.includes(transaction.id)
+          ? { ...transaction, status: 'refunded' as const }
+          : transaction
+      )
+    );
+    setSelectedItems([]);
+  };
+
+  const handleMarkPaidSelected = () => {
+    if (selectedItems.length === 0) return;
+    setTransactions(prev =>
+      prev.map(transaction =>
+        selectedItems.includes(transaction.id)
+          ? { ...transaction, status: 'paid' as const }
+          : transaction
+      )
+    );
+    setSelectedItems([]);
+  };
+
   return (
     <ContentContainer
       title="Transactions"
@@ -442,7 +540,7 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
 
       {/* Filters */}
       <EnhancedFilters
-        filters={filterOptions}
+        filters={filters}
         activeFilters={activeFilters}
         onFilterChange={setActiveFilters}
       />
@@ -451,14 +549,31 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
       <Actions
         selectedCount={selectedItems.length}
         totalCount={currentData.length}
-        onDeleteSelected={() => {
-          // Handle delete selected
-          setSelectedItems([]);
-        }}
+        onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'refund',
+            label: 'Refund selected',
+            onClick: handleRefundSelected,
+            disabled: selectedItems.length === 0,
+          },
+          {
+            id: 'mark-paid',
+            label: 'Mark as paid',
+            onClick: handleMarkPaidSelected,
+            disabled: selectedItems.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedItems.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={columns}
           data={currentData}

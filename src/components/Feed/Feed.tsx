@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HorizontalFilters from './HorizontalFilters';
 // import Post from './Post'; // Zakomentarisano jer koristimo PostCard
-import RecentSaves from './RecentSaves';
 import PostExpansion from './PostExpansion';
 // import ContentCards from './ContentCards'; // Zakomentarisano horizontalni scroll sa preview image
 import StartPost from './StartPost';
@@ -120,15 +119,6 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
     },
   ]);
 
-  const [showRecentSaves, setShowRecentSaves] = useState(false);
-
-  // Show Recent Saves after 3 posts
-  useEffect(() => {
-    if (posts.length >= 3) {
-      setShowRecentSaves(true);
-    }
-  }, [posts.length]);
-
   // Handle scroll behavior for hiding top controls
   useEffect(() => {
     const handleScroll = () => {
@@ -179,7 +169,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
 
           {/* Posts Feed */}
           <div className="flex flex-col gap-9">
-            {posts.map((post, index) => (
+            {posts.map(post => (
               <React.Fragment key={post.id}>
                 <PostCard
                   communityName={post.communityName}
@@ -198,8 +188,6 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
                   }
                   onUserClick={onUserClick}
                 />
-                {/* Show Recent Saves after 3rd post */}
-                {index === 2 && showRecentSaves && <RecentSaves />}
               </React.Fragment>
             ))}
           </div>

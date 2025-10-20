@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
-import Actions from '../Actions';
+import Actions from '../ui/actions';
 import Pagination from '../Pagination';
 import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface AccessGroup {
   id: string;
@@ -28,6 +30,7 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Reset page when tab changes
   useEffect(() => {
@@ -92,15 +95,70 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   ];
 
   // Filter data based on active tab
+  // Filter configuration
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Active', 'Archived'],
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      type: 'text' as const,
+    },
+    {
+      id: 'description',
+      label: 'Description',
+      type: 'text' as const,
+    },
+  ];
+
   const getFilteredData = () => {
+    let filtered = mockAccessGroups;
+
+    // Apply tab filter
     switch (activeTab) {
       case 'active':
-        return mockAccessGroups.filter(group => group.status === 'Active');
+        filtered = filtered.filter(group => group.status === 'Active');
+        break;
       case 'archived':
-        return mockAccessGroups.filter(group => group.status === 'Archived');
+        filtered = filtered.filter(group => group.status === 'Archived');
+        break;
       default:
-        return mockAccessGroups;
+        // No tab filter
+        break;
     }
+
+    // Apply custom filters
+    return filtered.filter(group => {
+      return activeFilters.every(filter => {
+        switch (filter.field) {
+          case 'status': {
+            return filter.operator === 'is'
+              ? group.status === filter.value
+              : group.status !== filter.value;
+          }
+          case 'name': {
+            const name = group.name.toLowerCase();
+            const searchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? name.includes(searchValue)
+              : !name.includes(searchValue);
+          }
+          case 'description': {
+            const description = group.description.toLowerCase();
+            const descriptionSearchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? description.includes(descriptionSearchValue)
+              : !description.includes(descriptionSearchValue);
+          }
+          default:
+            return true;
+        }
+      });
+    });
   };
 
   const filteredData = getFilteredData();
@@ -135,6 +193,34 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   const handleDeleteSelected = () => {
     console.log('Delete selected groups');
     setSelectedGroups([]);
+  };
+
+  const handleArchiveSelected = () => {
+    if (selectedGroups.length === 0) return;
+    console.log('Archive selected access groups:', selectedGroups);
+    setSelectedGroups([]);
+  };
+
+  const handleExportSelected = () => {
+    if (selectedGroups.length === 0) return;
+    const selectedData = mockAccessGroups.filter(group =>
+      selectedGroups.includes(group.id)
+    );
+    const csv = ['Name,Description,Status,Created By,Created At']
+      .concat(
+        selectedData.map(
+          g =>
+            `${g.name},${g.description},${g.status},${g.createdBy.name},${g.createdAt}`
+        )
+      )
+      .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'access_groups.csv';
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const tableColumns: TableColumn<AccessGroup>[] = [
@@ -222,17 +308,42 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
       {/* Tabs */}
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
-      {/* Content count */}
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
 
       {/* Actions */}
       <Actions
         selectedCount={selectedGroups.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: handleExportSelected,
+            disabled: selectedGroups.length === 0,
+          },
+          {
+            id: 'archive',
+            label: 'Archive selected',
+            onClick: handleArchiveSelected,
+            disabled: selectedGroups.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedGroups.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedData}

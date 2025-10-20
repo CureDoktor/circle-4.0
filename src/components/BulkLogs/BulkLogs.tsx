@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import EnhancedFilters from '../ui/enhanced-filters';
-import { FilterOption, FilterCondition } from '../ui/filter-modal';
+import { FilterCondition } from '../ui/filter-modal';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { applyFilters } from '../../utils/filterHelpers';
@@ -91,9 +91,12 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Keep rows in state so bulk actions (e.g., delete) can mutate the dataset
+  const [rows, setRows] = useState<BulkLog[]>(mockBulkLogs);
+
   // Filter and pagination logic
   const getFilteredData = () => {
-    return applyFilters(mockBulkLogs, activeFilters);
+    return applyFilters(rows, activeFilters);
   };
 
   const filteredData = getFilteredData();
@@ -118,15 +121,67 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected logs');
+    if (selectedLogs.length === 0) return;
+    setRows(prev => prev.filter(row => !selectedLogs.includes(row.id)));
     setSelectedLogs([]);
   };
 
-  const filterOptions: FilterOption[] = [
-    { id: 'action', label: 'Action', type: 'text' },
-    { id: 'status', label: 'Status', type: 'text' },
-    { id: 'createdBy', label: 'Created By', type: 'text' },
-    { id: 'createdAt', label: 'Created At', type: 'text' },
+  const handleExportSelected = () => {
+    if (selectedLogs.length === 0) return;
+    // Rename output CSV to reflect export action for selected logs
+    setRows(prev =>
+      prev.map(row => {
+        if (!selectedLogs.includes(row.id)) return row;
+        const base = row.outputCsv.replace(/\.csv$/i, '');
+        return { ...row, outputCsv: `${base}-exported.csv` };
+      })
+    );
+  };
+
+  const handleArchiveSelected = () => {
+    if (selectedLogs.length === 0) return;
+    // Mark archived items as completed with full progress
+    setRows(prev =>
+      prev.map(row =>
+        selectedLogs.includes(row.id)
+          ? { ...row, status: 'Completed', progress: 100 }
+          : row
+      )
+    );
+  };
+
+  const handleMoveToSpace = () => {
+    if (selectedLogs.length === 0) return;
+    // Simulate moving to a space by updating the resource field
+    setRows(prev =>
+      prev.map(row =>
+        selectedLogs.includes(row.id) ? { ...row, resource: 'Space A' } : row
+      )
+    );
+  };
+
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Completed', 'Failed', 'Processing'],
+    },
+    {
+      id: 'action',
+      label: 'Action',
+      type: 'text' as const,
+    },
+    {
+      id: 'resource',
+      label: 'Resource',
+      type: 'text' as const,
+    },
+    {
+      id: 'createdBy',
+      label: 'Created By',
+      type: 'text' as const,
+    },
   ];
 
   const handleDownloadCsv = (filename: string) => {
@@ -224,7 +279,7 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
     <ContentContainer onToggleSidebar={onToggleSidebar} title="Bulk logs">
       {/* Filters */}
       <EnhancedFilters
-        filters={filterOptions}
+        filters={filters}
         activeFilters={activeFilters}
         onFilterChange={setActiveFilters}
       />
@@ -234,10 +289,36 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedLogs.length}
         totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: handleExportSelected,
+            disabled: selectedLogs.length === 0,
+          },
+          {
+            id: 'move',
+            label: 'Move to space',
+            onClick: handleMoveToSpace,
+            disabled: selectedLogs.length === 0,
+          },
+          {
+            id: 'archive',
+            label: 'Archive selected',
+            onClick: handleArchiveSelected,
+            disabled: selectedLogs.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedLogs.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedData}

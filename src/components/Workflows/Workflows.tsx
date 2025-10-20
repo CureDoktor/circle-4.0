@@ -5,6 +5,8 @@ import Tabs, { Tab } from '../Tabs';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface Workflow {
   id: string;
@@ -28,6 +30,7 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   const [activeTab, setActiveTab] = useState('automations');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedWorkflows, setSelectedWorkflows] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Reset page when tab changes
   useEffect(() => {
@@ -36,7 +39,7 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   }, [activeTab]);
 
   // Mock data for workflows
-  const mockWorkflows: Workflow[] = [
+  const [workflows, setWorkflows] = useState<Workflow[]>([
     {
       id: '1',
       name: 'Welcome Email Automation',
@@ -89,32 +92,59 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
       totalRuns: 8,
       lastRun: '1 week ago',
     },
-  ];
+  ]);
 
-  // Filter data based on active tab
-  const getFilteredData = () => {
-    switch (activeTab) {
-      case 'automations':
-        return mockWorkflows.filter(workflow => workflow.type === 'Automation');
-      case 'bulk-actions':
-        return mockWorkflows.filter(
-          workflow => workflow.type === 'Bulk Action'
-        );
-      case 'scheduled':
-        return mockWorkflows.filter(workflow => workflow.type === 'Scheduled');
-      case 'archived':
-        return mockWorkflows.filter(workflow => workflow.type === 'Archived');
-      default:
-        return mockWorkflows;
-    }
-  };
+  // Apply filters
+  const filteredWorkflows = workflows.filter(workflow => {
+    // Apply tab filter
+    const tabMatch = (() => {
+      switch (activeTab) {
+        case 'automations':
+          return workflow.type === 'Automation';
+        case 'bulk-actions':
+          return workflow.type === 'Bulk Action';
+        case 'scheduled':
+          return workflow.type === 'Scheduled';
+        case 'archived':
+          return workflow.type === 'Archived';
+        default:
+          return true;
+      }
+    })();
 
-  const filteredData = getFilteredData();
+    if (!tabMatch) return false;
+
+    // Apply custom filters
+    return activeFilters.every(filter => {
+      switch (filter.field) {
+        case 'status': {
+          return filter.operator === 'is'
+            ? workflow.status === filter.value
+            : workflow.status !== filter.value;
+        }
+        case 'name': {
+          const name = workflow.name.toLowerCase();
+          const searchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? name.includes(searchValue)
+            : !name.includes(searchValue);
+        }
+        case 'type': {
+          return filter.operator === 'is'
+            ? workflow.type === filter.value
+            : workflow.type !== filter.value;
+        }
+        default:
+          return true;
+      }
+    });
+  });
+
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredWorkflows.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = filteredData.slice(startIndex, endIndex);
+  const paginatedData = filteredWorkflows.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedWorkflows.length === paginatedData.length) {
@@ -139,9 +169,57 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected workflows');
+    if (selectedWorkflows.length === 0) return;
+    setWorkflows(prev =>
+      prev.filter(workflow => !selectedWorkflows.includes(workflow.id))
+    );
     setSelectedWorkflows([]);
   };
+
+  const handleActivateSelected = () => {
+    if (selectedWorkflows.length === 0) return;
+    setWorkflows(prev =>
+      prev.map(workflow =>
+        selectedWorkflows.includes(workflow.id)
+          ? { ...workflow, status: 'Active' as const }
+          : workflow
+      )
+    );
+    setSelectedWorkflows([]);
+  };
+
+  const handleDeactivateSelected = () => {
+    if (selectedWorkflows.length === 0) return;
+    setWorkflows(prev =>
+      prev.map(workflow =>
+        selectedWorkflows.includes(workflow.id)
+          ? { ...workflow, status: 'Inactive' as const }
+          : workflow
+      )
+    );
+    setSelectedWorkflows([]);
+  };
+
+  // Filter configuration
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Active', 'Inactive', 'Draft'],
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      type: 'text' as const,
+    },
+    {
+      id: 'type',
+      label: 'Type',
+      type: 'select' as const,
+      options: ['Automation', 'Bulk Action', 'Scheduled', 'Archived'],
+    },
+  ];
 
   const tableColumns: TableColumn<Workflow>[] = [
     {
@@ -222,22 +300,22 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
     {
       id: 'automations',
       label: 'Automations',
-      count: mockWorkflows.filter(w => w.type === 'Automation').length,
+      count: workflows.filter(w => w.type === 'Automation').length,
     },
     {
       id: 'bulk-actions',
       label: 'Bulk actions',
-      count: mockWorkflows.filter(w => w.type === 'Bulk Action').length,
+      count: workflows.filter(w => w.type === 'Bulk Action').length,
     },
     {
       id: 'scheduled',
       label: 'Scheduled',
-      count: mockWorkflows.filter(w => w.type === 'Scheduled').length,
+      count: workflows.filter(w => w.type === 'Scheduled').length,
     },
     {
       id: 'archived',
       label: 'Archived',
-      count: mockWorkflows.filter(w => w.type === 'Archived').length,
+      count: workflows.filter(w => w.type === 'Archived').length,
     },
   ];
 
@@ -250,15 +328,42 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
       {/* Tabs */}
       <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedWorkflows.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'activate',
+            label: 'Activate selected',
+            onClick: handleActivateSelected,
+            disabled: selectedWorkflows.length === 0,
+          },
+          {
+            id: 'deactivate',
+            label: 'Deactivate selected',
+            onClick: handleDeactivateSelected,
+            disabled: selectedWorkflows.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedWorkflows.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedData}
@@ -272,7 +377,7 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockWorkflows.length}
+        totalItems={workflows.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

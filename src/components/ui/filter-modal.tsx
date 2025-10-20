@@ -54,6 +54,12 @@ const FilterModal: React.FC<FilterModalProps> = ({
         operator: 'is',
         value: operator,
       });
+    } else if (filter.type === 'select') {
+      onApply({
+        field: filter.id,
+        operator: 'is',
+        value: value,
+      });
     } else {
       onApply({
         field: filter.id,
@@ -108,6 +114,26 @@ const FilterModal: React.FC<FilterModalProps> = ({
                 </label>
               ))}
             </div>
+          ) : filter.type === 'select' ? (
+            // Select filter (dropdown options)
+            <div className="space-y-3">
+              {filter.options?.map(option => (
+                <label
+                  key={option}
+                  className="flex items-center space-x-3 cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    name="select-option"
+                    value={option}
+                    checked={value === option}
+                    onChange={e => setValue(e.target.value)}
+                    className="w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-500"
+                  />
+                  <span className="text-sm text-gray-700">{option}</span>
+                </label>
+              ))}
+            </div>
           ) : (
             // Text filter
             <div className="space-y-3">
@@ -147,7 +173,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
             onClick={handleApply}
             className="w-full bg-[#1A1D24] hover:bg-[#1A1D24]/90 text-white"
           >
-            {filter.type === 'boolean' ? 'Apply' : 'Done'}
+            {filter.type === 'boolean' || filter.type === 'select'
+              ? 'Apply'
+              : 'Done'}
           </Button>
         </div>
       </div>

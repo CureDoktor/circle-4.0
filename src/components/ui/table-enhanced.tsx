@@ -81,7 +81,7 @@ const TableEnhanced = <T extends { id: string }>({
   return (
     <div className={cn(' h-full flex flex-col relative', containerClassName)}>
       {/* Fixed Header */}
-      <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-gray-200">
+      <div className="sticky top-0 bg-white z-20 border-b border-gray-100">
         <div className="flex w-full align-middle items-center">
           <div className="w-12 px-6 py-3 bg-white flex-shrink-0">
             <input
@@ -116,7 +116,7 @@ const TableEnhanced = <T extends { id: string }>({
           {data.map((item, index) => (
             <div
               key={item.id || index}
-              className="flex hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100"
+              className="flex hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100 items-center"
               onClick={() => onRowClick?.(item)}
             >
               <div className="w-12 px-6 py-4 flex-shrink-0">

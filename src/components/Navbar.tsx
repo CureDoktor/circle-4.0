@@ -12,17 +12,22 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleAIHelper }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="text-white px-5 py-1.5 border-b border-gray-200 relative bg-white">
+    <nav className="text-white px-5 py-1.5 border-b border-gray-100 relative bg-white">
       <div className="flex items-center justify-between">
         {/* Logo and App Name */}
         <div className="flex items-center gap-2">
           {/* Logo */}
           <img
+            src="/images/circle-logo.png"
+            alt="Circle Logo"
+            className="w-5 h-5 rounded-full"
+          />
+          <img
             src="/images/avatars/blue-icon.png"
             alt="Circle Logo"
-            className="w-6 h-6"
+            className="w-5 h-5x relative -left-3 rounded-lg"
           />
-          <span className="font-semibold text-sm text-black">
+          <span className="font-semibold text-sm text-black relative -left-3">
             Future Founders
           </span>
         </div>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
-import Actions from '../Actions';
+import Actions from '../ui/actions';
 import Pagination from '../Pagination';
 import Button from '../Button';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface InviteLink {
   id: string;
@@ -26,6 +28,7 @@ interface InviteLinksProps {
 const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedLinks, setSelectedLinks] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for invite links
   const mockInviteLinks: InviteLink[] = [
@@ -83,11 +86,40 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Apply filters
+  const filteredLinks = mockInviteLinks.filter(link => {
+    return activeFilters.every(filter => {
+      switch (filter.field) {
+        case 'status': {
+          return filter.operator === 'is'
+            ? link.status === filter.value
+            : link.status !== filter.value;
+        }
+        case 'url': {
+          const url = link.url.toLowerCase();
+          const searchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? url.includes(searchValue)
+            : !url.includes(searchValue);
+        }
+        case 'createdBy': {
+          const createdBy = link.createdBy.name.toLowerCase();
+          const createdBySearchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? createdBy.includes(createdBySearchValue)
+            : !createdBy.includes(createdBySearchValue);
+        }
+        default:
+          return true;
+      }
+    });
+  });
+
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(mockInviteLinks.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredLinks.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = mockInviteLinks.slice(startIndex, endIndex);
+  const paginatedData = filteredLinks.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedLinks.length === paginatedData.length) {
@@ -107,6 +139,42 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
 
   const handleDeleteSelected = () => {
     console.log('Delete selected links');
+    setSelectedLinks([]);
+  };
+
+  // Filter configuration
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Active', 'Expired', 'Paused'],
+    },
+    {
+      id: 'url',
+      label: 'URL',
+      type: 'text' as const,
+    },
+    {
+      id: 'createdBy',
+      label: 'Created By',
+      type: 'text' as const,
+    },
+  ];
+
+  const handleCopySelected = () => {
+    if (selectedLinks.length === 0) return;
+    const selectedData = mockInviteLinks.filter(link =>
+      selectedLinks.includes(link.id)
+    );
+    const urls = selectedData.map(link => link.url).join('\n');
+    navigator.clipboard.writeText(urls);
+    console.log('Copied invite links to clipboard');
+  };
+
+  const handleArchiveSelected = () => {
+    if (selectedLinks.length === 0) return;
+    console.log('Archive selected invite links:', selectedLinks);
     setSelectedLinks([]);
   };
 
@@ -193,22 +261,42 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
       title="Invite links"
       actions={<Button variant="primary">New invite link</Button>}
     >
-      {/* Content count */}
-      <div className="flex-shrink-0">
-        <span className="text-sm text-gray-600">
-          {mockInviteLinks.length} invite links
-        </span>
-      </div>
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
 
       {/* Actions */}
       <Actions
         selectedCount={selectedLinks.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'copy',
+            label: 'Copy URLs',
+            onClick: handleCopySelected,
+            disabled: selectedLinks.length === 0,
+          },
+          {
+            id: 'archive',
+            label: 'Archive selected',
+            onClick: handleArchiveSelected,
+            disabled: selectedLinks.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedLinks.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedData}

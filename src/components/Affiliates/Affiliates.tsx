@@ -4,6 +4,9 @@ import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
+import Actions from '../ui/actions';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface Affiliate {
   id: string;
@@ -29,6 +32,7 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [activeTab, setActiveTab] = useState('all');
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   const affiliatesData: Affiliate[] = [
     {
@@ -267,6 +271,26 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
     },
   ];
 
+  // Filter configuration
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Active', 'Inactive'],
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      type: 'text' as const,
+    },
+    {
+      id: 'email',
+      label: 'Email',
+      type: 'text' as const,
+    },
+  ];
+
   const tabs: Tab[] = [
     { id: 'all', label: 'All', count: affiliatesData.length },
     {
@@ -375,30 +399,70 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
     },
   ];
 
-  // Filter data based on active tab
-  const getFilteredData = () => {
-    switch (activeTab) {
-      case 'active':
-        return affiliatesData.filter(
-          affiliate =>
-            affiliate.visitors !== null ||
-            affiliate.leads !== null ||
-            affiliate.conversions !== null
-        );
-      case 'inactive':
-        return affiliatesData.filter(
-          affiliate =>
-            affiliate.visitors === null &&
-            affiliate.leads === null &&
-            affiliate.conversions === null
-        );
-      case 'all':
-      default:
-        return affiliatesData;
-    }
-  };
+  // Removed legacy getFilteredData in favor of rows-based filtering below
 
-  const filteredData = getFilteredData();
+  // Keep rows in state so bulk actions can mutate the dataset
+  const [rows, setRows] = useState<Affiliate[]>(affiliatesData);
+
+  const filteredData = (() => {
+    const applyTab = (data: Affiliate[]) => {
+      switch (activeTab) {
+        case 'active':
+          return data.filter(
+            affiliate =>
+              affiliate.visitors !== null ||
+              affiliate.leads !== null ||
+              affiliate.conversions !== null
+          );
+        case 'inactive':
+          return data.filter(
+            affiliate =>
+              affiliate.visitors === null &&
+              affiliate.leads === null &&
+              affiliate.conversions === null
+          );
+        case 'all':
+        default:
+          return data;
+      }
+    };
+
+    const filtered = applyTab(rows);
+
+    // Apply custom filters
+    return filtered.filter(affiliate => {
+      return activeFilters.every(filter => {
+        switch (filter.field) {
+          case 'status': {
+            const isActive =
+              affiliate.visitors !== null ||
+              affiliate.leads !== null ||
+              affiliate.conversions !== null;
+            const status = isActive ? 'Active' : 'Inactive';
+            return filter.operator === 'is'
+              ? status === filter.value
+              : status !== filter.value;
+          }
+          case 'name': {
+            const name = affiliate.name.toLowerCase();
+            const searchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? name.includes(searchValue)
+              : !name.includes(searchValue);
+          }
+          case 'email': {
+            const email = affiliate.email.toLowerCase();
+            const emailSearchValue = filter.value.toLowerCase();
+            return filter.operator === 'contains'
+              ? email.includes(emailSearchValue)
+              : !email.includes(emailSearchValue);
+          }
+          default:
+            return true;
+        }
+      });
+    });
+  })();
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -439,6 +503,38 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
     }
   };
 
+  // Bulk actions
+  const handleExportPayoutCsv = () => {
+    if (selectedItems.length === 0) return;
+    // Example: create simple CSV string and trigger download
+    const selectedRows = rows.filter(r => selectedItems.includes(r.id));
+    const header = ['Name', 'Email', 'Due Now'].join(',');
+    const lines = selectedRows.map(r =>
+      [r.name, r.email, r.dueNow ?? 0].join(',')
+    );
+    const csv = [header, ...lines].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'payouts.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleMarkPaid = () => {
+    if (selectedItems.length === 0) return;
+    setRows(prev =>
+      prev.map(row => {
+        if (!selectedItems.includes(row.id)) return row;
+        const due = row.dueNow ?? 0;
+        const newPaid = (row.paid ?? 0) + due;
+        return { ...row, paid: newPaid, dueNow: 0, pending: 0, processing: 0 };
+      })
+    );
+    setSelectedItems([]);
+  };
+
   return (
     <ContentContainer
       title="Affiliates"
@@ -458,21 +554,35 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
         <p className="text-sm text-gray-600">{totalItems} affiliates</p>
       </div>
 
-      {/* Custom Actions */}
-      <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Button variant="default">Export payout CSV</Button>
-            <Button variant="default">Mark paid</Button>
-          </div>
-          <div className="text-sm text-gray-600">
-            {selectedItems.length} of {currentData.length} selected
-          </div>
-        </div>
-      </div>
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
+      {/* Bulk Actions */}
+      <Actions
+        selectedCount={selectedItems.length}
+        totalCount={currentData.length}
+        bulkActions={[
+          {
+            id: 'export-payout',
+            label: 'Export payout CSV',
+            onClick: handleExportPayoutCsv,
+            disabled: selectedItems.length === 0,
+          },
+          {
+            id: 'mark-paid',
+            label: 'Mark paid',
+            onClick: handleMarkPaid,
+            disabled: selectedItems.length === 0,
+          },
+        ]}
+      />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={columns}
           data={currentData}

@@ -5,6 +5,8 @@ import ContentContainer from '../ContentContainer';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface TagsProps {
   onToggleSidebar: () => void;
@@ -14,11 +16,51 @@ const Tags: React.FC<TagsProps> = ({ onToggleSidebar }) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+  const [tags, setTags] = useState<Tag[]>(mockTags);
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
-  const totalPages = Math.ceil(mockTags.length / itemsPerPage);
+  // Filter configuration
+  const filters = [
+    {
+      id: 'name',
+      label: 'Name',
+      type: 'text' as const,
+    },
+    {
+      id: 'icon',
+      label: 'Icon',
+      type: 'text' as const,
+    },
+  ];
+
+  // Apply filters
+  const filteredTags = tags.filter(tag => {
+    return activeFilters.every(filter => {
+      switch (filter.field) {
+        case 'name': {
+          const name = tag.name.toLowerCase();
+          const searchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? name.includes(searchValue)
+            : !name.includes(searchValue);
+        }
+        case 'icon': {
+          const icon = (tag.icon || '').toLowerCase();
+          const iconSearchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? icon.includes(iconSearchValue)
+            : !icon.includes(iconSearchValue);
+        }
+        default:
+          return true;
+      }
+    });
+  });
+
+  const totalPages = Math.ceil(filteredTags.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedTags = mockTags.slice(startIndex, endIndex);
+  const paginatedTags = filteredTags.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedTags.length === paginatedTags.length) {
@@ -35,7 +77,32 @@ const Tags: React.FC<TagsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected tags');
+    if (selectedTags.length === 0) return;
+    setTags(prev => prev.filter(tag => !selectedTags.includes(tag.id)));
+    setSelectedTags([]);
+  };
+
+  const handleArchiveSelected = () => {
+    if (selectedTags.length === 0) return;
+    setTags(prev =>
+      prev.map(tag =>
+        selectedTags.includes(tag.id)
+          ? { ...tag, status: 'Archived' as const }
+          : tag
+      )
+    );
+    setSelectedTags([]);
+  };
+
+  const handleActivateSelected = () => {
+    if (selectedTags.length === 0) return;
+    setTags(prev =>
+      prev.map(tag =>
+        selectedTags.includes(tag.id)
+          ? { ...tag, status: 'Active' as const }
+          : tag
+      )
+    );
     setSelectedTags([]);
   };
 
@@ -111,15 +178,42 @@ const Tags: React.FC<TagsProps> = ({ onToggleSidebar }) => {
       title="Tags"
       actions={<Button variant="default">New tag</Button>}
     >
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedTags.length}
         totalCount={paginatedTags.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'activate',
+            label: 'Activate selected',
+            onClick: handleActivateSelected,
+            disabled: selectedTags.length === 0,
+          },
+          {
+            id: 'archive',
+            label: 'Archive selected',
+            onClick: handleArchiveSelected,
+            disabled: selectedTags.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedTags.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <Table
           columns={tableColumns}
           data={paginatedTags}

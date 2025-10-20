@@ -4,6 +4,8 @@ import { Button } from '../ui/button';
 import TableEnhanced, { TableColumn } from '../ui/table-enhanced';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface Form {
   id: string;
@@ -21,8 +23,9 @@ const Forms: React.FC<FormsProps> = ({ onToggleSidebar }) => {
   const [selectedForms, setSelectedForms] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
-  const forms: Form[] = [
+  const [forms, setForms] = useState<Form[]>([
     {
       id: '1',
       name: "Ridhwana K's form",
@@ -65,12 +68,49 @@ const Forms: React.FC<FormsProps> = ({ onToggleSidebar }) => {
       edited: 'Aug 05, 2025',
       submissions: 0,
     },
+  ]);
+
+  // Filter configuration
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Published', 'Draft'],
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      type: 'text' as const,
+    },
   ];
 
-  const totalPages = Math.ceil(forms.length / itemsPerPage);
+  // Apply filters
+  const filteredForms = forms.filter(form => {
+    return activeFilters.every(filter => {
+      switch (filter.field) {
+        case 'status': {
+          return filter.operator === 'is'
+            ? form.status === filter.value
+            : form.status !== filter.value;
+        }
+        case 'name': {
+          const name = form.name.toLowerCase();
+          const searchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? name.includes(searchValue)
+            : !name.includes(searchValue);
+        }
+        default:
+          return true;
+      }
+    });
+  });
+
+  const totalPages = Math.ceil(filteredForms.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedForms = forms.slice(startIndex, endIndex);
+  const paginatedForms = filteredForms.slice(startIndex, endIndex);
 
   const handleSelectAll = () => {
     if (selectedForms.length === paginatedForms.length) {
@@ -89,7 +129,32 @@ const Forms: React.FC<FormsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected forms:', selectedForms);
+    if (selectedForms.length === 0) return;
+    setForms(prev => prev.filter(form => !selectedForms.includes(form.id)));
+    setSelectedForms([]);
+  };
+
+  const handlePublishSelected = () => {
+    if (selectedForms.length === 0) return;
+    setForms(prev =>
+      prev.map(form =>
+        selectedForms.includes(form.id)
+          ? { ...form, status: 'Published' as const }
+          : form
+      )
+    );
+    setSelectedForms([]);
+  };
+
+  const handleDraftSelected = () => {
+    if (selectedForms.length === 0) return;
+    setForms(prev =>
+      prev.map(form =>
+        selectedForms.includes(form.id)
+          ? { ...form, status: 'Draft' as const }
+          : form
+      )
+    );
     setSelectedForms([]);
   };
 
@@ -141,18 +206,42 @@ const Forms: React.FC<FormsProps> = ({ onToggleSidebar }) => {
         </Button>
       }
     >
-      {/* Summary */}
-      <div className="text-sm text-gray-600 mb-4">{forms.length} forms</div>
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
 
       {/* Actions */}
       <Actions
         selectedCount={selectedForms.length}
-        totalCount={forms.length}
+        totalCount={filteredForms.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'publish',
+            label: 'Publish selected',
+            onClick: handlePublishSelected,
+            disabled: selectedForms.length === 0,
+          },
+          {
+            id: 'draft',
+            label: 'Move to draft',
+            onClick: handleDraftSelected,
+            disabled: selectedForms.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedForms.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <TableEnhanced
           columns={tableColumns}
           data={paginatedForms}

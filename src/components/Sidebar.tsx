@@ -87,8 +87,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         {/* Icon Column */}
         <div
-          className={`bg-white flex flex-col gap-4 flex flex-col items-center py-[18px] px-2 ${
-            isCollapsed ? 'rounded-xl' : 'border-r border-gray-200'
+          className={`bg-white flex flex-col gap-4 flex flex-col items-center py-4 px-2 ${
+            isCollapsed ? 'rounded-xl' : 'border-r border-gray-100'
           }`}
         >
           {/* Mobile Close Button */}
@@ -122,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     onKeyDown={e => handleKeyDown(e, item.id)}
                     className={`p-1 w-[36px] h-[36px] rounded-xl flex items-center justify-center text-lg transition-all duration-200 border ${
                       expandedItem === item.id
-                        ? 'border-gray-200 shadow-md'
+                        ? 'border-gray-200 bg-gray-50 shadow-xs'
                         : 'border-transparent hover:bg-gray-100 hover:scale-105'
                     }`}
                     title={item.title}
@@ -162,7 +162,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     onKeyDown={e => handleKeyDown(e, item.id)}
                     className={`p-1 w-[36px] h-[36px] rounded-xl flex items-center justify-center text-lg transition-all duration-200 border ${
                       expandedItem === item.id
-                        ? 'border-gray-200 shadow-md'
+                        ? 'border-gray-200 bg-gray-50 shadow-xs'
                         : 'border-transparent hover:bg-gray-100 hover:scale-105'
                     }`}
                     title={item.title}
@@ -194,17 +194,17 @@ const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Expanded Menu */}
         <div
-          className={`flex flex-col gap-3 bg-white border-gray-200 py-4 px-2 rounded-r-2xl overflow-hidden transition-all ease-out ${
+          className={`flex flex-col gap-4 bg-white py-4 px-2 rounded-r-2xl overflow-hidden transition-all ease-out ${
             expandedItem && !isCollapsed ? 'w-48 opacity-100' : 'w-0 opacity-0'
           }`}
         >
           {/* Dynamic Title */}
           <div
-            className={`px-4 py-2 transition-opacity duration-200 ease-out ${
+            className={`px-4 py-1 transition-opacity duration-200 ease-out ${
               isContentVisible ? 'block' : 'hidden'
             }`}
           >
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-md font-semibold text-gray-900 py-[2px]">
               {items.find(item => item.id === expandedItem)?.title || 'Menu'}
             </h2>
           </div>
@@ -228,10 +228,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                               onClick={() =>
                                 handleSubItemClick(item.id, subItem.id)
                               }
-                              className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all duration-150 ${
+                              className={`w-full text-left px-3 py-[7px] rounded-xl text-sm transition-all duration-150 ${
                                 activeSubItem === subItem.id
-                                  ? ' text-gray-900 font-medium border-2 border-gray-100 shadow-sm'
-                                  : 'text-gray-700 hover:bg-gray-100 border-2 border-white hover:text-gray-900'
+                                  ? ' text-gray-900 font-semibold bg-gray-50 border border-gray-200 shadow-xs'
+                                  : 'text-gray-700 hover:bg-gray-100 border border-white hover:text-gray-900'
                               }`}
                               role="menuitem"
                               aria-current={subItem.active ? 'page' : undefined}

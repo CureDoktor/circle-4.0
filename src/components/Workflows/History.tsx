@@ -290,13 +290,8 @@ const History: React.FC<HistoryProps> = ({ onToggleSidebar }) => {
         className="mb-6"
       />
 
-      {/* Summary */}
-      <div className="text-sm text-gray-600 mb-4">
-        {filteredData.length} workflow tasks
-      </div>
-
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <TableEnhanced
           columns={tableColumns}
           data={filteredData}

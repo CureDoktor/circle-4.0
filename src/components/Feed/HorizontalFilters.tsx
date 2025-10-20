@@ -65,7 +65,7 @@ const HorizontalFilters: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative bg-white border-b border-gray-200 px-6 py-4 h-16">
+    <div className="relative bg-white px-9 py-6">
       <div className="flex items-center h-full">
         {/* Left Fade Gradient */}
         {showLeftArrow && (
@@ -107,7 +107,7 @@ const HorizontalFilters: React.FC = () => {
               className={`h-9 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                 activeFilter === filter
                   ? 'bg-gray-900 text-white border border-gray-700'
-                  : 'bg-gray-50 text-gray-900 shadow-sm hover:bg-gray-100'
+                  : 'bg-gray-50 text-gray-900 shadow-sm border border-transparent hover:bg-gray-100'
               }`}
             >
               {filter}

@@ -110,7 +110,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
       {/* Main expansion container */}
       <div
         ref={expansionRef}
-        className={`absolute z-50 bg-white rounded-2xl shadow-xl transition-all duration-200 ease-out ${
+        className={`absolute z-50 bg-white rounded-2xl shadow-lg transition-all duration-200 ease-out ${
           animationPhase === 'expanded' ? 'opacity-100' : 'opacity-0'
         }`}
         style={{

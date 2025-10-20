@@ -15,7 +15,7 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
       <img
         src="/images/circle-logo.png"
         alt="Circle Logo"
-        className="w-8 h-8"
+        className="w-8.5 h-8.5"
       />
     ),
     activeIcon: (

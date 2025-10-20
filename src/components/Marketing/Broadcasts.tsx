@@ -5,6 +5,8 @@ import Tabs from '../Tabs/Tabs';
 import TableEnhanced, { TableColumn } from '../ui/table-enhanced';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
+import EnhancedFilters from '../ui/enhanced-filters';
+import { FilterCondition } from '../ui/filter-modal';
 
 interface Broadcast {
   id: string;
@@ -27,6 +29,7 @@ const Broadcasts: React.FC<BroadcastsProps> = ({ onToggleSidebar }) => {
   const [selectedBroadcasts, setSelectedBroadcasts] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   const tabs = [
     { id: 'all', label: 'All', count: 366 },
@@ -35,7 +38,7 @@ const Broadcasts: React.FC<BroadcastsProps> = ({ onToggleSidebar }) => {
     { id: 'scheduled', label: 'Scheduled', count: 1 },
   ];
 
-  const broadcasts: Broadcast[] = [
+  const [broadcasts, setBroadcasts] = useState<Broadcast[]>([
     {
       id: '1',
       name: 'Test logo',
@@ -102,19 +105,60 @@ const Broadcasts: React.FC<BroadcastsProps> = ({ onToggleSidebar }) => {
       unsubscribed: '-',
       sendDate: '-',
     },
+  ]);
+
+  // Filter configuration
+  const filters = [
+    {
+      id: 'status',
+      label: 'Status',
+      type: 'select' as const,
+      options: ['Sent', 'Draft', 'Scheduled'],
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      type: 'text' as const,
+    },
   ];
 
+  // Apply tab and custom filters
   const filteredBroadcasts = broadcasts.filter(broadcast => {
-    switch (activeTab) {
-      case 'sent':
-        return broadcast.status === 'Sent';
-      case 'draft':
-        return broadcast.status === 'Draft';
-      case 'scheduled':
-        return broadcast.status === 'Scheduled';
-      default:
-        return true;
-    }
+    // Apply tab filter
+    const tabMatch = (() => {
+      switch (activeTab) {
+        case 'sent':
+          return broadcast.status === 'Sent';
+        case 'draft':
+          return broadcast.status === 'Draft';
+        case 'scheduled':
+          return broadcast.status === 'Scheduled';
+        default:
+          return true;
+      }
+    })();
+
+    // Apply custom filters
+    const customFiltersMatch = activeFilters.every(filter => {
+      switch (filter.field) {
+        case 'status': {
+          return filter.operator === 'is'
+            ? broadcast.status === filter.value
+            : broadcast.status !== filter.value;
+        }
+        case 'name': {
+          const name = broadcast.name.toLowerCase();
+          const searchValue = filter.value.toLowerCase();
+          return filter.operator === 'contains'
+            ? name.includes(searchValue)
+            : !name.includes(searchValue);
+        }
+        default:
+          return true;
+      }
+    });
+
+    return tabMatch && customFiltersMatch;
   });
 
   const totalPages = Math.ceil(filteredBroadcasts.length / itemsPerPage);
@@ -139,7 +183,46 @@ const Broadcasts: React.FC<BroadcastsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected broadcasts:', selectedBroadcasts);
+    if (selectedBroadcasts.length === 0) return;
+    setBroadcasts(prev =>
+      prev.filter(broadcast => !selectedBroadcasts.includes(broadcast.id))
+    );
+    setSelectedBroadcasts([]);
+  };
+
+  const handleSendSelected = () => {
+    if (selectedBroadcasts.length === 0) return;
+    setBroadcasts(prev =>
+      prev.map(broadcast =>
+        selectedBroadcasts.includes(broadcast.id)
+          ? { ...broadcast, status: 'Sent' as const }
+          : broadcast
+      )
+    );
+    setSelectedBroadcasts([]);
+  };
+
+  const handleDraftSelected = () => {
+    if (selectedBroadcasts.length === 0) return;
+    setBroadcasts(prev =>
+      prev.map(broadcast =>
+        selectedBroadcasts.includes(broadcast.id)
+          ? { ...broadcast, status: 'Draft' as const }
+          : broadcast
+      )
+    );
+    setSelectedBroadcasts([]);
+  };
+
+  const handleScheduleSelected = () => {
+    if (selectedBroadcasts.length === 0) return;
+    setBroadcasts(prev =>
+      prev.map(broadcast =>
+        selectedBroadcasts.includes(broadcast.id)
+          ? { ...broadcast, status: 'Scheduled' as const }
+          : broadcast
+      )
+    );
     setSelectedBroadcasts([]);
   };
 
@@ -228,15 +311,48 @@ const Broadcasts: React.FC<BroadcastsProps> = ({ onToggleSidebar }) => {
         className="mb-6"
       />
 
+      {/* Filters */}
+      <EnhancedFilters
+        filters={filters}
+        activeFilters={activeFilters}
+        onFilterChange={setActiveFilters}
+      />
+
       {/* Actions */}
       <Actions
         selectedCount={selectedBroadcasts.length}
         totalCount={filteredBroadcasts.length}
         onDeleteSelected={handleDeleteSelected}
+        bulkActions={[
+          {
+            id: 'send',
+            label: 'Send selected',
+            onClick: handleSendSelected,
+            disabled: selectedBroadcasts.length === 0,
+          },
+          {
+            id: 'draft',
+            label: 'Move to draft',
+            onClick: handleDraftSelected,
+            disabled: selectedBroadcasts.length === 0,
+          },
+          {
+            id: 'schedule',
+            label: 'Schedule selected',
+            onClick: handleScheduleSelected,
+            disabled: selectedBroadcasts.length === 0,
+          },
+          {
+            id: 'delete',
+            label: 'Delete selected',
+            onClick: handleDeleteSelected,
+            disabled: selectedBroadcasts.length === 0,
+          },
+        ]}
       />
 
       {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-200">
+      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
         <TableEnhanced
           columns={tableColumns}
           data={paginatedBroadcasts}
