@@ -7,6 +7,7 @@ import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
 import { applyFilters } from '../../utils/filterHelpers';
+import { exportToCSV } from '../../utils/csvExport';
 
 interface LiveStream {
   id: string;
@@ -312,7 +313,22 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedStreams.length}
         totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedData.filter(stream =>
+          selectedStreams.includes(stream.id)
+        )}
+        exportFilename="live-streams.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedData.filter(stream =>
+                selectedStreams.includes(stream.id)
+              );
+              exportToCSV(selectedData, 'live-streams.csv');
+            },
+            disabled: selectedStreams.length === 0,
+          },
           {
             id: 'end',
             label: 'End selected',

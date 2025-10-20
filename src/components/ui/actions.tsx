@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from './button';
 import BulkActionsDropdown from './bulk-actions-dropdown';
 import { cn } from '../../lib/utils';
+import { exportToCSV } from '../../utils/csvExport';
 
 interface BulkAction {
   id: string;
@@ -16,6 +17,8 @@ interface ActionsProps {
   onDeleteSelected?: () => void;
   bulkActions?: BulkAction[];
   className?: string;
+  selectedData?: any[];
+  exportFilename?: string;
 }
 
 const Actions: React.FC<ActionsProps> = ({
@@ -24,12 +27,23 @@ const Actions: React.FC<ActionsProps> = ({
   onDeleteSelected,
   bulkActions = [],
   className = '',
+  selectedData = [],
+  exportFilename = 'export.csv',
 }) => {
+  const handleExportSelected = () => {
+    if (selectedData.length > 0) {
+      exportToCSV(selectedData, exportFilename);
+    } else {
+      console.warn('No data selected for export');
+    }
+  };
+
   const defaultBulkActions: BulkAction[] = [
     {
       id: 'export',
       label: 'Export selected',
-      onClick: () => console.log('Export selected'),
+      onClick: handleExportSelected,
+      disabled: selectedCount === 0,
     },
     {
       id: 'move',
@@ -49,7 +63,22 @@ const Actions: React.FC<ActionsProps> = ({
     },
   ];
 
-  const actions = bulkActions.length > 0 ? bulkActions : defaultBulkActions;
+  // Always include delete action if onDeleteSelected is provided
+  const actions =
+    bulkActions.length > 0
+      ? bulkActions.concat(
+          onDeleteSelected
+            ? [
+                {
+                  id: 'delete',
+                  label: 'Delete selected',
+                  onClick: onDeleteSelected,
+                  disabled: selectedCount === 0,
+                },
+              ]
+            : []
+        )
+      : defaultBulkActions;
 
   return (
     <div

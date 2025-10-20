@@ -5,6 +5,7 @@ import Tabs, { Tab } from '../Tabs';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
+import { exportToCSV } from '../../utils/csvExport';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
 
@@ -340,7 +341,22 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedWorkflows.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedData.filter(workflow =>
+          selectedWorkflows.includes(workflow.id)
+        )}
+        exportFilename="workflows.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedData.filter(workflow =>
+                selectedWorkflows.includes(workflow.id)
+              );
+              exportToCSV(selectedData, 'workflows.csv');
+            },
+            disabled: selectedWorkflows.length === 0,
+          },
           {
             id: 'activate',
             label: 'Activate selected',

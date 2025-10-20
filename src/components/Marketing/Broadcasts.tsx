@@ -5,6 +5,7 @@ import Tabs from '../Tabs/Tabs';
 import TableEnhanced, { TableColumn } from '../ui/table-enhanced';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
 
@@ -323,7 +324,22 @@ const Broadcasts: React.FC<BroadcastsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedBroadcasts.length}
         totalCount={filteredBroadcasts.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedBroadcasts.filter(broadcast =>
+          selectedBroadcasts.includes(broadcast.id)
+        )}
+        exportFilename="broadcasts.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedBroadcasts.filter(broadcast =>
+                selectedBroadcasts.includes(broadcast.id)
+              );
+              exportToCSV(selectedData, 'broadcasts.csv');
+            },
+            disabled: selectedBroadcasts.length === 0,
+          },
           {
             id: 'send',
             label: 'Send selected',

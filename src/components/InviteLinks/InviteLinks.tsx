@@ -3,6 +3,7 @@ import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Actions from '../ui/actions';
 import Pagination from '../Pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import Button from '../Button';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
@@ -31,7 +32,7 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
 
   // Mock data for invite links
-  const mockInviteLinks: InviteLink[] = [
+  const [rows, setRows] = useState<InviteLink[]>([
     {
       id: '1',
       url: 'https://circle.com/invite/abc123',
@@ -84,10 +85,10 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
       signups: 3,
       expiresAt: '2024-06-30',
     },
-  ];
+  ]);
 
   // Apply filters
-  const filteredLinks = mockInviteLinks.filter(link => {
+  const filteredLinks = rows.filter(link => {
     return activeFilters.every(filter => {
       switch (filter.field) {
         case 'status': {
@@ -138,7 +139,8 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected links');
+    if (selectedLinks.length === 0) return;
+    setRows(prev => prev.filter(link => !selectedLinks.includes(link.id)));
     setSelectedLinks([]);
   };
 
@@ -164,9 +166,7 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
 
   const handleCopySelected = () => {
     if (selectedLinks.length === 0) return;
-    const selectedData = mockInviteLinks.filter(link =>
-      selectedLinks.includes(link.id)
-    );
+    const selectedData = rows.filter(link => selectedLinks.includes(link.id));
     const urls = selectedData.map(link => link.url).join('\n');
     navigator.clipboard.writeText(urls);
     console.log('Copied invite links to clipboard');
@@ -174,7 +174,13 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
 
   const handleArchiveSelected = () => {
     if (selectedLinks.length === 0) return;
-    console.log('Archive selected invite links:', selectedLinks);
+    setRows(prev =>
+      prev.map(link =>
+        selectedLinks.includes(link.id)
+          ? { ...link, status: 'Expired' as const }
+          : link
+      )
+    );
     setSelectedLinks([]);
   };
 
@@ -273,7 +279,22 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedLinks.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedData.filter(link =>
+          selectedLinks.includes(link.id)
+        )}
+        exportFilename="invite-links.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedData.filter(link =>
+                selectedLinks.includes(link.id)
+              );
+              exportToCSV(selectedData, 'invite-links.csv');
+            },
+            disabled: selectedLinks.length === 0,
+          },
           {
             id: 'copy',
             label: 'Copy URLs',
@@ -310,7 +331,7 @@ const InviteLinks: React.FC<InviteLinksProps> = ({ onToggleSidebar }) => {
       <Pagination
         startIndex={startIndex}
         endIndex={endIndex}
-        totalItems={mockInviteLinks.length}
+        totalItems={rows.length}
         currentPage={currentPage}
         totalPages={totalPages}
         onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

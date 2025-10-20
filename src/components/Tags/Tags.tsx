@@ -5,6 +5,7 @@ import ContentContainer from '../ContentContainer';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
+import { exportToCSV } from '../../utils/csvExport';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
 
@@ -190,7 +191,22 @@ const Tags: React.FC<TagsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedTags.length}
         totalCount={paginatedTags.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedTags.filter(tag =>
+          selectedTags.includes(tag.id)
+        )}
+        exportFilename="tags.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedTags.filter(tag =>
+                selectedTags.includes(tag.id)
+              );
+              exportToCSV(selectedData, 'tags.csv');
+            },
+            disabled: selectedTags.length === 0,
+          },
           {
             id: 'activate',
             label: 'Activate selected',

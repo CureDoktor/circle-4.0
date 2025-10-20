@@ -8,6 +8,7 @@ import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
 import { Button } from '../ui';
 import { applyFilters } from '../../utils/filterHelpers';
+import { exportToCSV } from '../../utils/csvExport';
 
 interface Post {
   id: string;
@@ -323,7 +324,22 @@ const Posts: React.FC<PostsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedPosts.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedData.filter(post =>
+          selectedPosts.includes(post.id)
+        )}
+        exportFilename="posts.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedData.filter(post =>
+                selectedPosts.includes(post.id)
+              );
+              exportToCSV(selectedData, 'posts.csv');
+            },
+            disabled: selectedPosts.length === 0,
+          },
           {
             id: 'publish',
             label: 'Publish selected',

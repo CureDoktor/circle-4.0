@@ -4,6 +4,7 @@ import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
 import Actions from '../ui/actions';
 import Pagination from '../Pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import Button from '../Button';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
@@ -39,7 +40,7 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   }, [activeTab]);
 
   // Mock data for access groups
-  const mockAccessGroups: AccessGroup[] = [
+  const [rows, setRows] = useState<AccessGroup[]>([
     {
       id: '1',
       name: 'Administrators',
@@ -92,7 +93,7 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
       },
       createdAt: 'Apr 5, 2024',
     },
-  ];
+  ]);
 
   // Filter data based on active tab
   // Filter configuration
@@ -116,7 +117,7 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   ];
 
   const getFilteredData = () => {
-    let filtered = mockAccessGroups;
+    let filtered = rows;
 
     // Apply tab filter
     switch (activeTab) {
@@ -191,36 +192,21 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleDeleteSelected = () => {
-    console.log('Delete selected groups');
+    if (selectedGroups.length === 0) return;
+    setRows(prev => prev.filter(group => !selectedGroups.includes(group.id)));
     setSelectedGroups([]);
   };
 
   const handleArchiveSelected = () => {
     if (selectedGroups.length === 0) return;
-    console.log('Archive selected access groups:', selectedGroups);
-    setSelectedGroups([]);
-  };
-
-  const handleExportSelected = () => {
-    if (selectedGroups.length === 0) return;
-    const selectedData = mockAccessGroups.filter(group =>
-      selectedGroups.includes(group.id)
-    );
-    const csv = ['Name,Description,Status,Created By,Created At']
-      .concat(
-        selectedData.map(
-          g =>
-            `${g.name},${g.description},${g.status},${g.createdBy.name},${g.createdAt}`
-        )
+    setRows(prev =>
+      prev.map(group =>
+        selectedGroups.includes(group.id)
+          ? { ...group, status: 'Archived' as const }
+          : group
       )
-      .join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'access_groups.csv';
-    link.click();
-    URL.revokeObjectURL(url);
+    );
+    setSelectedGroups([]);
   };
 
   const tableColumns: TableColumn<AccessGroup>[] = [
@@ -286,16 +272,16 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
   ];
 
   const tabs: Tab[] = [
-    { id: 'all', label: 'All', count: mockAccessGroups.length },
+    { id: 'all', label: 'All', count: rows.length },
     {
       id: 'active',
       label: 'Active',
-      count: mockAccessGroups.filter(g => g.status === 'Active').length,
+      count: rows.filter(g => g.status === 'Active').length,
     },
     {
       id: 'archived',
       label: 'Archived',
-      count: mockAccessGroups.filter(g => g.status === 'Archived').length,
+      count: rows.filter(g => g.status === 'Archived').length,
     },
   ];
 
@@ -320,11 +306,20 @@ const AccessGroups: React.FC<AccessGroupsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedGroups.length}
         totalCount={paginatedData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedData.filter(group =>
+          selectedGroups.includes(group.id)
+        )}
+        exportFilename="access-groups.csv"
         bulkActions={[
           {
             id: 'export',
             label: 'Export selected',
-            onClick: handleExportSelected,
+            onClick: () => {
+              const selectedData = paginatedData.filter(group =>
+                selectedGroups.includes(group.id)
+              );
+              exportToCSV(selectedData, 'access-groups.csv');
+            },
             disabled: selectedGroups.length === 0,
           },
           {

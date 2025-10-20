@@ -6,6 +6,7 @@ import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import { Button } from '../ui';
 
 interface Transaction {
@@ -550,7 +551,22 @@ const Transactions: React.FC<TransactionsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedItems.length}
         totalCount={currentData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={currentData.filter((transaction: any) =>
+          selectedItems.includes(transaction.id)
+        )}
+        exportFilename="transactions.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = currentData.filter((transaction: any) =>
+                selectedItems.includes(transaction.id)
+              );
+              exportToCSV(selectedData, 'transactions.csv');
+            },
+            disabled: selectedItems.length === 0,
+          },
           {
             id: 'refund',
             label: 'Refund selected',

@@ -5,6 +5,7 @@ import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import { applyFilters } from '../../utils/filterHelpers';
 
 interface BulkLog {
@@ -124,18 +125,6 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
     if (selectedLogs.length === 0) return;
     setRows(prev => prev.filter(row => !selectedLogs.includes(row.id)));
     setSelectedLogs([]);
-  };
-
-  const handleExportSelected = () => {
-    if (selectedLogs.length === 0) return;
-    // Rename output CSV to reflect export action for selected logs
-    setRows(prev =>
-      prev.map(row => {
-        if (!selectedLogs.includes(row.id)) return row;
-        const base = row.outputCsv.replace(/\.csv$/i, '');
-        return { ...row, outputCsv: `${base}-exported.csv` };
-      })
-    );
   };
 
   const handleArchiveSelected = () => {
@@ -289,11 +278,20 @@ const BulkLogs: React.FC<BulkLogsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedLogs.length}
         totalCount={filteredData.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedData.filter(log =>
+          selectedLogs.includes(log.id)
+        )}
+        exportFilename="bulk-logs.csv"
         bulkActions={[
           {
             id: 'export',
             label: 'Export selected',
-            onClick: handleExportSelected,
+            onClick: () => {
+              const selectedData = paginatedData.filter(log =>
+                selectedLogs.includes(log.id)
+              );
+              exportToCSV(selectedData, 'bulk-logs.csv');
+            },
             disabled: selectedLogs.length === 0,
           },
           {

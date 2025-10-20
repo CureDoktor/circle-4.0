@@ -3,6 +3,7 @@ import { TableEnhanced as Table, TableColumn } from '../ui';
 import ContentContainer from '../ContentContainer';
 import Tabs, { Tab } from '../Tabs';
 import Pagination from '../ui/pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import { Button } from '../ui';
 import Actions from '../ui/actions';
 import EnhancedFilters from '../ui/enhanced-filters';
@@ -522,6 +523,12 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
     URL.revokeObjectURL(url);
   };
 
+  const handleDeleteSelected = () => {
+    if (selectedItems.length === 0) return;
+    setRows(prev => prev.filter(row => !selectedItems.includes(row.id)));
+    setSelectedItems([]);
+  };
+
   const handleMarkPaid = () => {
     if (selectedItems.length === 0) return;
     setRows(prev =>
@@ -565,7 +572,23 @@ const Affiliates: React.FC<AffiliatesProps> = ({ onToggleSidebar }) => {
       <Actions
         selectedCount={selectedItems.length}
         totalCount={currentData.length}
+        onDeleteSelected={handleDeleteSelected}
+        selectedData={currentData.filter((affiliate: any) =>
+          selectedItems.includes(affiliate.id)
+        )}
+        exportFilename="affiliates.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = currentData.filter((affiliate: any) =>
+                selectedItems.includes(affiliate.id)
+              );
+              exportToCSV(selectedData, 'affiliates.csv');
+            },
+            disabled: selectedItems.length === 0,
+          },
           {
             id: 'export-payout',
             label: 'Export payout CSV',

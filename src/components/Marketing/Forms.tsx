@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import TableEnhanced, { TableColumn } from '../ui/table-enhanced';
 import Actions from '../ui/actions';
 import Pagination from '../ui/pagination';
+import { exportToCSV } from '../../utils/csvExport';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
 
@@ -218,7 +219,22 @@ const Forms: React.FC<FormsProps> = ({ onToggleSidebar }) => {
         selectedCount={selectedForms.length}
         totalCount={filteredForms.length}
         onDeleteSelected={handleDeleteSelected}
+        selectedData={paginatedForms.filter(form =>
+          selectedForms.includes(form.id)
+        )}
+        exportFilename="forms.csv"
         bulkActions={[
+          {
+            id: 'export',
+            label: 'Export selected',
+            onClick: () => {
+              const selectedData = paginatedForms.filter(form =>
+                selectedForms.includes(form.id)
+              );
+              exportToCSV(selectedData, 'forms.csv');
+            },
+            disabled: selectedForms.length === 0,
+          },
           {
             id: 'publish',
             label: 'Publish selected',
