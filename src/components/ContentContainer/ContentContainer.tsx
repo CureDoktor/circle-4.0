@@ -43,7 +43,9 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
                   />
                 </svg>
               </button>
-              <h1 className="text-xl font-bold text-gray-900">{title}</h1>
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                {title}
+              </h1>
             </div>
             {actions && (
               <div className="flex items-center space-x-3">{actions}</div>

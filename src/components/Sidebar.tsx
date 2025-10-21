@@ -204,7 +204,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               isContentVisible ? 'block' : 'hidden'
             }`}
           >
-            <h2 className="text-md font-semibold text-gray-900 py-[2px]">
+            <h2 className="text-md font-bold text-gray-900 py-[2px]">
               {items.find(item => item.id === expandedItem)?.title || 'Menu'}
             </h2>
           </div>
@@ -231,7 +231,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                               className={`w-full text-left px-3 py-[7px] rounded-xl text-sm transition-all duration-150 ${
                                 activeSubItem === subItem.id
                                   ? ' text-gray-900 font-semibold bg-gray-50 border border-gray-200 shadow-xs'
-                                  : 'text-gray-700 hover:bg-gray-100 border border-white hover:text-gray-900'
+                                  : 'text-gray-700 font-medium hover:bg-gray-100 border border-white hover:text-gray-900'
                               }`}
                               role="menuitem"
                               aria-current={subItem.active ? 'page' : undefined}

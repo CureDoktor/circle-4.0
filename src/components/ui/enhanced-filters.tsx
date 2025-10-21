@@ -66,10 +66,10 @@ const EnhancedFilters: React.FC<EnhancedFiltersProps> = ({
             <button
               key={filter.id}
               onClick={() => handleFilterClick(filter)}
-              className="inline-flex items-center gap-1 px-2 py-1 text-xs text-gray-900 border border-gray-200 hover:bg-gray-100 rounded-md transition-colors shadow-2xs"
+              className="inline-flex items-center justify-center gap-1 px-2 py-1 text-xs text-gray-900 border border-gray-200 hover:bg-gray-100 rounded-md transition-colors shadow-2xs"
             >
-              <Plus size={10} className="text-black" />
-              <span>{filter.label}</span>
+              <Plus size={10} className="text-[#717680]" />
+              <div>{filter.label}</div>
             </button>
           );
         })}
@@ -77,7 +77,7 @@ const EnhancedFilters: React.FC<EnhancedFiltersProps> = ({
         {/* Add filter button (opens simple picker modal) */}
         <button
           onClick={() => setIsPickerOpen(true)}
-          className="inline-flex items-center gap-1 px-2 py-1 text-xs text-gray-900 border border-gray-200 hover:bg-gray-100 rounded-md transition-colors shadow-2xs"
+          className="inline-flex items-center justify-center gap-1 px-2 py-1 text-xs text-gray-900 border border-gray-200 hover:bg-gray-100 rounded-md transition-colors shadow-2xs"
         >
           {/* Custom icon */}
           <svg
@@ -95,7 +95,7 @@ const EnhancedFilters: React.FC<EnhancedFiltersProps> = ({
               strokeLinecap="round"
             />
           </svg>
-          <span>Add filter</span>
+          <div>Add filter</div>
         </button>
 
         {activeFilters.length > 0 && (

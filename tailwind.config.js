@@ -44,6 +44,10 @@ module.exports = {
         fadeOut: 'fadeOut 0.3s ease-in',
         modalSlideOut: 'modalSlideOut 0.3s ease-in',
       },
+      boxShadow: {
+        '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        xs: '0 1px 4px 0 rgba(0, 0, 0, 0.03), 0 1px 4px 0 rgba(0, 0, 0, 0.03)',
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },

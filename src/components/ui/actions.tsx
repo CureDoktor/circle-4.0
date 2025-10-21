@@ -63,11 +63,12 @@ const Actions: React.FC<ActionsProps> = ({
     },
   ];
 
-  // Always include delete action if onDeleteSelected is provided
+  // Always include delete action if onDeleteSelected is provided and not already in bulkActions
+  const hasDeleteAction = bulkActions.some(action => action.id === 'delete');
   const actions =
     bulkActions.length > 0
       ? bulkActions.concat(
-          onDeleteSelected
+          onDeleteSelected && !hasDeleteAction
             ? [
                 {
                   id: 'delete',

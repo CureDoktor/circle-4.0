@@ -34,7 +34,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
         {topItems.slice(0, 4).map((item, index) => (
           <div
             key={item.id}
-            className={`relative group ${index === 0 ? 'pb-[10px]' : ''}`}
+            className={`relative group ${index === 0 ? 'pb-[8px]' : ''}`}
           >
             <button
               onClick={() => handleItemClick(item.id)}
