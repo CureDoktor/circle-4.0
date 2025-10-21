@@ -8,6 +8,7 @@ import { Button } from '../ui';
 import { exportToCSV } from '../../utils/csvExport';
 import EnhancedFilters from '../ui/enhanced-filters';
 import { FilterCondition } from '../ui/filter-modal';
+import WorkflowBuilder from '../WorkflowBuilder';
 
 interface Workflow {
   id: string;
@@ -32,6 +33,7 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedWorkflows, setSelectedWorkflows] = useState<string[]>([]);
   const [activeFilters, setActiveFilters] = useState<FilterCondition[]>([]);
+  const [showWorkflowBuilder, setShowWorkflowBuilder] = useState(false);
 
   // Reset page when tab changes
   useEffect(() => {
@@ -167,6 +169,14 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
     setActiveTab(tab);
     setCurrentPage(1);
     setSelectedWorkflows([]);
+  };
+
+  const handleWorkflowClick = (_workflow: Workflow) => {
+    setShowWorkflowBuilder(true);
+  };
+
+  const handleCloseWorkflowBuilder = () => {
+    setShowWorkflowBuilder(false);
   };
 
   const handleDeleteSelected = () => {
@@ -321,87 +331,95 @@ const Workflows: React.FC<WorkflowsProps> = ({ onToggleSidebar }) => {
   ];
 
   return (
-    <ContentContainer
-      onToggleSidebar={onToggleSidebar}
-      title="Workflows"
-      actions={<Button variant="default">New workflow</Button>}
-    >
-      {/* Tabs */}
-      <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
+    <>
+      <ContentContainer
+        onToggleSidebar={onToggleSidebar}
+        title="Workflows"
+        actions={<Button variant="default">New workflow</Button>}
+      >
+        {/* Tabs */}
+        <Tabs tabs={tabs} activeTab={activeTab} onTabChange={handleTabChange} />
 
-      {/* Filters */}
-      <EnhancedFilters
-        filters={filters}
-        activeFilters={activeFilters}
-        onFilterChange={setActiveFilters}
-      />
-
-      {/* Actions */}
-      <Actions
-        selectedCount={selectedWorkflows.length}
-        totalCount={paginatedData.length}
-        onDeleteSelected={handleDeleteSelected}
-        selectedData={paginatedData.filter(workflow =>
-          selectedWorkflows.includes(workflow.id)
-        )}
-        exportFilename="workflows.csv"
-        bulkActions={[
-          {
-            id: 'export',
-            label: 'Export selected',
-            onClick: () => {
-              const selectedData = paginatedData.filter(workflow =>
-                selectedWorkflows.includes(workflow.id)
-              );
-              exportToCSV(selectedData, 'workflows.csv');
-            },
-            disabled: selectedWorkflows.length === 0,
-          },
-          {
-            id: 'activate',
-            label: 'Activate selected',
-            onClick: handleActivateSelected,
-            disabled: selectedWorkflows.length === 0,
-          },
-          {
-            id: 'deactivate',
-            label: 'Deactivate selected',
-            onClick: handleDeactivateSelected,
-            disabled: selectedWorkflows.length === 0,
-          },
-          {
-            id: 'delete',
-            label: 'Delete selected',
-            onClick: handleDeleteSelected,
-            disabled: selectedWorkflows.length === 0,
-          },
-        ]}
-      />
-
-      {/* Table */}
-      <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
-        <Table
-          columns={tableColumns}
-          data={paginatedData}
-          selectedItems={selectedWorkflows}
-          onSelectAll={handleSelectAll}
-          onSelectItem={handleSelectItem}
+        {/* Filters */}
+        <EnhancedFilters
+          filters={filters}
+          activeFilters={activeFilters}
+          onFilterChange={setActiveFilters}
         />
-      </div>
 
-      {/* Pagination */}
-      <Pagination
-        startIndex={startIndex}
-        endIndex={endIndex}
-        totalItems={workflows.length}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-        onNextPage={() =>
-          setCurrentPage(prev => Math.min(prev + 1, totalPages))
-        }
-      />
-    </ContentContainer>
+        {/* Actions */}
+        <Actions
+          selectedCount={selectedWorkflows.length}
+          totalCount={paginatedData.length}
+          onDeleteSelected={handleDeleteSelected}
+          selectedData={paginatedData.filter(workflow =>
+            selectedWorkflows.includes(workflow.id)
+          )}
+          exportFilename="workflows.csv"
+          bulkActions={[
+            {
+              id: 'export',
+              label: 'Export selected',
+              onClick: () => {
+                const selectedData = paginatedData.filter(workflow =>
+                  selectedWorkflows.includes(workflow.id)
+                );
+                exportToCSV(selectedData, 'workflows.csv');
+              },
+              disabled: selectedWorkflows.length === 0,
+            },
+            {
+              id: 'activate',
+              label: 'Activate selected',
+              onClick: handleActivateSelected,
+              disabled: selectedWorkflows.length === 0,
+            },
+            {
+              id: 'deactivate',
+              label: 'Deactivate selected',
+              onClick: handleDeactivateSelected,
+              disabled: selectedWorkflows.length === 0,
+            },
+            {
+              id: 'delete',
+              label: 'Delete selected',
+              onClick: handleDeleteSelected,
+              disabled: selectedWorkflows.length === 0,
+            },
+          ]}
+        />
+
+        {/* Table */}
+        <div className="flex-1 min-h-0 overflow-auto border-t border-b border-gray-100">
+          <Table
+            columns={tableColumns}
+            data={paginatedData}
+            selectedItems={selectedWorkflows}
+            onSelectAll={handleSelectAll}
+            onSelectItem={handleSelectItem}
+            onRowClick={handleWorkflowClick}
+          />
+        </div>
+
+        {/* Pagination */}
+        <Pagination
+          startIndex={startIndex}
+          endIndex={endIndex}
+          totalItems={workflows.length}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPreviousPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          onNextPage={() =>
+            setCurrentPage(prev => Math.min(prev + 1, totalPages))
+          }
+        />
+      </ContentContainer>
+
+      {/* Workflow Builder Modal */}
+      {showWorkflowBuilder && (
+        <WorkflowBuilder onClose={handleCloseWorkflowBuilder} />
+      )}
+    </>
   );
 };
 
