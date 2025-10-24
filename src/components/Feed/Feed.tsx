@@ -8,9 +8,10 @@ import PostCard from './PostCard';
 
 export interface FeedProps {
   onUserClick?: (user: any) => void;
+  onPostClick?: (post: any) => void;
 }
 
-const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
+const Feed: React.FC<FeedProps> = ({ onUserClick, onPostClick }) => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [isPostExpanded, setIsPostExpanded] = useState(false);
   const [isPostLoading, setIsPostLoading] = useState(false);
@@ -18,7 +19,13 @@ const Feed: React.FC<FeedProps> = ({ onUserClick }) => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const handlePostClick = (post: any, event?: React.MouseEvent) => {
-    // Use local expansion instead of navigation
+    // If onPostClick prop is provided, use it for navigation
+    if (onPostClick) {
+      onPostClick(post);
+      return;
+    }
+    
+    // Otherwise, use local expansion
     const postWithOrigin = {
       ...post,
       originRect: event?.currentTarget?.getBoundingClientRect?.() || null,

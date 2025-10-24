@@ -63,15 +63,25 @@ import {
   loadAudienceData,
 } from '../../data/mockData';
 
-const AdminSection: React.FC = () => {
+interface AdminSectionProps {
+  onItemClick?: (itemId: string, subItemId?: string) => void;
+  currentSection?: string;
+  activeSubItem?: string;
+}
+
+const AdminSection: React.FC<AdminSectionProps> = ({ 
+  onItemClick, 
+  currentSection: propCurrentSection, 
+  activeSubItem: propActiveSubItem 
+}) => {
   const [viewMode, setViewMode] = useState<ViewMode>('Admin');
   const [currentSection, setCurrentSection] =
-    useState<string>('manage-audience');
+    useState<string>(propCurrentSection || 'manage-audience');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [currentAudienceData, setCurrentAudienceData] =
     useState<AudienceData>(audienceData);
-  const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
+  const [activeSubItem, setActiveSubItem] = useState<string>(propActiveSubItem || 'manage-audience');
   const [isContentTransitioning, setIsContentTransitioning] = useState(false);
   const [isPageEditorOpen, setIsPageEditorOpen] = useState(false);
   const [selectedPageId, setSelectedPageId] = useState<string | null>(null);

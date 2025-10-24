@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import FirstLevelNavigation from './components/FirstLevelNavigation';
 import AdminSection from './components/AdminSection';
 import Feed from './components/Feed';
@@ -11,29 +12,53 @@ import UserProfilePage from './components/UserProfilePage';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
 import { firstLevelNavItems } from './data/firstLevelNavigation';
+import { sidebarItems } from './data/mockData';
 import './App.css';
 
+// Main App component with routing
 function App() {
-  const [activeFirstLevelItem, setActiveFirstLevelItem] =
-    useState<string>('circle');
+  return (
+    <ErrorBoundary>
+      <Router>
+        <AppContent />
+      </Router>
+    </ErrorBoundary>
+  );
+}
+
+// App content component that uses routing
+function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [navigationStack, setNavigationStack] = useState<
-    Array<{
-      type: 'feed' | 'post' | 'user';
-      data?: any;
-    }>
-  >([{ type: 'feed' }]);
+
+  // Extract route parameters from URL
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const firstLevel = pathSegments[0] || 'circle';
+  const secondLevel = pathSegments[1];
+  const subItem = pathSegments[2];
 
   const handleFirstLevelNavigationClick = (itemId: string) => {
-    if (itemId === activeFirstLevelItem) return; // Don't reload if same item
+    if (itemId === firstLevel) return; // Don't reload if same item
 
     // Show loading spinner
     setIsLoading(true);
 
-    // Change content after brief loading
+    // Navigate to new route
     setTimeout(() => {
-      setActiveFirstLevelItem(itemId);
-      setNavigationStack([{ type: 'feed' }]); // Reset navigation stack
+      navigate(`/${itemId}`);
+      setIsLoading(false);
+    }, 300);
+  };
+
+  const handleSidebarClick = (itemId: string, subItemId?: string) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      if (subItemId) {
+        navigate(`/${firstLevel}/${itemId}/${subItemId}`);
+      } else {
+        navigate(`/${firstLevel}/${itemId}`);
+      }
       setIsLoading(false);
     }, 300);
   };
@@ -41,7 +66,7 @@ function App() {
   const handlePostClick = (post: any) => {
     setIsLoading(true);
     setTimeout(() => {
-      setNavigationStack(prev => [...prev, { type: 'post', data: post }]);
+      navigate(`/${firstLevel}/post/${post.id}`);
       setIsLoading(false);
     }, 500);
   };
@@ -49,47 +74,72 @@ function App() {
   const handleUserClick = (user: any) => {
     setIsLoading(true);
     setTimeout(() => {
-      setNavigationStack(prev => [...prev, { type: 'user', data: user }]);
+      navigate(`/${firstLevel}/user/${user.id}`);
       setIsLoading(false);
     }, 500);
   };
 
   const handleBack = () => {
-    if (navigationStack.length > 1) {
-      setNavigationStack(prev => prev.slice(0, -1));
-    }
+    navigate(-1);
   };
 
-  const renderContent = (itemId: string) => {
-    // Check if we're in a nested navigation (post or user view)
-    const currentView = navigationStack[navigationStack.length - 1];
-
-    if (currentView.type === 'post') {
+  const renderContent = () => {
+    // Handle post detail routes
+    if (secondLevel === 'post' && pathSegments[2]) {
+      const postId = pathSegments[2];
+      // In a real app, you'd fetch the post by ID
+      const post = { 
+        id: postId, 
+        title: 'Sample Post',
+        author: 'Sample Author',
+        handle: 'sample-author',
+        avatar: '/images/avatars/1.png',
+        content: 'This is a sample post content.',
+        image: '/images/placeholders/image-1.png',
+        images: ['/images/placeholders/image-1.png'],
+        likes: 42,
+        comments: 5,
+        isSaved: false,
+        timeAgo: '2h',
+        timestamp: new Date().toISOString(),
+        bio: 'Sample author bio',
+        socialLinks: {}
+      };
       return (
         <PostDetail
-          post={currentView.data}
+          post={post}
           onBack={handleBack}
           onUserClick={handleUserClick}
         />
       );
     }
 
-    if (currentView.type === 'user') {
+    // Handle user profile routes
+    if (secondLevel === 'user' && pathSegments[2]) {
+      const userId = pathSegments[2];
+      // In a real app, you'd fetch the user by ID
+      const user = { 
+        id: userId, 
+        name: 'Sample User',
+        handle: 'sample-user',
+        avatar: '/images/avatars/1.png',
+        bio: 'This is a sample user bio.',
+        socialLinks: {},
+        postCount: 10
+      };
       return (
         <UserProfilePage
-          user={currentView.data}
+          user={user}
           onBack={handleBack}
           onPostClick={handlePostClick}
         />
       );
     }
 
-    // Default navigation based on first level item
-    switch (itemId) {
+    // Handle first level navigation
+    switch (firstLevel) {
       case 'circle':
-        return <Feed onUserClick={handleUserClick} />;
-      case 'home':
-        return <Feed onUserClick={handleUserClick} />;
+        return <Feed onUserClick={handleUserClick} onPostClick={handlePostClick} />;
       case 'discover':
         return <Discovery />;
       case 'inbox':
@@ -97,39 +147,35 @@ function App() {
       case 'notifications':
         return <NotificationsPage />;
       case 'manage':
-        return <AdminSection />;
+        return <AdminSection onItemClick={handleSidebarClick} currentSection={secondLevel} activeSubItem={subItem} />;
       case 'harvard':
-        return <Community />;
       case 'webflow':
-        return <Community />;
       case 'framer':
-        return <Community />;
       case 'obama foundation':
+      case 'more':
         return <Community />;
       default:
-        return <AdminSection />;
+        return <AdminSection onItemClick={handleSidebarClick} currentSection={secondLevel} activeSubItem={subItem} />;
     }
   };
 
   return (
-    <ErrorBoundary>
-      <div className="h-screen bg-gray-50 flex overflow-hidden">
-        <FirstLevelNavigation
-          items={firstLevelNavItems}
-          onItemClick={handleFirstLevelNavigationClick}
-          activeItem={activeFirstLevelItem}
-        />
-        <div className="flex-1 overflow-hidden rounded-2xl shadow-2xs border border-gray-200 relative my-4 mr-4">
-          {isLoading ? (
-            <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
-              <LoadingSpinner size="lg" />
-            </div>
-          ) : (
-            <div className="h-full">{renderContent(activeFirstLevelItem)}</div>
-          )}
-        </div>
+    <div className="h-screen bg-gray-50 flex overflow-hidden">
+      <FirstLevelNavigation
+        items={firstLevelNavItems}
+        onItemClick={handleFirstLevelNavigationClick}
+        activeItem={firstLevel}
+      />
+      <div className="flex-1 overflow-hidden rounded-2xl shadow-2xs border border-gray-200 relative my-4 mr-4">
+        {isLoading ? (
+          <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
+            <LoadingSpinner size="lg" />
+          </div>
+        ) : (
+          <div className="h-full">{renderContent()}</div>
+        )}
       </div>
-    </ErrorBoundary>
+    </div>
   );
 }
 
