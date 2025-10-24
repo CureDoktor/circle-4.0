@@ -58,15 +58,12 @@ function AppContent() {
   };
 
   const handleSidebarClick = (itemId: string, subItemId?: string) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      if (subItemId) {
-        navigate(`/${firstLevel}/${itemId}/${subItemId}`);
-      } else {
-        navigate(`/${firstLevel}/${itemId}`);
-      }
-      setIsLoading(false);
-    }, 300);
+    // Navigate immediately without loading state for smooth transitions
+    if (subItemId) {
+      navigate(`/${firstLevel}/${itemId}/${subItemId}`);
+    } else {
+      navigate(`/${firstLevel}/${itemId}`);
+    }
   };
 
   const handlePostClick = (post: any) => {

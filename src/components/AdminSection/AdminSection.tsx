@@ -69,20 +69,33 @@ interface AdminSectionProps {
   activeSubItem?: string;
 }
 
-const AdminSection: React.FC<AdminSectionProps> = ({ 
-  onItemClick, 
-  currentSection: propCurrentSection, 
-  activeSubItem: propActiveSubItem 
+const AdminSection: React.FC<AdminSectionProps> = ({
+  onItemClick,
+  currentSection: propCurrentSection,
+  activeSubItem: propActiveSubItem,
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('Admin');
-  // Use props for routing, fallback to state for backward compatibility
-  const currentSection = propCurrentSection || 'audience';
-  const activeSubItem = propActiveSubItem || 'manage-audience';
-  
-  // Keep state for backward compatibility when not using routing
-  const [internalCurrentSection, setCurrentSection] = useState<string>(propCurrentSection || 'audience');
-  const [internalActiveSubItem, setActiveSubItem] = useState<string>(propActiveSubItem || 'manage-audience');
-  
+  // Use state for content updates, props for initial values
+  const [currentSection, setCurrentSection] = useState<string>(
+    propCurrentSection || 'audience'
+  );
+  const [activeSubItem, setActiveSubItem] = useState<string>(
+    propActiveSubItem || 'manage-audience'
+  );
+
+  // Update state when props change (for URL navigation and refresh)
+  useEffect(() => {
+    if (propCurrentSection) {
+      setCurrentSection(propCurrentSection);
+    }
+  }, [propCurrentSection]);
+
+  useEffect(() => {
+    if (propActiveSubItem) {
+      setActiveSubItem(propActiveSubItem);
+    }
+  }, [propActiveSubItem]);
+
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [currentAudienceData, setCurrentAudienceData] =
@@ -106,13 +119,8 @@ const AdminSection: React.FC<AdminSectionProps> = ({
   }, [currentSection]);
 
   const handleSidebarItemClick = (itemId: string, subItemId?: string) => {
-    // If onItemClick prop is provided, use it for routing
-    if (onItemClick) {
-      onItemClick(itemId, subItemId);
-      return;
-    }
-    
-    // Otherwise, use local state management (backward compatibility)
+    // Always use local state management for smooth transitions
+    // onItemClick is used for URL updates only
     if (subItemId) {
       // Click on sidebar sub-item - fade main content only
       setIsContentTransitioning(true);
@@ -132,6 +140,11 @@ const AdminSection: React.FC<AdminSectionProps> = ({
           setIsContentTransitioning(false);
         }, 50);
       }, 150);
+
+      // Update URL after local state change
+      if (onItemClick) {
+        onItemClick(itemId, subItemId);
+      }
     } else {
       // Click on main sidebar icon - find first sub-item and navigate to it
       const currentItem = sidebarItems.find(item => item.id === itemId);
@@ -152,6 +165,11 @@ const AdminSection: React.FC<AdminSectionProps> = ({
             setIsContentTransitioning(false);
           }, 50);
         }, 150);
+
+        // Update URL after local state change
+        if (onItemClick) {
+          onItemClick(itemId, firstSubItem.id);
+        }
       } else {
         // Fallback for items without sub-items
         setIsContentTransitioning(true);
@@ -164,6 +182,11 @@ const AdminSection: React.FC<AdminSectionProps> = ({
             setIsContentTransitioning(false);
           }, 50);
         }, 150);
+
+        // Update URL after local state change
+        if (onItemClick) {
+          onItemClick(itemId, itemId);
+        }
       }
     }
   };
