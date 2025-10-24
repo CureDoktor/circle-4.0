@@ -12,7 +12,7 @@ interface FiltersProps {
 
 const Filters: React.FC<FiltersProps> = ({ filters, className = '' }) => {
   return (
-    <div className={`flex-shrink-0 ${className}`}>
+    <div className={`shrink-0 ${className}`}>
       <div className="flex flex-wrap gap-2">
         {filters.map((filter, index) => (
           <button

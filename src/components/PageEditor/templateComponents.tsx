@@ -29,7 +29,7 @@ const GrowthNetworkTemplate: React.FC = () => {
           <div className="flex-1 max-w-md ml-12">
             <div className="relative">
               <div className="w-full h-96 bg-gray-200 rounded-lg overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-green-100 to-blue-100 flex items-center justify-center">
+                <div className="w-full h-full bg-linear-to-br from-green-100 to-blue-100 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
                       <svg

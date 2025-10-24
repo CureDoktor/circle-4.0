@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             >
               <div className="flex items-center space-x-3">
                 {item.icon && (
-                  <span className="flex-shrink-0">{item.icon}</span>
+                  <span className="shrink-0">{item.icon}</span>
                 )}
                 <span>{item.title}</span>
               </div>

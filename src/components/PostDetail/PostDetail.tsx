@@ -125,7 +125,7 @@ const PostDetail: React.FC<PostDetailProps> = ({
             {/* Images Grid */}
             <div className="mb-6">
               <div className="grid grid-cols-2 gap-2 rounded-lg overflow-hidden">
-                <div className="aspect-[4/3]">
+                <div className="aspect-4/3">
                   <img
                     src={post.images[0]}
                     alt="Post image 1"
@@ -133,14 +133,14 @@ const PostDetail: React.FC<PostDetailProps> = ({
                   />
                 </div>
                 <div className="grid grid-rows-2 gap-2">
-                  <div className="aspect-[4/3]">
+                  <div className="aspect-4/3">
                     <img
                       src={post.images[1]}
                       alt="Post image 2"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="aspect-[4/3]">
+                  <div className="aspect-4/3">
                     <img
                       src={post.images[2]}
                       alt="Post image 3"

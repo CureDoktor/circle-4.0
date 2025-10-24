@@ -14,7 +14,7 @@ interface FiltersProps {
 
 const Filters: React.FC<FiltersProps> = ({ filters, className = '' }) => {
   return (
-    <div className={cn('flex-shrink-0', className)}>
+    <div className={cn('shrink-0', className)}>
       <div className="flex flex-wrap gap-2">
         {filters.map((filter, index) => (
           <Button

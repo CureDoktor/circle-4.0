@@ -49,7 +49,7 @@ const PostCard: React.FC<PostCardProps> = ({
             />
           </div>
         ) : (
-          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+          <div className="w-6 h-6 rounded-lg bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center">
             <span className="text-white text-xs font-bold">
               {communityName.charAt(0).toUpperCase()}
             </span>
@@ -112,11 +112,24 @@ const PostCard: React.FC<PostCardProps> = ({
                     </div>
                     <div className="w-6 h-6 flex items-center justify-center">
                       <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="currentColor"
+                        width="20"
+                        height="20"
                         viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path
+                          d="M16.0042 9.61512C16.0042 10.38 15.3844 10.9998 14.6195 10.9998C13.8547 10.9998 13.2349 10.38 13.2349 9.61512C13.2349 8.85055 13.8547 8.23047 14.6195 8.23047C15.3844 8.23047 16.0042 8.85055 16.0042 9.61512Z"
+                          fill="#545861"
+                        />
+                        <path
+                          d="M11.387 9.61512C11.387 10.38 10.7672 10.9998 10.0023 10.9998C9.23748 10.9998 8.61768 10.38 8.61768 9.61512C8.61768 8.85055 9.23748 8.23047 10.0023 8.23047C10.7672 8.23047 11.387 8.85055 11.387 9.61512Z"
+                          fill="#545861"
+                        />
+                        <path
+                          d="M6.76931 9.61509C6.76931 10.3799 6.14938 10.9997 5.38465 10.9997C4.61993 10.9997 4 10.3799 4 9.61509C4 8.85053 4.61993 8.23047 5.38465 8.23047C6.14938 8.23047 6.76931 8.85053 6.76931 9.61509Z"
+                          fill="#545861"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -127,7 +140,7 @@ const PostCard: React.FC<PostCardProps> = ({
                     </div>
                     <div className="w-1 h-1 bg-gray-400 rounded-full" />
                     <div className="flex gap-2.5 items-center justify-center">
-                      <p className="text-sm text-gray-500 leading-5 overflow-ellipsis overflow-hidden whitespace-nowrap max-w-96">
+                      <p className="text-sm text-gray-500 leading-5 text-ellipsis overflow-hidden whitespace-nowrap max-w-96">
                         {authorBio}
                       </p>
                     </div>
@@ -160,7 +173,7 @@ const PostCard: React.FC<PostCardProps> = ({
             <div className="flex gap-3 items-start">
               {/* Like Button */}
               <button
-                className={`w-6 h-6 flex items-center justify-center hover:scale-110 transition-transform ${
+                className={`w-9 h-9 flex items-center justify-center hover:scale-110 rounded-xl bg-gray-50 transition-transform ${
                   liked ? 'text-red-500' : 'text-gray-400'
                 }`}
                 onClick={e => {
@@ -169,38 +182,42 @@ const PostCard: React.FC<PostCardProps> = ({
                 }}
               >
                 <svg
-                  className="w-6 h-6"
-                  fill={liked ? 'currentColor' : 'none'}
-                  stroke="currentColor"
+                  width="24"
+                  height="24"
                   viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M12 8.08577C10 2.12845 2.5 2.91724 2.5 8.9464C2.5 14.9756 12 20 12 20C12 20 21.5 14.9755 21.5 8.94639C21.5 2.91723 14 2.12845 12 8.08577Z"
+                    stroke="#545861"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
               </button>
               {/* Comment Button */}
               <button
-                className="w-6 h-6 flex items-center justify-center text-gray-400 hover:scale-110 transition-transform"
+                className="w-9 h-9 flex items-center justify-center text-gray-400 rounded-xl bg-gray-50 hover:scale-110 transition-transform"
                 onClick={e => {
                   e.stopPropagation(); // Sprečava otvaranje post modala
                   // TODO: Implementirati comment funkcionalnost
                 }}
               >
                 <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
+                  width="24"
+                  height="24"
                   viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M7.50977 19.8018C8.83126 20.5639 10.3645 21 11.9996 21C16.9702 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.6351 3.43604 15.1684 4.19819 16.4899L4.20114 16.495C4.27448 16.6221 4.31146 16.6863 4.32821 16.7469C4.34401 16.804 4.34842 16.8554 4.34437 16.9146C4.34003 16.9781 4.3186 17.044 4.27468 17.1758L3.50586 19.4823L3.50489 19.4853C3.34268 19.9719 3.26157 20.2152 3.31938 20.3774C3.36979 20.5187 3.48169 20.6303 3.62305 20.6807C3.78482 20.7384 4.02705 20.6577 4.51155 20.4962L4.51758 20.4939L6.82405 19.7251C6.95537 19.6813 7.02214 19.6591 7.08559 19.6548C7.14475 19.6507 7.19578 19.6561 7.25293 19.6719C7.31368 19.6887 7.37783 19.7257 7.50563 19.7994L7.50977 19.8018Z"
+                    stroke="#545861"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                   />
                 </svg>
               </button>
@@ -208,9 +225,9 @@ const PostCard: React.FC<PostCardProps> = ({
 
             {/* Meta Info */}
             <div className="flex gap-2 items-center justify-center">
-              <div className="flex gap-2 items-start">
+              <div className="flex gap-1 items-start">
                 {/* Avatar Group */}
-                <div className="flex items-center pl-0 pr-1 py-0">
+                <div className="flex items-center py-0">
                   <div className="flex -space-x-1">
                     <div className="w-5 h-5 rounded-full border-2 border-white bg-blue-500 overflow-hidden">
                       <img
@@ -235,15 +252,14 @@ const PostCard: React.FC<PostCardProps> = ({
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-2.5 items-center">
-                  <p className="text-sm font-medium text-gray-500 leading-5 text-right">
+                <div className="flex px-2 items-center">
+                  <p className="text-sm font-medium text-gray-900 leading-5 text-right">
                     {likes.toLocaleString()} likes
                   </p>
                 </div>
               </div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full" />
-              <div className="flex gap-2.5 items-center">
-                <p className="text-sm font-medium text-gray-500 leading-5 text-right">
+              <div className="flex gap-2.5 px-4 items-center">
+                <p className="text-sm font-medium text-gray-900 leading-5 text-right">
                   {comments.toLocaleString()} comments
                 </p>
               </div>

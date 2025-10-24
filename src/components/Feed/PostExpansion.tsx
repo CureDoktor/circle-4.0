@@ -128,7 +128,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
           <div className="h-full flex flex-col">
             {/* Header - Fixed at top */}
             <div
-              className={`flex items-center justify-between px-6 py-3 border-b border-gray-200 transition-all duration-200 flex-shrink-0 ${
+              className={`flex items-center justify-between px-6 py-3 border-b border-gray-200 transition-all duration-200 shrink-0 ${
                 animationPhase === 'expanded'
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-4'
@@ -148,7 +148,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <div className="w-full h-full bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                       <span className="text-white text-sm font-bold">
                         {post.communityName?.charAt(0).toUpperCase() || 'C'}
                       </span>
@@ -232,7 +232,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
                 <div className="bg-white flex flex-col gap-6 items-center w-full">
                   {/* Image */}
                   {post.image && (
-                    <div className="aspect-[680/269] relative rounded w-full">
+                    <div className="aspect-680/269 relative rounded w-full">
                       <img
                         src={post.image}
                         alt="Post image"
@@ -277,7 +277,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
                                 </div>
                                 <div className="w-1 h-1 bg-gray-400 rounded-full" />
                                 <div className="flex gap-2.5 items-center justify-center">
-                                  <p className="text-sm text-gray-500 leading-5 overflow-ellipsis overflow-hidden whitespace-nowrap max-w-96">
+                                  <p className="text-sm text-gray-500 leading-5 text-ellipsis overflow-hidden whitespace-nowrap max-w-96">
                                     {post.authorBio}
                                   </p>
                                 </div>
@@ -395,7 +395,7 @@ const PostExpansion: React.FC<PostExpansionProps> = ({
 
             {/* Footer - Fixed at bottom */}
             <div
-              className={`border-t border-gray-200 p-6 transition-all duration-250 rounded-b-xl flex-shrink-0 bg-white ${
+              className={`border-t border-gray-200 p-6 transition-all duration-250 rounded-b-xl shrink-0 bg-white ${
                 animationPhase === 'expanded'
                   ? 'opacity-100 translate-y-0'
                   : 'opacity-0 translate-y-4'

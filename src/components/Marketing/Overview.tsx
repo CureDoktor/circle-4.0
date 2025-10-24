@@ -202,7 +202,7 @@ const Overview: React.FC<OverviewProps> = ({ onToggleSidebar }) => {
               {[
                 {
                   image: (
-                    <div className="w-full h-24 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
+                    <div className="w-full h-24 bg-linear-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center">
                       <div className="text-center">
                         <div className="w-8 h-8 bg-blue-500 rounded-full mx-auto mb-2"></div>
                         <div className="text-xs text-gray-600">Email Hub</div>
@@ -215,7 +215,7 @@ const Overview: React.FC<OverviewProps> = ({ onToggleSidebar }) => {
                 },
                 {
                   image: (
-                    <div className="w-full h-24 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg flex items-center justify-center">
+                    <div className="w-full h-24 bg-linear-to-br from-green-50 to-blue-50 rounded-lg flex items-center justify-center">
                       <div className="flex -space-x-2">
                         {[1, 2, 3, 4].map(i => (
                           <div
@@ -234,7 +234,7 @@ const Overview: React.FC<OverviewProps> = ({ onToggleSidebar }) => {
                 },
                 {
                   image: (
-                    <div className="w-full h-24 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg flex items-center justify-center">
+                    <div className="w-full h-24 bg-linear-to-br from-purple-50 to-pink-50 rounded-lg flex items-center justify-center">
                       <div className="flex items-center space-x-2">
                         {[1, 2, 3].map(i => (
                           <div

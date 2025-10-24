@@ -176,7 +176,7 @@ const Gamification: React.FC<GamificationProps> = ({ onToggleSidebar }) => {
                           placeholder="Level name"
                         />
                       </div>
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         <input
                           type="number"
                           value={level.points}
@@ -219,7 +219,7 @@ const Gamification: React.FC<GamificationProps> = ({ onToggleSidebar }) => {
                           placeholder="Level name"
                         />
                       </div>
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         <input
                           type="number"
                           value={levels[8].points}

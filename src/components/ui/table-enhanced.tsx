@@ -83,7 +83,7 @@ const TableEnhanced = <T extends { id: string }>({
       {/* Fixed Header */}
       <div className="sticky top-0 bg-white z-20 border-b border-gray-100">
         <div className="flex w-full align-middle items-center">
-          <div className="w-12 px-6 py-3 bg-white flex-shrink-0">
+          <div className="w-12 px-6 py-3 bg-white shrink-0">
             <input
               type="checkbox"
               checked={selectedItems.length === data.length && data.length > 0}
@@ -119,7 +119,7 @@ const TableEnhanced = <T extends { id: string }>({
               className="flex hover:bg-gray-50 transition-colors cursor-pointer border-b border-gray-100 items-center"
               onClick={() => onRowClick?.(item)}
             >
-              <div className="w-12 px-6 py-4 flex-shrink-0">
+              <div className="w-12 px-6 py-4 shrink-0">
                 <input
                   type="checkbox"
                   checked={selectedItems.includes(item.id)}

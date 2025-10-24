@@ -20,7 +20,7 @@ const ContentContainer: React.FC<ContentContainerProps> = ({
       className={`bg-white h-full border-l border-gray-100 flex flex-col overflow-hidden ${className}`}
     >
       <div className="flex flex-col h-full overflow-hidden">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           {/* Header */}
           <div className="p-5 pt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div className="flex items-center space-x-3">

@@ -54,14 +54,14 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
             </button>
 
             {/* Tooltip */}
-            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
               {item.title}
             </div>
           </div>
         ))}
 
         {/* Separator line between 5th and 6th items */}
-        <div className="w-[24px] h-[1px] mx-auto bg-[#E4E7EB] my-2"></div>
+        <div className="w-[24px] h-px mx-auto bg-[#E4E7EB] my-2"></div>
 
         {/* Last 4 items (6th through 9th, excluding settings) */}
         {topItems.slice(4).map(item => (
@@ -84,7 +84,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
             </button>
 
             {/* Tooltip */}
-            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
               {item.title}
             </div>
           </div>
@@ -93,7 +93,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
 
       <div>
         {/* Separator line */}
-        <div className="w-[24px] h-[1px] mx-auto bg-[#E4E7EB] my-4"></div>
+        <div className="w-[24px] h-px mx-auto bg-[#E4E7EB] my-4"></div>
 
         {/* Settings item */}
         {settingsItem && (
@@ -116,7 +116,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
             </button>
 
             {/* Tooltip */}
-            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+            <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
               {settingsItem.title}
             </div>
           </div>
@@ -139,7 +139,7 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
           </button>
 
           {/* Tooltip */}
-          <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-[9999]">
+          <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
             Profile
           </div>
         </div>

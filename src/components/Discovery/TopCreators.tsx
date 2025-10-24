@@ -39,7 +39,7 @@ const TopCreators: React.FC = () => {
       subtitle="Creators who inspire millions are ready to help you grow."
     >
       {creators.map(creator => (
-        <div key={creator.id} className="flex-shrink-0 w-80">
+        <div key={creator.id} className="shrink-0 w-80">
           <div className="relative rounded-lg overflow-hidden h-96">
             <img
               src={creator.image}
@@ -47,7 +47,7 @@ const TopCreators: React.FC = () => {
               className="w-full h-full object-cover"
             />
             <div
-              className={`absolute inset-0 bg-gradient-to-t ${creator.gradient} opacity-80`}
+              className={`absolute inset-0 bg-linear-to-t ${creator.gradient} opacity-80`}
             ></div>
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
               <h3 className="text-xl font-bold mb-1">{creator.name}</h3>

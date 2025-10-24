@@ -97,7 +97,7 @@ const TemplateLibrary: React.FC<TemplateLibraryProps> = ({
                       : 'border-gray-200'
                   }`}
                 >
-                  <div className="aspect-[4/3] bg-white relative  hover:bg-gray-100">
+                  <div className="aspect-4/3 bg-white relative  hover:bg-gray-100">
                     {/* Template Preview */}
                     <div className="absolute inset-0 bg-white rounded overflow-hidden">
                       <TemplatePreview templateId={template.id} />

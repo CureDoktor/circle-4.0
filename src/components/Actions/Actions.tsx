@@ -17,7 +17,7 @@ const Actions: React.FC<ActionsProps> = ({
 }) => {
   return (
     <div
-      className={`flex-shrink-0 flex justify-between items-center px-5 py-4 ${className}`}
+      className={`shrink-0 flex justify-between items-center px-5 py-4 ${className}`}
     >
       <div className="flex items-center space-x-4">
         {selectedCount > 0 ? (

@@ -17,7 +17,7 @@ const Taxes: React.FC<TaxesProps> = ({ onToggleSidebar }) => {
           {/* Stripe Tax enabled */}
           <div className="bg-white border border-gray-200 rounded-lg p-6">
             <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                   ACTIVE
                 </span>
@@ -45,7 +45,7 @@ const Taxes: React.FC<TaxesProps> = ({ onToggleSidebar }) => {
           {/* Enable Stripe Tax collection */}
           <div className="bg-white border border-gray-200 rounded-lg p-6">
             <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                   ENABLED
                 </span>

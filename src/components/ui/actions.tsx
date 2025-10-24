@@ -83,7 +83,7 @@ const Actions: React.FC<ActionsProps> = ({
   return (
     <div
       className={cn(
-        'flex-shrink-0 flex justify-between items-center px-5 py-4',
+        'shrink-0 flex justify-between items-center px-5 py-4',
         className
       )}
     >

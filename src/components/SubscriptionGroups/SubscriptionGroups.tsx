@@ -349,7 +349,7 @@ const SubscriptionGroups: React.FC<SubscriptionGroupsProps> = ({
       <div className="px-6 py-4">
         <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
           <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
                 <span className="text-gray-600 text-sm font-bold">?</span>
               </div>

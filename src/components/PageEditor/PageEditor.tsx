@@ -828,7 +828,7 @@ const PageEditor: React.FC<PageEditorProps> = ({
                 />
               </svg>
             </button>
-            <span className="text-sm text-gray-600 min-w-[3rem] text-center">
+            <span className="text-sm text-gray-600 min-w-12 text-center">
               {zoom}%
             </span>
             <button

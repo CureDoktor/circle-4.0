@@ -62,7 +62,7 @@ const BrandedApp: React.FC<BrandedAppProps> = ({
               <div className="relative">
                 <div className="relative z-10">
                   <div className="w-80 h-96 bg-gray-100 rounded-3xl shadow-2xl transform rotate-3">
-                    <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl p-6">
+                    <div className="w-full h-full bg-linear-to-br from-blue-500 to-purple-600 rounded-3xl p-6">
                       <div className="bg-white rounded-2xl h-full p-4">
                         <div className="flex items-center justify-between mb-4">
                           <div className="w-8 h-8 bg-green-500 rounded-full"></div>
@@ -85,7 +85,7 @@ const BrandedApp: React.FC<BrandedAppProps> = ({
                   </div>
                 </div>
                 <div className="absolute -left-8 top-8 w-64 h-80 bg-gray-100 rounded-3xl shadow-xl transform -rotate-6">
-                  <div className="w-full h-full bg-gradient-to-br from-green-500 to-blue-600 rounded-3xl p-4">
+                  <div className="w-full h-full bg-linear-to-br from-green-500 to-blue-600 rounded-3xl p-4">
                     <div className="bg-white rounded-xl h-full p-3">
                       <div className="text-xs font-semibold mb-2">
                         Mindful Practices
@@ -137,7 +137,7 @@ const BrandedApp: React.FC<BrandedAppProps> = ({
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="relative">
                 <div className="w-full h-80 bg-gray-900 rounded-2xl overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center">
+                  <div className="w-full h-full bg-linear-to-br from-blue-600 to-purple-700 flex items-center justify-center">
                     <div className="text-center text-white">
                       <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg
@@ -306,7 +306,7 @@ const BrandedApp: React.FC<BrandedAppProps> = ({
                 </div>
                 <div className="relative">
                   <div className="w-80 h-96 bg-gray-100 rounded-3xl shadow-2xl mx-auto">
-                    <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl p-6">
+                    <div className="w-full h-full bg-linear-to-br from-blue-500 to-purple-600 rounded-3xl p-6">
                       <div className="bg-white rounded-2xl h-full p-4">
                         <div className="text-center mb-4">
                           <div className="text-sm font-semibold text-gray-900">

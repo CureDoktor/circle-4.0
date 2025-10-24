@@ -69,7 +69,7 @@ const HorizontalFilters: React.FC = () => {
       <div className="flex items-center h-full">
         {/* Left Fade Gradient */}
         {showLeftArrow && (
-          <div className="absolute left-6 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-6 top-0 bottom-0 w-20 bg-linear-to-r from-white to-transparent z-10 pointer-events-none" />
         )}
 
         {/* Left Arrow */}
@@ -117,7 +117,7 @@ const HorizontalFilters: React.FC = () => {
 
         {/* Right Fade Gradient */}
         {showRightArrow && (
-          <div className="absolute z-10 right-20 top-0 bottom-0 w-20 bg-gradient-to-r from-transparent via-white/90 to-white z-10 pointer-events-none" />
+          <div className="absolute z-10 right-20 top-0 bottom-0 w-20 bg-linear-to-r from-transparent via-white/90 to-white z-10 pointer-events-none" />
         )}
 
         {/* Right Action Buttons */}

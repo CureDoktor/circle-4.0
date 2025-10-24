@@ -24,7 +24,7 @@ const Pagination: React.FC<PaginationProps> = ({
   className = '',
 }) => {
   return (
-    <div className={cn('flex-shrink-0 px-5 py-4', className)}>
+    <div className={cn('shrink-0 px-5 py-4', className)}>
       <div className="flex items-center justify-between">
         <div className="text-sm text-gray-600">
           Showing{' '}

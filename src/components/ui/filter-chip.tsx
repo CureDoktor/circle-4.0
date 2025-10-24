@@ -37,7 +37,7 @@ const FilterChip: React.FC<FilterChipProps> = ({
   return (
     <div
       className={cn(
-        'inline-flex items-center bg-gray-100 hover:bg-gray-200 rounded-md px-2 text-xs transition-colors border border-gray-200',
+        'inline-flex items-center bg-gray-100 hover:bg-gray-200 rounded-md px-2 text-xs transition-colors border border-gray-200 shadow-2xs',
         className
       )}
       onClick={e => {

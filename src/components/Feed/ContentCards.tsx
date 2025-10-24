@@ -155,7 +155,7 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
     <div className="relative">
       {/* Left Fade Gradient */}
       {showLeftArrow && (
-        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-8 bg-linear-to-r from-white to-transparent z-10 pointer-events-none" />
       )}
 
       {/* Left Arrow */}
@@ -182,7 +182,7 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
 
       {/* Right Fade Gradient */}
       {showRightArrow && (
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-white to-transparent z-10 pointer-events-none" />
       )}
 
       {/* Right Arrow */}
@@ -237,7 +237,7 @@ const ContentCards: React.FC<ContentCardsProps> = ({ onCardClick }) => {
               // Pass the card with click position
               onCardClick({ ...card, originRect: clickRect });
             }}
-            className="flex-shrink-0 w-48 bg-white rounded-lg shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+            className="shrink-0 w-48 bg-white rounded-lg shadow-sm cursor-pointer hover:shadow-md transition-shadow"
           >
             {/* Thumbnail */}
             <div className="relative">

@@ -210,7 +210,7 @@ const ChatList: React.FC<ChatListProps> = ({
                 </p>
               </div>
               {chat.isUnread && (
-                <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full shrink-0"></div>
               )}
             </div>
           </div>

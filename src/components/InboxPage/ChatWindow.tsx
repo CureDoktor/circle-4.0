@@ -72,7 +72,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
                 <img
                   src={msg.isOwn ? '/images/avatars/1.png' : chat.avatar}
                   alt={msg.sender}
-                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                  className="w-8 h-8 rounded-full object-cover shrink-0"
                 />
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-1">
@@ -105,7 +105,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
                 <img
                   src={msg.isOwn ? '/images/avatars/1.png' : chat.avatar}
                   alt={msg.sender}
-                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                  className="w-8 h-8 rounded-full object-cover shrink-0"
                 />
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-1">

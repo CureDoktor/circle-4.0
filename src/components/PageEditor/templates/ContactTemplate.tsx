@@ -8,7 +8,7 @@ const ContactTemplate: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                   <span className="text-white font-bold text-sm">C</span>
                 </div>
@@ -79,7 +79,7 @@ const ContactTemplate: React.FC = () => {
 
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-blue-600"
@@ -115,7 +115,7 @@ const ContactTemplate: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-blue-600"
@@ -141,7 +141,7 @@ const ContactTemplate: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                       <svg
                         className="w-5 h-5 text-blue-600"

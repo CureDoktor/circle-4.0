@@ -270,7 +270,7 @@ const Live: React.FC<LiveProps> = ({ onToggleSidebar }) => {
       actions={<Button variant="default">Start live stream</Button>}
     >
       {/* Statistics Cards */}
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <div

@@ -57,7 +57,7 @@ const TrendingNow: React.FC = () => {
       subtitle="The hottest new communities and products everyone's talking about."
     >
       {trendingItems.map(item => (
-        <div key={item.id} className="flex-shrink-0 w-80">
+        <div key={item.id} className="shrink-0 w-80">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
             {/* Image with Badge */}
             <div className="relative">

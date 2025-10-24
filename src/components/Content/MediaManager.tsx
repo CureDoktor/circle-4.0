@@ -214,7 +214,7 @@ const MediaManager: React.FC<MediaManagerProps> = ({ onToggleSidebar }) => {
       actions={<Button variant="default">Upload files</Button>}
     >
       {/* Storage Usage */}
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-medium text-gray-900">Storage Usage</h3>

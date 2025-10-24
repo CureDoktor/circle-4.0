@@ -1477,7 +1477,7 @@ Enjoy!`}
   return (
     <div className="page-container h-full flex flex-col">
       <div className="p-6 flex flex-col h-full">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center space-x-3">

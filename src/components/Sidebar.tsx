@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   </button>
 
                   {/* Tooltip */}
-                  <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded-xl  opacity-0 group-hover:opacity-100 translate-x-[-20px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+                  <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
                     {item.title}
                   </div>
                 </div>
@@ -184,7 +184,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   </button>
 
                   {/* Tooltip */}
-                  <div className="absolute left-12 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-2 py-1 rounded-xl  opacity-0 group-hover:opacity-100 translate-x-[-20px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-50">
+                  <div className="absolute left-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
                     {item.title}
                   </div>
                 </div>
@@ -231,7 +231,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                               className={`w-full text-left px-3 py-[7px] rounded-xl text-sm transition-all duration-150 ${
                                 activeSubItem === subItem.id
                                   ? ' text-gray-900 font-semibold bg-gray-50 border border-gray-200 shadow-xs'
-                                  : 'text-gray-700 font-medium hover:bg-gray-100 border border-white hover:text-gray-900'
+                                  : ' text-gray-500 font-medium hover:bg-gray-100 border border-white hover:text-gray-900'
                               }`}
                               role="menuitem"
                               aria-current={subItem.active ? 'page' : undefined}

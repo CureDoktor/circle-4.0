@@ -3852,7 +3852,7 @@ export const sidebarItems: SidebarItem[] = [
     title: 'AI Inbox',
     icon: (
       <img
-        src="/icons/admin-nav/AI-inbox.svg"
+        src="/icons/admin-icons/AI-inbox.svg"
         alt="AI Inbox"
         width="24"
         height="24"
@@ -3860,7 +3860,7 @@ export const sidebarItems: SidebarItem[] = [
     ),
     activeIcon: (
       <img
-        src="/icons/admin-nav/AI-inbox-filled.svg"
+        src="/icons/admin-icons/AI-inbox-filled.svg"
         alt="AI Inbox"
         width="24"
         height="24"
@@ -4026,7 +4026,7 @@ export const sidebarItems: SidebarItem[] = [
     title: 'Settings',
     icon: (
       <img
-        src="/icons/admin-nav/Settings.svg"
+        src="/icons/admin-icons/settings.svg"
         alt="Settings"
         width="24"
         height="24"
@@ -4034,7 +4034,7 @@ export const sidebarItems: SidebarItem[] = [
     ),
     activeIcon: (
       <img
-        src="/icons/admin-nav/Settings-filled.svg"
+        src="/icons/admin-icons/settings-filled.svg"
         alt="Settings"
         width="24"
         height="24"

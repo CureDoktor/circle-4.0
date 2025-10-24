@@ -140,7 +140,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   return (
     <div className="flex items-start space-x-3 p-4 hover:bg-gray-50 transition-colors">
       {/* Avatar/Icon */}
-      <div className="flex-shrink-0">{getDefaultIcon()}</div>
+      <div className="shrink-0">{getDefaultIcon()}</div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
@@ -155,7 +155,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
 
           {/* Unread indicator */}
           {isUnread && (
-            <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full shrink-0 mt-2"></div>
           )}
         </div>
 

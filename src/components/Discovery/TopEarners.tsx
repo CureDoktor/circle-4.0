@@ -66,7 +66,7 @@ const TopEarners: React.FC = () => {
       subtitle="The best-selling communities and products right now."
     >
       {topEarners.map(item => (
-        <div key={item.id} className="flex-shrink-0 w-80">
+        <div key={item.id} className="shrink-0 w-80">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
             {/* Image with Price Badge */}
             <div className="relative">

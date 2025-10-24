@@ -92,7 +92,7 @@ const NewArrivals: React.FC = () => {
             <div className="text-lg font-bold text-gray-400 w-6">{item.id}</div>
 
             {/* Image */}
-            <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0">
               <img
                 src={item.image}
                 alt={item.title}

@@ -374,13 +374,13 @@ const AdminSection: React.FC = () => {
       />
       <div
         className={`flex flex-1 pb-5 bg-gray-50 min-h-0 overflow-hidden mb-3 ${
-          isAIHelperOpen ? '' : 'pr-[0px]'
+          isAIHelperOpen ? '' : 'pr-0'
         }`}
       >
         {viewMode === 'Admin' && (
           <div
-            className={`transition-all duration-500 ease-in-out flex-shrink-0 ${
-              isSidebarCollapsed ? 'w-[3.5rem]' : 'w-[16.5rem]'
+            className={`transition-all duration-500 ease-in-out shrink-0 ${
+              isSidebarCollapsed ? 'w-14' : 'w-66'
             }`}
           >
             <Sidebar
@@ -392,7 +392,7 @@ const AdminSection: React.FC = () => {
           </div>
         )}
         <main
-          className={`flex-1 overflow-hidden transition-all duration-500 ease-in-out min-h-0 flex-shrink-0 ${
+          className={`flex-1 overflow-hidden transition-all duration-500 ease-in-out min-h-0 shrink-0 ${
             viewMode === 'Admin' && isSidebarCollapsed ? 'ml-0' : ''
           } `}
         >

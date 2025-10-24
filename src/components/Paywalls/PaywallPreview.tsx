@@ -4,7 +4,7 @@ const PaywallPreview: React.FC = () => {
   return (
     <div className="bg-white rounded-lg max-h-screen shadow-lg border border-gray-200 overflow-hidden m-4">
       {/* Top Visual Elements */}
-      <div className="relative h-48 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 overflow-hidden">
+      <div className="relative h-48 bg-linear-to-br from-purple-400 via-purple-500 to-purple-600 overflow-hidden">
         {/* Scattered oval elements */}
         <div className="absolute top-4 left-4 w-32 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
           <div className="flex items-center space-x-2">

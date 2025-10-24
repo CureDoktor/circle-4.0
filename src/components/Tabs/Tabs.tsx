@@ -31,7 +31,7 @@ const Tabs: React.FC<TabsProps> = ({
             onClick={() => onTabChange(tab.id)}
             className={`py-3 px-4  text-sm flex items-center gap-2 transition-colors whitespace-nowrap ${
               activeTab === tab.id
-                ? 'bg-white border border-gray-100 border-b-white font-bold rounded-t-xl z-10'
+                ? 'bg-white border border-gray-100 border-b-white font-semibold rounded-t-xl z-10'
                 : 'hover:text-gray-700 font-medium border border-white text-gray-500'
             }`}
           >

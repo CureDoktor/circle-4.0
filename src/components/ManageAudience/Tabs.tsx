@@ -22,7 +22,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, activeTab, onTabChange }) => {
             onClick={() => onTabChange(tab.id)}
             className={`py-3 px-4 font-medium border border-gray-100 text-sm transition-colors whitespace-nowrap ${
               activeTab === tab.id
-                ? 'border-1 border-gray-300 border-b-0 rounded-t-lg text-gray-900 bg-white'
+                ? 'border border-gray-300 border-b-0 rounded-t-lg text-gray-900 bg-white'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
