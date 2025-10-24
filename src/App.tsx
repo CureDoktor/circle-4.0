@@ -142,9 +142,7 @@ function AppContent() {
     // Handle first level navigation
     switch (firstLevel) {
       case 'circle':
-        return (
-          <Feed onUserClick={handleUserClick} onPostClick={handlePostClick} />
-        );
+        return <Feed onUserClick={handleUserClick} />;
       case 'discover':
         return <Discovery />;
       case 'inbox':
