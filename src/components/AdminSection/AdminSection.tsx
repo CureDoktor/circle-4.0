@@ -75,13 +75,18 @@ const AdminSection: React.FC<AdminSectionProps> = ({
   activeSubItem: propActiveSubItem 
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('Admin');
-  const [currentSection, setCurrentSection] =
-    useState<string>(propCurrentSection || 'manage-audience');
+  // Use props for routing, fallback to state for backward compatibility
+  const currentSection = propCurrentSection || 'audience';
+  const activeSubItem = propActiveSubItem || 'manage-audience';
+  
+  // Keep state for backward compatibility when not using routing
+  const [internalCurrentSection, setCurrentSection] = useState<string>(propCurrentSection || 'audience');
+  const [internalActiveSubItem, setActiveSubItem] = useState<string>(propActiveSubItem || 'manage-audience');
+  
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [currentAudienceData, setCurrentAudienceData] =
     useState<AudienceData>(audienceData);
-  const [activeSubItem, setActiveSubItem] = useState<string>(propActiveSubItem || 'manage-audience');
   const [isContentTransitioning, setIsContentTransitioning] = useState(false);
   const [isPageEditorOpen, setIsPageEditorOpen] = useState(false);
   const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
@@ -101,6 +106,13 @@ const AdminSection: React.FC<AdminSectionProps> = ({
   }, [currentSection]);
 
   const handleSidebarItemClick = (itemId: string, subItemId?: string) => {
+    // If onItemClick prop is provided, use it for routing
+    if (onItemClick) {
+      onItemClick(itemId, subItemId);
+      return;
+    }
+    
+    // Otherwise, use local state management (backward compatibility)
     if (subItemId) {
       // Click on sidebar sub-item - fade main content only
       setIsContentTransitioning(true);

@@ -24,7 +24,7 @@ const Feed: React.FC<FeedProps> = ({ onUserClick, onPostClick }) => {
       onPostClick(post);
       return;
     }
-    
+
     // Otherwise, use local expansion
     const postWithOrigin = {
       ...post,

@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import FirstLevelNavigation from './components/FirstLevelNavigation';
 import AdminSection from './components/AdminSection';
 import Feed from './components/Feed';
@@ -88,8 +94,8 @@ function AppContent() {
     if (secondLevel === 'post' && pathSegments[2]) {
       const postId = pathSegments[2];
       // In a real app, you'd fetch the post by ID
-      const post = { 
-        id: postId, 
+      const post = {
+        id: postId,
         title: 'Sample Post',
         author: 'Sample Author',
         handle: 'sample-author',
@@ -103,7 +109,7 @@ function AppContent() {
         timeAgo: '2h',
         timestamp: new Date().toISOString(),
         bio: 'Sample author bio',
-        socialLinks: {}
+        socialLinks: {},
       };
       return (
         <PostDetail
@@ -118,14 +124,14 @@ function AppContent() {
     if (secondLevel === 'user' && pathSegments[2]) {
       const userId = pathSegments[2];
       // In a real app, you'd fetch the user by ID
-      const user = { 
-        id: userId, 
+      const user = {
+        id: userId,
         name: 'Sample User',
         handle: 'sample-user',
         avatar: '/images/avatars/1.png',
         bio: 'This is a sample user bio.',
         socialLinks: {},
-        postCount: 10
+        postCount: 10,
       };
       return (
         <UserProfilePage
@@ -139,7 +145,9 @@ function AppContent() {
     // Handle first level navigation
     switch (firstLevel) {
       case 'circle':
-        return <Feed onUserClick={handleUserClick} onPostClick={handlePostClick} />;
+        return (
+          <Feed onUserClick={handleUserClick} onPostClick={handlePostClick} />
+        );
       case 'discover':
         return <Discovery />;
       case 'inbox':
@@ -147,7 +155,13 @@ function AppContent() {
       case 'notifications':
         return <NotificationsPage />;
       case 'manage':
-        return <AdminSection onItemClick={handleSidebarClick} currentSection={secondLevel} activeSubItem={subItem} />;
+        return (
+          <AdminSection
+            onItemClick={handleSidebarClick}
+            currentSection={secondLevel}
+            activeSubItem={subItem}
+          />
+        );
       case 'harvard':
       case 'webflow':
       case 'framer':
@@ -155,7 +169,14 @@ function AppContent() {
       case 'more':
         return <Community />;
       default:
-        return <AdminSection onItemClick={handleSidebarClick} currentSection={secondLevel} activeSubItem={subItem} />;
+        // All other first level items default to AdminSection with routing
+        return (
+          <AdminSection
+            onItemClick={handleSidebarClick}
+            currentSection={secondLevel}
+            activeSubItem={subItem}
+          />
+        );
     }
   };
 
