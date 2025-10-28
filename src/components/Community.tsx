@@ -1,18 +1,104 @@
 import React from 'react';
 
-const Community: React.FC = () => {
+interface CommunityProps {
+  communityType?: 'oprah' | 'webflow' | 'harvard' | 'default';
+  colors?: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    background: string;
+    text: string;
+  };
+}
+
+const Community: React.FC<CommunityProps> = ({
+  communityType = 'default',
+  colors = {
+    primary: '#3B82F6',
+    secondary: '#1E40AF',
+    accent: '#F59E0B',
+    background: '#F9FAFB',
+    text: '#111827',
+  },
+}) => {
+  // Get community-specific styling
+  const getCommunityStyling = () => {
+    switch (communityType) {
+      case 'oprah':
+        return {
+          bgColor: 'bg-pink-50',
+          headerBg: 'bg-white',
+          logoBg: 'bg-red-500',
+          logoText: 'text-white',
+          brandText: 'text-gray-900',
+          primaryButton: 'bg-gray-900 text-white',
+          accentColor: 'bg-pink-500',
+          welcomeBg: 'bg-gradient-to-r from-pink-400 to-orange-400',
+          welcomeText: 'text-white',
+          welcomeButton: 'bg-gray-800 text-white',
+        };
+      case 'webflow':
+        return {
+          bgColor: 'bg-blue-50',
+          headerBg: 'bg-white',
+          logoBg: 'bg-blue-500',
+          logoText: 'text-white',
+          brandText: 'text-gray-900',
+          primaryButton: 'bg-blue-600 text-white',
+          accentColor: 'bg-blue-500',
+          welcomeBg: 'bg-gradient-to-r from-blue-400 to-purple-400',
+          welcomeText: 'text-white',
+          welcomeButton: 'bg-white text-blue-600',
+        };
+      default:
+        return {
+          bgColor: 'bg-gray-50',
+          headerBg: 'bg-white',
+          logoBg: 'bg-blue-500',
+          logoText: 'text-white',
+          brandText: 'text-gray-900',
+          primaryButton: 'bg-blue-600 text-white',
+          accentColor: 'bg-blue-500',
+          welcomeBg: 'bg-gradient-to-r from-green-400 to-blue-400',
+          welcomeText: 'text-white',
+          welcomeButton: 'bg-white text-green-600',
+        };
+    }
+  };
+
+  const styling = getCommunityStyling();
+
   return (
-    <div className="h-full bg-gray-50 flex flex-col">
+    <div className={`h-full ${styling.bgColor} flex flex-col`}>
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-[30px] h-16">
+      <div
+        className={`${styling.headerBg} border-b border-gray-200 px-[30px] h-16`}
+      >
         <div className="flex items-center justify-between h-full">
           {/* Left - Brand */}
-          <div className="flex items-center">
-            <img
-              src="/images/elevate-logo.png"
-              alt="Logo"
-              className="w-[137px]"
-            />
+          <div className="flex items-center gap-4">
+            <div
+              className={`w-9 h-9 rounded-lg ${styling.logoBg} flex items-center justify-center`}
+            >
+              <span className={`${styling.logoText} font-bold text-sm`}>
+                {communityType === 'oprah'
+                  ? 'O'
+                  : communityType === 'webflow'
+                  ? 'W'
+                  : 'C'}
+              </span>
+            </div>
+            <div>
+              <h1
+                className={`text-sm font-semibold ${styling.brandText} uppercase tracking-wide`}
+              >
+                {communityType === 'oprah'
+                  ? 'Oprah Daily'
+                  : communityType === 'webflow'
+                  ? 'Webflow Community'
+                  : 'Circle Community'}
+              </h1>
+            </div>
           </div>
 
           {/* Center - Navigation */}
@@ -36,6 +122,11 @@ const Community: React.FC = () => {
 
           {/* Right - Actions */}
           <div className="flex items-center gap-3">
+            <button
+              className={`px-4 py-2 ${styling.primaryButton} rounded-lg text-sm font-medium`}
+            >
+              Join
+            </button>
             <div>
               {/* Icons */}
               <button className="p-2 text-gray-600 hover:text-gray-800">
@@ -298,15 +389,42 @@ const Community: React.FC = () => {
             <div className="h-full">
               <div className="p-6 h-full">
                 {/* Welcome Banner */}
-                <div className="bg-[#0A4A40] rounded-lg p-8 mb-6 pl-20 relative max-w-7xl mx-auto">
+                <div
+                  className={`${styling.welcomeBg} rounded-lg p-8 mb-6 pl-20 relative max-w-7xl mx-auto`}
+                >
                   <div className="flex items-center justify-between">
                     <div className="flex-1 max-w-[260px]">
-                      <div className="inline-block bg-[#227F71] border border-[#237265] text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
-                        Orientation
+                      <div
+                        className={`inline-block ${styling.accentColor} border border-opacity-20 ${styling.welcomeText} px-3 py-1 rounded-full text-sm font-medium mb-4`}
+                      >
+                        {communityType === 'oprah'
+                          ? 'Insider Access'
+                          : communityType === 'webflow'
+                          ? 'Community'
+                          : 'Orientation'}
                       </div>
-                      <h3 className="text-3xl font-bold text-white mb-4">
-                        Welcome to Elevate Academy
+                      <h3
+                        className={`text-3xl font-bold ${styling.welcomeText} mb-4`}
+                      >
+                        {communityType === 'oprah'
+                          ? 'Want to join the conversation?'
+                          : communityType === 'webflow'
+                          ? 'Welcome to Webflow Community'
+                          : 'Welcome to Elevate Academy'}
                       </h3>
+                      {communityType === 'oprah' && (
+                        <p className={`text-xl mb-8 ${styling.welcomeText}`}>
+                          This community is exclusively for Oprah Daily
+                          Insiders. Become an Insider today.
+                        </p>
+                      )}
+                      {communityType === 'oprah' && (
+                        <button
+                          className={`px-8 py-3 ${styling.welcomeButton} rounded-lg font-semibold uppercase`}
+                        >
+                          UNLOCK ACCESS
+                        </button>
+                      )}
                     </div>
                     <div className="flex space-x-4">
                       <div className="w-[92px] h-[62px] rounded-lg overflow-hidden relative right-[-140px] bottom-[-145px]">

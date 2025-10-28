@@ -75,15 +75,34 @@ const AdminSection: React.FC<AdminSectionProps> = ({
   activeSubItem: propActiveSubItem,
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('Admin');
-  // Use state for content updates, props for initial values
-  const [currentSection, setCurrentSection] = useState<string>(
+  // Use props directly for content display, state for local updates
+  const currentSection = propCurrentSection || 'audience';
+  const activeSubItem = propActiveSubItem || 'manage-audience';
+
+  // For sidebar highlighting, use the actual content being displayed
+  const sidebarCurrentSection = propActiveSubItem
+    ? propCurrentSection
+    : propCurrentSection;
+  const sidebarActiveSubItem = propActiveSubItem || 'manage-audience';
+
+  console.log('AdminSection Debug:', {
+    propCurrentSection,
+    propActiveSubItem,
+    currentSection,
+    activeSubItem,
+    sidebarCurrentSection,
+    sidebarActiveSubItem,
+  });
+
+  // Keep state for local updates and transitions
+  const [localCurrentSection, setCurrentSection] = useState<string>(
     propCurrentSection || 'audience'
   );
-  const [activeSubItem, setActiveSubItem] = useState<string>(
+  const [localActiveSubItem, setActiveSubItem] = useState<string>(
     propActiveSubItem || 'manage-audience'
   );
 
-  // Update state when props change (for URL navigation and refresh)
+  // Update local state only when props change (for URL navigation)
   useEffect(() => {
     if (propCurrentSection) {
       setCurrentSection(propCurrentSection);
@@ -119,8 +138,18 @@ const AdminSection: React.FC<AdminSectionProps> = ({
   }, [currentSection]);
 
   const handleSidebarItemClick = (itemId: string, subItemId?: string) => {
-    // Always use local state management for smooth transitions
-    // onItemClick is used for URL updates only
+    console.log('handleSidebarItemClick called with:', {
+      itemId,
+      subItemId,
+      onItemClick: !!onItemClick,
+    });
+    // Use URL navigation like first level navigation does
+    if (onItemClick) {
+      onItemClick(itemId, subItemId);
+      return;
+    }
+
+    // Fallback to local state management for smooth transitions
     if (subItemId) {
       // Click on sidebar sub-item - fade main content only
       setIsContentTransitioning(true);
@@ -234,7 +263,15 @@ const AdminSection: React.FC<AdminSectionProps> = ({
       return <Community />;
     }
 
-    switch (currentSection) {
+    // Use subItem for content rendering, fallback to currentSection
+    const displaySection =
+      propActiveSubItem || propCurrentSection || 'audience';
+    console.log('renderContent Debug:', {
+      propCurrentSection,
+      propActiveSubItem,
+      displaySection,
+    });
+    switch (displaySection) {
       case 'manage-audience':
         return (
           <ManageAudience
@@ -272,14 +309,6 @@ const AdminSection: React.FC<AdminSectionProps> = ({
         return <Moderation onToggleSidebar={toggleSidebar} />;
       case 'media-manager':
         return <MediaManager onToggleSidebar={toggleSidebar} />;
-      case 'content-sidebar':
-        return (
-          <ContentSidebar
-            onToggleSidebar={toggleSidebar}
-            onItemClick={handleSidebarItemClick}
-            activeSubItem={activeSubItem}
-          />
-        );
       case 'live':
         return <Live onToggleSidebar={toggleSidebar} />;
       case 'access-groups':
@@ -385,13 +414,12 @@ const AdminSection: React.FC<AdminSectionProps> = ({
         return <Knowledge onToggleSidebar={toggleSidebar} />;
       case 'agents':
         return <Agents onToggleSidebar={toggleSidebar} />;
-
       default:
         return (
-          <ManageAudience
-            audienceData={currentAudienceData}
+          <ContentSidebar
             onToggleSidebar={toggleSidebar}
-            onDataChange={handleDataChange}
+            onItemClick={handleSidebarItemClick}
+            activeSubItem={activeSubItem}
           />
         );
     }
@@ -432,7 +460,8 @@ const AdminSection: React.FC<AdminSectionProps> = ({
               items={sidebarItems}
               onItemClick={handleSidebarItemClick}
               isCollapsed={isSidebarCollapsed}
-              currentSection={currentSection}
+              currentSection={sidebarCurrentSection}
+              activeSubItem={sidebarActiveSubItem}
             />
           </div>
         )}

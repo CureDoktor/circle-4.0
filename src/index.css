@@ -131,3 +131,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Global cursor pointer for all button elements */
+button {
+  cursor: pointer;
+}

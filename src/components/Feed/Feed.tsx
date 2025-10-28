@@ -5,13 +5,19 @@ import PostExpansion from './PostExpansion';
 // import ContentCards from './ContentCards'; // Zakomentarisano horizontalni scroll sa preview image
 import StartPost from './StartPost';
 import PostCard from './PostCard';
+import Community from '../Community';
 
 export interface FeedProps {
   onUserClick?: (user: any) => void;
   onPostClick?: (post: any) => void;
+  community?: string;
 }
 
-const Feed: React.FC<FeedProps> = ({ onUserClick, onPostClick }) => {
+const Feed: React.FC<FeedProps> = ({
+  onUserClick,
+  onPostClick,
+  community = 'circle',
+}) => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [isPostExpanded, setIsPostExpanded] = useState(false);
   const [isPostLoading, setIsPostLoading] = useState(false);
@@ -150,6 +156,17 @@ const Feed: React.FC<FeedProps> = ({ onUserClick, onPostClick }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  // Oprah community content
+  if (community === 'oprah') {
+    return <Community communityType="oprah" />;
+  }
+
+  // Webflow community content
+  if (community === 'webflow') {
+    return <Community communityType="webflow" />;
+  }
+
+  // Default Circle community content
   return (
     <div className="h-full bg-white flex flex-col main-content-container">
       {/* Horizontal Filters */}

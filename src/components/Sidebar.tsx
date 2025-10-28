@@ -6,6 +6,7 @@ interface SidebarProps {
   onItemClick: (itemId: string, subItemId?: string) => void;
   isCollapsed?: boolean;
   currentSection?: string;
+  activeSubItem?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -13,11 +14,30 @@ const Sidebar: React.FC<SidebarProps> = ({
   onItemClick,
   isCollapsed = false,
   currentSection,
+  activeSubItem: propActiveSubItem,
 }) => {
-  const [expandedItem, setExpandedItem] = useState<string | null>('audience');
-  const [activeSubItem, setActiveSubItem] = useState<string>('manage-audience');
+  const [expandedItem, setExpandedItem] = useState<string | null>(
+    currentSection || 'audience'
+  );
+  const [activeSubItem, setActiveSubItem] = useState<string>(
+    propActiveSubItem || 'manage-audience'
+  );
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isContentVisible, setIsContentVisible] = useState(true);
+
+  // Update activeSubItem when prop changes
+  useEffect(() => {
+    if (propActiveSubItem) {
+      setActiveSubItem(propActiveSubItem);
+    }
+  }, [propActiveSubItem]);
+
+  // Update expandedItem when currentSection changes
+  useEffect(() => {
+    if (currentSection) {
+      setExpandedItem(currentSection);
+    }
+  }, [currentSection]);
 
   // Track collapse state changes
   useEffect(() => {

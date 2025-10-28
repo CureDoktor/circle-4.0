@@ -17,6 +17,7 @@ import PostDetail from './components/PostDetail';
 import UserProfilePage from './components/UserProfilePage';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
+import CommunitySwitcher from './components/CommunitySwitcher';
 import { firstLevelNavItems } from './data/firstLevelNavigation';
 import { sidebarItems } from './data/mockData';
 import './App.css';
@@ -37,12 +38,29 @@ function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [activeCommunity, setActiveCommunity] = useState<string>('circle');
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+
+  // Communities data
+  const communities = [
+    { id: 'circle', name: 'Circle', logo: '/images/circle-logo.png' },
+    { id: 'oprah', name: 'Oprah Foundation', logo: '/images/oprah-logo.png' },
+    { id: 'webflow', name: 'Webflow', logo: '/images/webflow-logo.png' },
+  ];
 
   // Extract route parameters from URL
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const firstLevel = pathSegments[0] || 'circle';
   const secondLevel = pathSegments[1];
   const subItem = pathSegments[2];
+
+  console.log('URL Debug:', {
+    pathname: location.pathname,
+    pathSegments,
+    firstLevel,
+    secondLevel,
+    subItem,
+  });
 
   const handleFirstLevelNavigationClick = (itemId: string) => {
     if (itemId === firstLevel) return; // Don't reload if same item
@@ -84,6 +102,18 @@ function AppContent() {
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleCommunityChange = (communityId: string) => {
+    if (communityId === activeCommunity) return;
+
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveCommunity(communityId);
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
+    }, 300);
   };
 
   const renderContent = () => {
@@ -139,10 +169,12 @@ function AppContent() {
       );
     }
 
-    // Handle first level navigation
+    // Handle first level navigation with community-aware content
     switch (firstLevel) {
       case 'circle':
-        return <Feed onUserClick={handleUserClick} />;
+        return (
+          <Feed onUserClick={handleUserClick} community={activeCommunity} />
+        );
       case 'discover':
         return <Discovery />;
       case 'inbox':
@@ -153,8 +185,8 @@ function AppContent() {
         return (
           <AdminSection
             onItemClick={handleSidebarClick}
-            currentSection={secondLevel}
-            activeSubItem={subItem}
+            currentSection={secondLevel || 'audience'}
+            activeSubItem={subItem || 'manage-audience'}
           />
         );
       case 'harvard':
@@ -164,12 +196,11 @@ function AppContent() {
       case 'more':
         return <Community />;
       default:
-        // All other first level items default to AdminSection with routing
         return (
           <AdminSection
             onItemClick={handleSidebarClick}
-            currentSection={secondLevel}
-            activeSubItem={subItem}
+            currentSection={secondLevel || 'audience'}
+            activeSubItem={subItem || 'manage-audience'}
           />
         );
     }
@@ -181,6 +212,7 @@ function AppContent() {
         items={firstLevelNavItems}
         onItemClick={handleFirstLevelNavigationClick}
         activeItem={firstLevel}
+        community={activeCommunity}
       />
       <div className="flex-1 overflow-hidden rounded-2xl shadow-2xs border border-gray-200 relative my-4 mr-4">
         {isLoading ? (
@@ -188,9 +220,24 @@ function AppContent() {
             <LoadingSpinner size="lg" />
           </div>
         ) : (
-          <div className="h-full">{renderContent()}</div>
+          <div className="h-full relative">
+            {/* Transition Overlay */}
+            {isTransitioning && (
+              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-20 flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin"></div>
+              </div>
+            )}
+            {renderContent()}
+          </div>
         )}
       </div>
+
+      {/* Community Switcher */}
+      <CommunitySwitcher
+        communities={communities}
+        activeCommunity={activeCommunity}
+        onCommunityChange={handleCommunityChange}
+      />
     </div>
   );
 }

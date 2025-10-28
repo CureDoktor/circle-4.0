@@ -29,12 +29,12 @@ export const firstLevelNavItems: FirstLevelNavItem[] = [
   {
     id: 'discover',
     title: 'Discover',
-    icon: <img src="/icons/discover.svg" alt="Discover" className="w-5 h-5" />,
+    icon: <img src="/icons/discover.svg" alt="Discover" className="w-6 h-6" />,
     activeIcon: (
       <img
         src="/icons/discover-filled.svg"
         alt="Discover"
-        className="w-5 h-5"
+        className="w-6 h-6"
       />
     ),
   },

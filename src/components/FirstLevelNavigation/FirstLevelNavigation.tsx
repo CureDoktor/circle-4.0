@@ -11,12 +11,14 @@ interface FirstLevelNavigationProps {
   items: FirstLevelNavItem[];
   onItemClick: (itemId: string) => void;
   activeItem: string;
+  community?: string;
 }
 
 const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   items,
   onItemClick,
   activeItem,
+  community = 'circle',
 }) => {
   const handleItemClick = (itemId: string) => {
     onItemClick(itemId);
@@ -26,15 +28,35 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
   const topItems = items.filter((_, index) => index !== 4);
   const settingsItem = items[4]; // Settings item at index 4
 
+  // Filter out community items when Oprah is active
+  const getFilteredItems = () => {
+    if (community === 'oprah') {
+      // Hide community items (harvard, webflow, framer, obama foundation, more)
+      return topItems.filter(
+        item =>
+          ![
+            'harvard',
+            'webflow',
+            'framer',
+            'obama foundation',
+            'more',
+          ].includes(item.id)
+      );
+    }
+    return topItems;
+  };
+
+  const filteredItems = getFilteredItems();
+
   return (
     <div className="bg-base-grey-50 text-white w-15 px-3 h-full flex flex-col items-center justify-between pt-6 pb-[30px]">
-      {/* Top Section - 9 items (excluding settings) with separator between 5th and 6th */}
+      {/* Top Section - filtered items */}
       <div className="flex flex-col gap-4">
         {/* First 4 items */}
-        {topItems.slice(0, 4).map((item, index) => (
+        {filteredItems.slice(0, 4).map((item, index) => (
           <div
             key={item.id}
-            className={`relative group ${index === 0 ? 'pb-[8px]' : ''}`}
+            className={`relative group ${index === 0 ? 'pb-[6px]' : ''}`}
           >
             <button
               onClick={() => handleItemClick(item.id)}
@@ -63,8 +85,8 @@ const FirstLevelNavigation: React.FC<FirstLevelNavigationProps> = ({
         {/* Separator line between 5th and 6th items */}
         <div className="w-[24px] h-px mx-auto bg-[#E4E7EB] my-2"></div>
 
-        {/* Last 4 items (6th through 9th, excluding settings) */}
-        {topItems.slice(4).map(item => (
+        {/* Last items (excluding settings) */}
+        {filteredItems.slice(4).map(item => (
           <div key={item.id} className="relative group">
             <button
               onClick={() => handleItemClick(item.id)}
