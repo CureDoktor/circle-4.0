@@ -40,7 +40,8 @@
 
   /* Custom box shadows */
   --shadow-2xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-xs: 0 1px 4px 0 rgba(0, 0, 0, 0.03), 0 1px 4px 0 rgba(0, 0, 0, 0.03);
+  --shadow-xs: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 2px 3px -2px rgba(0, 0, 0, 0.09),
+    0 3px 12px -4px rgba(0, 0, 0, 0.1), 0 4px 16px -8px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes fadeIn {

@@ -48,8 +48,8 @@ const CommunitySwitcher: React.FC<CommunitySwitcherProps> = ({
             // Tooltip text for each button
             const tooltipTexts = [
               'Regular community',
-              'Wide-label community enterprise customer',
-              'Wide-label multiple communities to manage',
+              'White-label community enterprise customer',
+              'White-label multiple communities to manage',
             ];
 
             return (
