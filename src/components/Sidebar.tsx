@@ -55,18 +55,20 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleItemClick = (itemId: string) => {
     // Only change the active item, don't toggle sidebar expansion
     setExpandedItem(itemId);
-    // Set default active sub-item based on the selected item
-    if (itemId === 'content') {
-      setActiveSubItem('pages');
-    } else if (itemId === 'audience') {
-      setActiveSubItem('manage-audience');
-    } else if (itemId === 'workflows') {
-      setActiveSubItem('all-workflows');
-    } else if (itemId === 'paywalls') {
-      setActiveSubItem('coupons');
+
+    // Find the item to get its first sub-item
+    const item = items.find(i => i.id === itemId);
+
+    // If item has sub-items, navigate to the first one
+    if (item && item.subItems && item.subItems.length > 0) {
+      const firstSubItem = item.subItems[0];
+      setActiveSubItem(firstSubItem.id);
+      // Navigate to the first sub-item instead of just the main item
+      onItemClick(itemId, firstSubItem.id);
+    } else {
+      // If no sub-items, navigate to the main item
+      onItemClick(itemId);
     }
-    // Call onItemClick to update main content
-    onItemClick(itemId);
   };
 
   const handleSubItemClick = (itemId: string, subItemId: string) => {

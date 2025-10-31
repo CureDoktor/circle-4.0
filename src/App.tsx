@@ -187,6 +187,7 @@ function AppContent() {
             onItemClick={handleSidebarClick}
             currentSection={secondLevel || 'audience'}
             activeSubItem={subItem || 'manage-audience'}
+            activeCommunity={activeCommunity}
           />
         );
       case 'harvard':
@@ -201,20 +202,21 @@ function AppContent() {
             onItemClick={handleSidebarClick}
             currentSection={secondLevel || 'audience'}
             activeSubItem={subItem || 'manage-audience'}
+            activeCommunity={activeCommunity}
           />
         );
     }
   };
 
   return (
-    <div className="h-screen bg-gray-50 flex overflow-hidden">
+    <div className="h-screen bg-gray-100 flex overflow-hidden">
       <FirstLevelNavigation
         items={firstLevelNavItems}
         onItemClick={handleFirstLevelNavigationClick}
         activeItem={firstLevel}
         community={activeCommunity}
       />
-      <div className="flex-1 overflow-hidden rounded-2xl shadow-2xs border border-gray-200 relative my-4 mr-4">
+      <div className="flex-1 overflow-hidden rounded-2xl shadow-xs relative my-4 mr-4">
         {isLoading ? (
           <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
             <LoadingSpinner size="lg" />

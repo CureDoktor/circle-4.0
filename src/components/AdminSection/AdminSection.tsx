@@ -67,12 +67,14 @@ interface AdminSectionProps {
   onItemClick?: (itemId: string, subItemId?: string) => void;
   currentSection?: string;
   activeSubItem?: string;
+  activeCommunity?: string;
 }
 
 const AdminSection: React.FC<AdminSectionProps> = ({
   onItemClick,
   currentSection: propCurrentSection,
   activeSubItem: propActiveSubItem,
+  activeCommunity,
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('Admin');
   // Use props directly for content display, state for local updates
@@ -444,6 +446,7 @@ const AdminSection: React.FC<AdminSectionProps> = ({
         viewMode={viewMode}
         onViewModeChange={setViewMode}
         onToggleAIHelper={toggleAIHelper}
+        activeCommunity={activeCommunity}
       />
       <div
         className={`flex flex-1 pb-5 bg-gray-50 min-h-0 overflow-hidden mb-3 ${

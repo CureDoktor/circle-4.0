@@ -77,26 +77,21 @@ const Community: React.FC<CommunityProps> = ({
         <div className="flex items-center justify-between h-full">
           {/* Left - Brand */}
           <div className="flex items-center gap-4">
-            <div
-              className={`w-9 h-9 rounded-lg ${styling.logoBg} flex items-center justify-center`}
-            >
-              <span className={`${styling.logoText} font-bold text-sm`}>
-                {communityType === 'oprah'
-                  ? 'O'
-                  : communityType === 'webflow'
-                  ? 'W'
-                  : 'C'}
-              </span>
-            </div>
             <div>
               <h1
                 className={`text-sm font-semibold ${styling.brandText} uppercase tracking-wide`}
               >
-                {communityType === 'oprah'
-                  ? 'Oprah Daily'
-                  : communityType === 'webflow'
-                  ? 'Webflow Community'
-                  : 'Circle Community'}
+                {communityType === 'oprah' ? (
+                  <img
+                    src="/images/oprah-daily.png"
+                    alt="Oprah Logo"
+                    className="w-42 h-10"
+                  />
+                ) : communityType === 'webflow' ? (
+                  'Webflow Community'
+                ) : (
+                  'Circle Community'
+                )}
               </h1>
             </div>
           </div>
@@ -106,29 +101,28 @@ const Community: React.FC<CommunityProps> = ({
             <button className="px-3 py-1.5 bg-gray-200 text-gray-800 rounded-full text-sm font-medium">
               Home
             </button>
-            <button className="px-3 py-1.5 text-gray-600 hover:text-gray-800 text-sm font-medium">
+            {/* <button className="px-3 py-1.5 text-gray-600 hover:text-gray-800 text-sm font-medium">
               Courses
-            </button>
+            </button> */}
             <button className="px-3 py-1.5 text-gray-600 hover:text-gray-800 text-sm font-medium">
               Events
             </button>
             <button className="px-3 py-1.5 text-gray-600 hover:text-gray-800 text-sm font-medium">
               Members
             </button>
-            <button className="px-3 py-1.5 text-gray-600 hover:text-gray-800 text-sm font-medium">
+            {/* <button className="px-3 py-1.5 text-gray-600 hover:text-gray-800 text-sm font-medium">
               Leaderboard
-            </button>
+            </button> */}
           </div>
 
           {/* Right - Actions */}
           <div className="flex items-center gap-3">
-            <button
+            {/* <button
               className={`px-4 py-2 ${styling.primaryButton} rounded-lg text-sm font-medium`}
             >
               Join
             </button>
             <div>
-              {/* Icons */}
               <button className="p-2 text-gray-600 hover:text-gray-800">
                 <svg
                   width="21"
@@ -216,7 +210,7 @@ const Community: React.FC<CommunityProps> = ({
                   className="w-full h-full object-cover"
                 />
               </div>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -333,11 +327,11 @@ const Community: React.FC<CommunityProps> = ({
         </div>
         <div className="flex-1 flex-col overflow-hidden">
           <div className="flex items-center justify-between bg-white border-b border-gray-200 p-6 h-20">
-            <h2 className="text-md font-bold text-gray-900">Start Here</h2>
+            <h2 className="text-xl font-bold text-gray-900">Start Here</h2>
             {/* Right Actions */}
             <div className="flex items-center space-x-3 rounded-lg px-3">
               {/* User Profile */}
-              <div className="flex items-center space-x-1">
+              {/* <div className="flex items-center space-x-1">
                 <div className="w-8 h-8 bg-blue-100 rounded-full border-2 border-white flex items-center justify-center relative right-[-20px] z-10">
                   <span className="text-sm font-medium text-blue-600">LC</span>
                 </div>
@@ -356,12 +350,12 @@ const Community: React.FC<CommunityProps> = ({
                     +233
                   </span>
                 </div>
-              </div>
+              </div> */}
 
               {/* New Post Button */}
-              <button className="px-4 py-2 bg-yellow-400 text-gray-900 rounded-2xl font-medium hover:bg-yellow-500 text-sm">
+              {/* <button className="px-4 py-2 bg-yellow-400 text-gray-900 rounded-2xl font-medium hover:bg-yellow-500 text-sm">
                 New post
-              </button>
+              </button> */}
 
               {/* More Options */}
               {/* <button className="p-2 text-gray-600 hover:text-gray-800">

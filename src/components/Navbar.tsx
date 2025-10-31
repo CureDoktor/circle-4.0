@@ -1,31 +1,147 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ViewMode } from '../types';
 
 interface NavbarProps {
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
   onToggleAIHelper: () => void;
+  activeCommunity?: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onToggleAIHelper }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  onToggleAIHelper,
+  activeCommunity,
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedCommunity, setSelectedCommunity] = useState('Community 1');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const communities = [
+    {
+      id: 'Community 1',
+      name: 'Future Founders',
+      logo: '/images/avatars/blue-icon.png',
+    },
+    {
+      id: 'Community 2',
+      name: 'Community 2',
+      logo: '/images/avatars/blue-icon.png',
+    },
+    {
+      id: 'Community 3',
+      name: 'Community 3',
+      logo: '/images/avatars/blue-icon.png',
+    },
+  ];
+
+  const selectedCommunityData = communities.find(
+    c => c.id === selectedCommunity
+  );
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   return (
     <nav className="text-white px-5 py-1.5 border-b border-gray-100 relative bg-white">
       <div className="flex items-center justify-between">
-        {/* Logo and App Name */}
-        <div className="flex items-center gap-2">
-          {/* Logo */}
-          <img
-            src="/images/avatars/blue-icon.png"
-            alt="Circle Logo"
-            className="w-5 h-5x rounded-lg"
-          />
-          <span className="font-semibold text-sm text-black">
-            Future Founders
-          </span>
-        </div>
+        {/* Logo and App Name or Community Select */}
+        {activeCommunity === 'webflow' ? (
+          <div className="relative inline-block" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="font-semibold text-sm text-black pl-3 pr-8 py-1.5 bg-white hover:border-gray-300 transition-colors flex items-center gap-2"
+            >
+              {selectedCommunityData && (
+                <>
+                  <img
+                    src={selectedCommunityData.logo}
+                    alt={selectedCommunityData.name}
+                    className="w-5 h-5 rounded-lg"
+                  />
+                  <span>{selectedCommunityData.name}</span>
+                </>
+              )}
+            </button>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <svg
+                className={`w-4 h-4 text-gray-500 transition-transform ${
+                  isDropdownOpen ? 'rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-150">
+                {communities.map(community => (
+                  <button
+                    key={community.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedCommunity(community.id);
+                      setIsDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-gray-50 transition-colors ${
+                      selectedCommunity === community.id ? 'bg-gray-50' : ''
+                    }`}
+                  >
+                    <img
+                      src={community.logo}
+                      alt={community.name}
+                      className="w-5 h-5 rounded-lg"
+                    />
+                    <span className="font-semibold text-sm text-black">
+                      {community.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            {/* Logo */}
+            <img
+              src="/images/avatars/blue-icon.png"
+              alt="Circle Logo"
+              className="w-5 h-5x rounded-lg"
+            />
+            <span className="font-semibold text-sm text-black">
+              Future Founders
+            </span>
+          </div>
+        )}
 
         {/* Center Section */}
         <div className="flex items-center space-x-4 flex-1 justify-center max-w-2xl">
