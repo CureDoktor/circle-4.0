@@ -44,19 +44,34 @@ const CommunitySwitcher: React.FC<CommunitySwitcherProps> = ({
         onMouseLeave={() => setIsOpen(false)}
       >
         <div className="flex flex-col gap-2 p-3">
-          {communities.map((community, index) => (
-            <button
-              key={community.id}
-              onClick={() => handleCommunityClick(community.id)}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-medium transition-all duration-200 ${
-                activeCommunity === community.id
-                  ? 'bg-gray-100 text-gray-900 border border-gray-200 shadow-sm'
-                  : 'text-gray-500 hover:bg-gray-50'
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+          {communities.map((community, index) => {
+            // Tooltip text for each button
+            const tooltipTexts = [
+              'Regular community',
+              'Wide-label community enterprise customer',
+              'Wide-label multiple communities to manage',
+            ];
+
+            return (
+              <div key={community.id} className="relative group">
+                <button
+                  onClick={() => handleCommunityClick(community.id)}
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-medium transition-all duration-200 ${
+                    activeCommunity === community.id
+                      ? 'bg-gray-100 text-gray-900 border border-gray-200 shadow-sm'
+                      : 'text-gray-500 hover:bg-gray-50'
+                  }`}
+                >
+                  {index + 1}
+                </button>
+
+                {/* Tooltip - positioned on the left side */}
+                <div className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 translate-x-[10px] group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap z-9999">
+                  {tooltipTexts[index]}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
