@@ -68,11 +68,15 @@ function AppContent() {
     // Show loading spinner
     setIsLoading(true);
 
-    // Navigate to new route
+    // Navigate to new route while spinner is still visible
     setTimeout(() => {
       navigate(`/${itemId}`);
+    }, 200);
+
+    // Hide spinner after content has started changing
+    setTimeout(() => {
       setIsLoading(false);
-    }, 300);
+    }, 500);
   };
 
   const handleSidebarClick = (itemId: string, subItemId?: string) => {
@@ -86,16 +90,24 @@ function AppContent() {
 
   const handlePostClick = (post: any) => {
     setIsLoading(true);
+    // Navigate while spinner is still visible
     setTimeout(() => {
       navigate(`/${firstLevel}/post/${post.id}`);
+    }, 200);
+    // Hide spinner after content has started changing
+    setTimeout(() => {
       setIsLoading(false);
     }, 500);
   };
 
   const handleUserClick = (user: any) => {
     setIsLoading(true);
+    // Navigate while spinner is still visible
     setTimeout(() => {
       navigate(`/${firstLevel}/user/${user.id}`);
+    }, 200);
+    // Hide spinner after content has started changing
+    setTimeout(() => {
       setIsLoading(false);
     }, 500);
   };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../lib/utils';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -15,54 +16,25 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     lg: 'w-12 h-12',
   };
 
+  const borderSizeClasses = {
+    sm: 'border-2',
+    md: 'border-2',
+    lg: 'border-4',
+  };
+
   return (
-    <div className={`flex items-center justify-center ${className}`}>
-      <svg
-        className={`${sizeClasses[size]} animate-spin`}
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 200 200"
+    <div className={cn('flex items-center justify-center', className)}>
+      <div
+        className={cn(
+          sizeClasses[size],
+          borderSizeClasses[size],
+          'border-blue-600 border-t-transparent rounded-full animate-spin'
+        )}
         role="status"
         aria-label="Loading"
       >
-        <defs>
-          <radialGradient
-            id="a11"
-            cx=".66"
-            fx=".66"
-            cy=".3125"
-            fy=".3125"
-            gradientTransform="scale(1.5)"
-          >
-            <stop offset="0" stopColor="#506CF0"></stop>
-            <stop offset=".3" stopColor="#506CF0" stopOpacity=".9"></stop>
-            <stop offset=".6" stopColor="#506CF0" stopOpacity=".6"></stop>
-            <stop offset=".8" stopColor="#506CF0" stopOpacity=".3"></stop>
-            <stop offset="1" stopColor="#506CF0" stopOpacity="0"></stop>
-          </radialGradient>
-        </defs>
-        <circle
-          fill="none"
-          stroke="url(#a11)"
-          strokeWidth="21"
-          strokeLinecap="round"
-          strokeDasharray="200 1000"
-          strokeDashoffset="0"
-          cx="100"
-          cy="100"
-          r="70"
-        />
-        <circle
-          fill="none"
-          opacity=".2"
-          stroke="#506CF0"
-          strokeWidth="21"
-          strokeLinecap="round"
-          cx="100"
-          cy="100"
-          r="70"
-        />
-      </svg>
-      <span className="sr-only">Loading...</span>
+        <span className="sr-only">Loading...</span>
+      </div>
     </div>
   );
 };
