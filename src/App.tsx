@@ -216,7 +216,7 @@ function AppContent() {
         activeItem={firstLevel}
         community={activeCommunity}
       />
-      <div className="flex-1 overflow-hidden rounded-2xl shadow-xs relative my-4 mr-4">
+      <div className="flex-1 overflow-hidden rounded-2xl shadow-main relative my-4 mr-4">
         {isLoading ? (
           <div className="absolute inset-0 rounded-2xl flex items-center justify-center bg-white/80 backdrop-blur-sm z-10">
             <LoadingSpinner size="lg" />
