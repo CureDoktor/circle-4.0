@@ -253,7 +253,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                               className={`w-full text-left px-3 py-[7px] rounded-xl text-sm transition-all duration-150 ${
                                 activeSubItem === subItem.id
                                   ? ' text-gray-900 font-semibold bg-gray-50 border border-gray-200 shadow-xs'
-                                  : ' text-gray-500 font-medium hover:bg-gray-100 border border-white hover:text-gray-900'
+                                  : ' text-gray-500 font-medium hover:bg-gray-100 border border-transparent hover:text-gray-900'
                               }`}
                               role="menuitem"
                               aria-current={subItem.active ? 'page' : undefined}
