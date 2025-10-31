@@ -14,6 +14,7 @@ import NewPaywall from './NewPaywall';
 
 interface PaywallsProps {
   onToggleSidebar: () => void;
+  isSidebarCollapsed?: boolean;
   isAIHelperOpen?: boolean;
   onCloseAIHelper?: () => void;
   onPreviewToggle?: (isOpen: boolean) => void;
@@ -21,6 +22,7 @@ interface PaywallsProps {
 
 const Paywalls: React.FC<PaywallsProps> = ({
   onToggleSidebar,
+  isSidebarCollapsed = false,
   isAIHelperOpen,
   onCloseAIHelper,
   onPreviewToggle,
@@ -153,7 +155,13 @@ const Paywalls: React.FC<PaywallsProps> = ({
       title="Paywalls"
       actions={
         <button
-          onClick={() => setShowNewPaywall(true)}
+          onClick={() => {
+            // Close sidebar if it's open
+            if (!isSidebarCollapsed) {
+              onToggleSidebar();
+            }
+            setShowNewPaywall(true);
+          }}
           className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
         >
           Create paywall

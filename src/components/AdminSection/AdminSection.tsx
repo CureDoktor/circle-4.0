@@ -375,6 +375,7 @@ const AdminSection: React.FC<AdminSectionProps> = ({
         return (
           <Paywalls
             onToggleSidebar={toggleSidebar}
+            isSidebarCollapsed={isSidebarCollapsed}
             isAIHelperOpen={isAIHelperOpen}
             onCloseAIHelper={() => setIsAIHelperOpen(false)}
             onPreviewToggle={setIsPreviewOpen}
